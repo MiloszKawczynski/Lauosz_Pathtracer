@@ -113,7 +113,7 @@ namespace Pathtracer
             return b;
         }
 
-        public float? determinant()
+        public float? Determinant()
         {
             if (sizeX == sizeY)
             {
@@ -169,7 +169,7 @@ namespace Pathtracer
             {
                 float[,] contentOfInverse = new float[sizeX, sizeY];
 
-                float det = (float)determinant();
+                float det = (float)Determinant();
 
                 if (det == 0)
                 {

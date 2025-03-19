@@ -162,7 +162,7 @@ namespace Pathtracer
             }
         }
 
-        public Matrix? inverseMatrix()
+        public Matrix? Inverse()
         {
             if (sizeX == sizeY)
             {

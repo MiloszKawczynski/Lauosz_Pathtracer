@@ -38,7 +38,15 @@ namespace Pathtracer
             float scalarElement = a.s * b.s - a.v * b.v;
             Vector vectorElement = (b.v * a.s) + (a.v * b.s) + a.v.CrossProduct(a.v, b.v);
 
-            return new Quaternion(scalarElement, vectorElement.GetX(), vectorElement.GetY(), vectorElement.GetZ());
+            return new Quaternion(scalarElement, vectorElement);
+        }
+
+        public static Quaternion operator *(Quaternion a, float b)
+        {
+            float scalarElement = a.s * b;
+            Vector vectorElement = a.v * b;
+
+            return new Quaternion(scalarElement, vectorElement);
         }
 
         public static Quaternion operator /(Quaternion a, Quaternion b)

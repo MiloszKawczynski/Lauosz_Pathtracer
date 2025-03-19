@@ -58,6 +58,7 @@ namespace Pathtracer
                 Matrix c = new Matrix(added);
                 return c;
             }
+            Console.WriteLine("Warning: Matrices have incompatible sizes for addition.");
             return null;
         }
 
@@ -77,6 +78,7 @@ namespace Pathtracer
                 Matrix c = new Matrix(added);
                 return c;
             }
+            Console.WriteLine("Warning: Matrices have incompatible sizes for subtraction.");
             return null;
         }
 

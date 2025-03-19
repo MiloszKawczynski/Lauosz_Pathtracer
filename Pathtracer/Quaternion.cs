@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Pathtracer
 {
-    internal class Quantornion
+    internal class Quaternion
     {
         private float a;
         private float b;
         private float c;
         private float d;
 
-        public Quantornion(float a, float b, float c, float d)
+        public Quaternion(float a, float b, float c, float d)
         {
             this.a = a;
             this.b = b;
@@ -21,17 +21,17 @@ namespace Pathtracer
             this.d = d;
         }
 
-        public static Quantornion operator +(Quantornion a, Quantornion b)
+        public static Quaternion operator +(Quaternion a, Quaternion b)
         {
-            return new Quantornion(a.a + b.a, a.b + b.b, a.c + b.c, a.d + b.d);
+            return new Quaternion(a.a + b.a, a.b + b.b, a.c + b.c, a.d + b.d);
         }
 
-        public static Quantornion operator -(Quantornion a, Quantornion b)
+        public static Quaternion operator -(Quaternion a, Quaternion b)
         {
-            return new Quantornion(a.a - b.a, a.b - b.b, a.c - b.c, a.d - b.d);
+            return new Quaternion(a.a - b.a, a.b - b.b, a.c - b.c, a.d - b.d);
         }
 
-        public static Quantornion operator *(Quantornion a, Quantornion b)
+        public static Quaternion operator *(Quaternion a, Quaternion b)
         {
             Vector vectorA = new Vector(a.b, a.c, a.d);
             Vector vectorB = new Vector(b.b, b.c, b.d);
@@ -39,10 +39,10 @@ namespace Pathtracer
             float scalarElement = a.a * b.a - vectorA * vectorB;
             Vector vectorElement = (vectorB * a.a) + (vectorA * b.a) + vectorA.CrossProduct(vectorA, vectorB);
 
-            return new Quantornion(scalarElement, vectorElement.GetX(), vectorElement.GetY(), vectorElement.GetZ());
+            return new Quaternion(scalarElement, vectorElement.GetX(), vectorElement.GetY(), vectorElement.GetZ());
         }
 
-        public static Quantornion operator /(Quantornion a, Quantornion b)
+        public static Quaternion operator /(Quaternion a, Quaternion b)
         {
             Vector vectorA = new Vector(a.b, a.c, a.d);
             Vector vectorB = new Vector(b.b, b.c, b.d);
@@ -51,7 +51,7 @@ namespace Pathtracer
             float scalarElement = ((a.a * b.a + vectorA * vectorB) / divider);
             Vector vectorElement = (((vectorB * -a.a) + (vectorA * b.a) - vectorA.CrossProduct(vectorA, vectorB)) * (1.0f / divider));
 
-            return new Quantornion(scalarElement, vectorElement.GetX(), vectorElement.GetY(), vectorElement.GetZ());
+            return new Quaternion(scalarElement, vectorElement.GetX(), vectorElement.GetY(), vectorElement.GetZ());
         }
 
         public static Vector rotate(Vector a, Vector axis, double alpha)
@@ -59,10 +59,10 @@ namespace Pathtracer
             alpha = alpha * Math.PI / 180;
             Vector unitVector = axis.UnitVector();
             unitVector = unitVector * (float)Math.Sin(alpha / 2);
-            Quantornion q = new Quantornion((float)Math.Cos(alpha / 2), unitVector.GetX(), unitVector.GetY(), unitVector.GetZ());
-            Quantornion qInverse = new Quantornion((float)Math.Cos(alpha / 2), -unitVector.GetX(), -unitVector.GetY(), -unitVector.GetZ());
+            Quaternion q = new Quaternion((float)Math.Cos(alpha / 2), unitVector.GetX(), unitVector.GetY(), unitVector.GetZ());
+            Quaternion qInverse = new Quaternion((float)Math.Cos(alpha / 2), -unitVector.GetX(), -unitVector.GetY(), -unitVector.GetZ());
 
-            Quantornion result = new Quantornion(0, a.GetX(), a.GetY(), a.GetZ());
+            Quaternion result = new Quaternion(0, a.GetX(), a.GetY(), a.GetZ());
 
             result = q * result * qInverse;
 

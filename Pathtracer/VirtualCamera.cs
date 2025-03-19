@@ -82,44 +82,44 @@ namespace Pathtracer
                 switch (option)
                 {
                     case 119:   //w
-                        position = Quantornion.rotate(position, new Vector(1.0f, 0.0f, 0.0f), 35.0);
-                        up = Quantornion.rotate(up, new Vector(1.0f, 0.0f, 0.0f), 35.0);
-                        front = Quantornion.rotate(front, new Vector(1.0f, 0.0f, 0.0f), 35.0);
+                        position = Quaternion.rotate(position, new Vector(1.0f, 0.0f, 0.0f), 35.0);
+                        up = Quaternion.rotate(up, new Vector(1.0f, 0.0f, 0.0f), 35.0);
+                        front = Quaternion.rotate(front, new Vector(1.0f, 0.0f, 0.0f), 35.0);
                         Console.WriteLine(ToString());
                         draw();
                         break;
                     case 115:   //s
-                        position = Quantornion.rotate(position, new Vector(1.0f, 0.0f, 0.0f), -35.0);
-                        up = Quantornion.rotate(up, new Vector(1.0f, 0.0f, 0.0f), -35.0);
-                        front = Quantornion.rotate(front, new Vector(1.0f, 0.0f, 0.0f), -35.0);
+                        position = Quaternion.rotate(position, new Vector(1.0f, 0.0f, 0.0f), -35.0);
+                        up = Quaternion.rotate(up, new Vector(1.0f, 0.0f, 0.0f), -35.0);
+                        front = Quaternion.rotate(front, new Vector(1.0f, 0.0f, 0.0f), -35.0);
                         Console.WriteLine(ToString());
                         draw();
                         break;
                     case 97:    //a
-                        position = Quantornion.rotate(position, new Vector(0.0f, 0.0f, 1.0f), -35.0);
-                        up = Quantornion.rotate(up, new Vector(0.0f, 0.0f, 1.0f), -35.0);
-                        front = Quantornion.rotate(front, new Vector(0.0f, 0.0f, 1.0f), -35.0);
+                        position = Quaternion.rotate(position, new Vector(0.0f, 0.0f, 1.0f), -35.0);
+                        up = Quaternion.rotate(up, new Vector(0.0f, 0.0f, 1.0f), -35.0);
+                        front = Quaternion.rotate(front, new Vector(0.0f, 0.0f, 1.0f), -35.0);
                         Console.WriteLine(ToString());
                         draw();
                         break;
                     case 100:   //d
-                        position = Quantornion.rotate(position, new Vector(0.0f, 0.0f, 1.0f), 35.0);
-                        up = Quantornion.rotate(up, new Vector(0.0f, 0.0f, 1.0f), 35.0);
-                        front = Quantornion.rotate(front, new Vector(0.0f, 0.0f, 1.0f), 35.0);
+                        position = Quaternion.rotate(position, new Vector(0.0f, 0.0f, 1.0f), 35.0);
+                        up = Quaternion.rotate(up, new Vector(0.0f, 0.0f, 1.0f), 35.0);
+                        front = Quaternion.rotate(front, new Vector(0.0f, 0.0f, 1.0f), 35.0);
                         Console.WriteLine(ToString());
                         draw();
                         break;
                     case 117:   //u
-                        position = Quantornion.rotate(position, new Vector(0.0f, 1.0f, 0.0f), 35.0);
-                        up = Quantornion.rotate(up, new Vector(0.0f, 1.0f, 0.0f), 35.0);
-                        front = Quantornion.rotate(front, new Vector(0.0f, 1.0f, 0.0f), 35.0);
+                        position = Quaternion.rotate(position, new Vector(0.0f, 1.0f, 0.0f), 35.0);
+                        up = Quaternion.rotate(up, new Vector(0.0f, 1.0f, 0.0f), 35.0);
+                        front = Quaternion.rotate(front, new Vector(0.0f, 1.0f, 0.0f), 35.0);
                         Console.WriteLine(ToString());
                         draw();
                         break;
                     case 105:   //i
-                        position = Quantornion.rotate(position, new Vector(0.0f, 1.0f, 0.0f), -35.0);
-                        up = Quantornion.rotate(up, new Vector(0.0f, 1.0f, 0.0f), -35.0);
-                        front = Quantornion.rotate(front, new Vector(0.0f, 1.0f, 0.0f), -35.0);
+                        position = Quaternion.rotate(position, new Vector(0.0f, 1.0f, 0.0f), -35.0);
+                        up = Quaternion.rotate(up, new Vector(0.0f, 1.0f, 0.0f), -35.0);
+                        front = Quaternion.rotate(front, new Vector(0.0f, 1.0f, 0.0f), -35.0);
                         Console.WriteLine(ToString());
                         draw();
                         break;
@@ -139,8 +139,8 @@ namespace Pathtracer
 
                     float fov = 0.0001f;
                     //vector = vector - new Vector(1.0f, 0.0f, 0.0f) * (i - 30);
-                    vector = Quantornion.rotate(vector, up.CrossProduct(up, front), (i - 30) * fov);
-                    vector = Quantornion.rotate(vector, up, (j - 30) * fov);
+                    vector = Quaternion.rotate(vector, up.CrossProduct(up, front), (i - 30) * fov);
+                    vector = Quaternion.rotate(vector, up, (j - 30) * fov);
 
                     //vecotr = 
 

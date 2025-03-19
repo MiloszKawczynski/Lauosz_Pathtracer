@@ -93,7 +93,7 @@ namespace Pathtracer
             return result;
         }
 
-        public void setVector(float x, float y, float z)
+        public void Set(float x, float y, float z)
         {
             this.x = x;
             this.y = y;

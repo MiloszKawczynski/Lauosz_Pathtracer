@@ -199,6 +199,7 @@ namespace Pathtracer
             }
             else
             {
+                Console.WriteLine("Warning: Matrix is not squared for inverse.");
                 return null;
             }
         }

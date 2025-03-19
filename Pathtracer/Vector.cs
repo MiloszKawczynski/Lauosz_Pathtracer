@@ -52,19 +52,19 @@ namespace Pathtracer
             return (float)Math.Sqrt(Math.Pow(a.x, 2) + Math.Pow(a.y, 2) + Math.Pow(a.z, 2));
         }
 
-        public float DotProduct(Vector a, Vector b)
+        public static float operator *(Vector a, Vector b)
         {
             return a.x * b.x + a.y * b.y + a.z * b.z;
         }
 
         public float AngleRad(Vector a, Vector b)
         {
-            return (float)Math.Acos(DotProduct(a, b) / (Length(a) * Length(b)));
+            return (float)Math.Acos((a * b) / (Length(a) * Length(b)));
         }
 
         public float AngleDeg(Vector a, Vector b)
         {
-            return (float)(Math.Acos(DotProduct(a, b) / (Length(a) * Length(b))) * 180.0f / Math.PI);
+            return (float)(Math.Acos((a * b) / (Length(a) * Length(b))) * 180.0f / Math.PI);
         }
 
         public Vector CrossProduct(Vector a, Vector b)

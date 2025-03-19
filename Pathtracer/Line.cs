@@ -33,7 +33,7 @@ namespace Pathtracer
 
             nominator2 = a.v.CrossProduct(a.v, b.v);
 
-            t1 = nominator1.DotProduct(nominator1, nominator2);
+            t1 = nominator1 * nominator2;
 
             denominator = (float)Math.Pow((double)nominator2.Length(nominator2), 2);
 
@@ -46,7 +46,7 @@ namespace Pathtracer
 
             nominator2 = a.v.CrossProduct(b.v, a.v);
 
-            t2 = nominator1.DotProduct(nominator1, nominator2);
+            t2 = nominator1 * nominator2;
 
             denominator = (float)Math.Pow((double)nominator2.Length(nominator2), 2);
 
@@ -85,7 +85,7 @@ namespace Pathtracer
 
             nominator2 = a.v.CrossProduct(a.v, b.v);
 
-            t1 = nominator1.DotProduct(nominator1, nominator2);
+            t1 = nominator1 * nominator2;
 
             denominator = (float)Math.Pow((double)nominator2.Length(nominator2), 2);
 
@@ -98,7 +98,7 @@ namespace Pathtracer
 
             nominator2 = b.v.CrossProduct(b.v, a.v);
 
-            t2 = nominator1.DotProduct(nominator1, nominator2);
+            t2 = nominator1 * nominator2;
 
             denominator = (float)Math.Pow((double)nominator2.Length(nominator2), 2);
 
@@ -124,7 +124,7 @@ namespace Pathtracer
         public void sphereIntersection(Sphere sphere)
         {
             float a = (float)Math.Pow(v.Length(v), 2);
-            float b = 2 * v.DotProduct(v, P - sphere.c);
+            float b = 2 * (v * (P - sphere.c));
             float c = (float)Math.Pow(v.Length(P - sphere.c), 2) - (float)Math.Pow(sphere.r, 2);
 
             float word = (float)Math.Sqrt(Math.Pow(b, 2) - (4 * a * c));
@@ -154,7 +154,7 @@ namespace Pathtracer
 
         public float angleBetween(Line a, Line b)
         {
-            float nominator = a.v.DotProduct(a.v, b.v);
+            float nominator = a.v * b.v;
             float denominator = (a.v.Length(a.v) * b.v.Length(b.v));
             float result = nominator / denominator;
             result = (float)(Math.Acos(result) * 180.0f / Math.PI);

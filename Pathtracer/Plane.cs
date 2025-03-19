@@ -28,8 +28,8 @@ namespace Pathtracer
             float nominator;
             float denominator;
 
-            nominator = n.DotProduct(n.invert(), (a.P - P));
-            denominator = n.DotProduct(n, a.v);
+            nominator = n.invert() * (a.P - P);
+            denominator = n * a.v;
 
             float t = nominator / denominator;
 
@@ -38,7 +38,7 @@ namespace Pathtracer
 
         public float angleBetweenPlaneAndLine(Line a)
         {
-            float nominator = a.v.DotProduct(a.v, n);
+            float nominator = a.v * n;
             float denominator = (a.v.Length(a.v) * n.Length(n));
             float result = nominator / denominator;
             result = (float)(Math.Acos(result) * 180.0f / Math.PI);
@@ -55,7 +55,7 @@ namespace Pathtracer
 
         public float angleBetween(Plane a)
         {
-            float nominator = a.n.DotProduct(a.n, n);
+            float nominator = a.n * n;
             float denominator = (a.n.Length(a.n) * n.Length(n));
             float result = nominator / denominator;
             result = (float)(Math.Acos(result) * 180.0f / Math.PI);

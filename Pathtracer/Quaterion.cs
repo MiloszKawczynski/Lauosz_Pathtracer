@@ -36,7 +36,7 @@ namespace Pathtracer
             Vector vectorA = new Vector(a.b, a.c, a.d);
             Vector vectorB = new Vector(b.b, b.c, b.d);
 
-            float scalarElement = a.a * b.a - vectorA.DotProduct(vectorA, vectorB);
+            float scalarElement = a.a * b.a - vectorA * vectorB;
             Vector vectorElement = (vectorB * a.a) + (vectorA * b.a) + vectorA.CrossProduct(vectorA, vectorB);
 
             return new Quantornion(scalarElement, vectorElement.getX(), vectorElement.getY(), vectorElement.getZ());
@@ -47,8 +47,8 @@ namespace Pathtracer
             Vector vectorA = new Vector(a.b, a.c, a.d);
             Vector vectorB = new Vector(b.b, b.c, b.d);
 
-            float divider = ((float)Math.Pow(b.a, 2) + vectorB.DotProduct(vectorB, vectorB));
-            float scalarElement = ((a.a * b.a + vectorA.DotProduct(vectorA, vectorB)) / divider);
+            float divider = ((float)Math.Pow(b.a, 2) + vectorB * vectorB);
+            float scalarElement = ((a.a * b.a + vectorA * vectorB) / divider);
             Vector vectorElement = (((vectorB * -a.a) + (vectorA * b.a) - vectorA.CrossProduct(vectorA, vectorB)) * (1.0f / divider));
 
             return new Quantornion(scalarElement, vectorElement.getX(), vectorElement.getY(), vectorElement.getZ());

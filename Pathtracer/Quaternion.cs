@@ -73,21 +73,6 @@ namespace Pathtracer
             return new Quaternion(s, v * -1);
         }
 
-        public static Vector Rotate(Vector a, Vector axis, double alpha)
-        {
-            alpha = alpha * Math.PI / 180;
-            Vector unitVector = axis.UnitVector();
-            unitVector = unitVector * (float)Math.Sin(alpha / 2);
-            Quaternion q = new Quaternion((float)Math.Cos(alpha / 2), unitVector);
-            Quaternion qInverse = new Quaternion((float)Math.Cos(alpha / 2), unitVector * -1);
-
-            Quaternion result = new Quaternion(0, a.GetX(), a.GetY(), a.GetZ());
-
-            result = q * result * qInverse;
-
-            return result.v;
-        }
-
         public override String ToString()
         {
             String result = s.ToString() + " + i * " + v.GetX().ToString() + " + j * " + v.GetY().ToString() + " + k * " + v.GetZ().ToString();

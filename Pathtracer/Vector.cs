@@ -113,5 +113,20 @@
         {
             return new Vector(-x, -y, -z);
         }
+
+        public Vector Rotate(Vector axis, double alpha)
+        {
+            alpha = alpha * Math.PI / 180;
+            Vector unitVector = axis.UnitVector();
+            unitVector = unitVector * (float)Math.Sin(alpha / 2);
+            Quaternion q = new Quaternion((float)Math.Cos(alpha / 2), unitVector);
+            Quaternion qInverse = new Quaternion((float)Math.Cos(alpha / 2), unitVector * -1);
+
+            Quaternion result = new Quaternion(0, this);
+
+            result = q * result * qInverse;
+
+            return result.GetVector();
+        }
     }
 }

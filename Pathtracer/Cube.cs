@@ -31,7 +31,7 @@ namespace Pathtracer
                 {
                     Vector direction = (point - camera.position).Sign();
 
-                    if (direction.isEqual(direction, line.v.Sign()))
+                    if (direction == line.v.Sign())
                     {
                         return true;
                     }

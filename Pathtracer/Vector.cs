@@ -38,16 +38,13 @@ namespace Pathtracer
             return new Vector(a.x / s, a.y / s, a.z / s);
         }
 
-        public bool isEqual(Vector a, Vector b)
+        public static bool operator ==(Vector a, Vector b)
         {
-            if(a.getX()==b.getX() && a.getY() == b.getY() && a.getZ() == b.getZ())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return a.getX() == b.getX() && a.getY() == b.getY() && a.getZ() == b.getZ();
+        }
+        public static bool operator !=(Vector a, Vector b)
+        {
+            return !(a == b);
         }
 
         public float Length(Vector a)

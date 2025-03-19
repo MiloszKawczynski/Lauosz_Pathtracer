@@ -57,7 +57,7 @@ namespace Pathtracer
             Vector Pa = a.P + a.v * t1;
             Vector Pb = b.P + b.v * t2;
 
-            if (Pa.isEqual(Pa, Pb))
+            if (Pa == Pb)
             {
                 Console.WriteLine("Proste przecinaja sie w punkcie: " + Pa);
                 return Pa;
@@ -109,7 +109,7 @@ namespace Pathtracer
             Vector Pa = a.P + a.v * t1;
             Vector Pb = b.P + b.v * t2;
 
-            if (Pa.isEqual(Pa,Pb) && (t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1))
+            if ((Pa == Pb) && (t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1))
             {
                 Console.WriteLine("Odcinki przecinaja sie w punkcie: " + Pa);
                 return Pa;

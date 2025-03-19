@@ -119,12 +119,5 @@ namespace Pathtracer
         {
             return new Vector(-x, -y, -z);
         }
-
-        //public void round()
-        //{
-        //    x = (float)Math.Round(x,1);
-        //    y = (float)Math.Round(y,1);
-        //    z = (float)Math.Round(z,1);
-        //}
     }
 }

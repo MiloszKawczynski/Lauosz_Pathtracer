@@ -33,6 +33,10 @@ namespace Pathtracer
         {
             return new Vector(a.x * s, a.y * s, a.z * s);
         }
+        public static Vector operator /(Vector a, float s)
+        {
+            return new Vector(a.x / s, a.y / s, a.z / s);
+        }
 
         public bool isEqual(Vector a, Vector b)
         {

@@ -55,7 +55,7 @@ namespace Pathtracer
             float scalarElement = ((a.s * b.s + a.v * b.v) / divider);
             Vector vectorElement = (((b.v * -a.s) + (a.v * b.s) - a.v.CrossProduct(a.v, b.v)) * (1.0f / divider));
 
-            return new Quaternion(scalarElement, vectorElement.GetX(), vectorElement.GetY(), vectorElement.GetZ());
+            return new Quaternion(scalarElement, vectorElement);
         }
 
         public static Vector rotate(Vector a, Vector axis, double alpha)
@@ -63,8 +63,8 @@ namespace Pathtracer
             alpha = alpha * Math.PI / 180;
             Vector unitVector = axis.UnitVector();
             unitVector = unitVector * (float)Math.Sin(alpha / 2);
-            Quaternion q = new Quaternion((float)Math.Cos(alpha / 2), unitVector.GetX(), unitVector.GetY(), unitVector.GetZ());
-            Quaternion qInverse = new Quaternion((float)Math.Cos(alpha / 2), -unitVector.GetX(), -unitVector.GetY(), -unitVector.GetZ());
+            Quaternion q = new Quaternion((float)Math.Cos(alpha / 2), unitVector);
+            Quaternion qInverse = new Quaternion((float)Math.Cos(alpha / 2), unitVector * -1);
 
             Quaternion result = new Quaternion(0, a.GetX(), a.GetY(), a.GetZ());
 

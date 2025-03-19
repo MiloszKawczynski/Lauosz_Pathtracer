@@ -95,15 +95,19 @@ namespace Pathtracer
             }
         }
 
-        public void MultiplyByScalar(float scalar)
+        public static Matrix operator *(Matrix a, float scalar)
         {
-            for (int i = 0; i < sizeX; i++)
+            Matrix b = new Matrix(a.content);
+
+            for (int i = 0; i < b.sizeX; i++)
             {
-                for (int j = 0; j < sizeY; j++)
+                for (int j = 0; j < b.sizeY; j++)
                 {
-                    content[i, j] *= scalar;
+                    b.content[i, j] *= scalar;
                 }
             }
+
+            return b;
         }
 
         public float? determinant()

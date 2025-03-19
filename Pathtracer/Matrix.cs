@@ -206,12 +206,12 @@ namespace Pathtracer
             if (a.sizeY == b.sizeX)
             {
                 float[,] added = new float[a.sizeX, a.sizeY];
-                for (int i = 0; i < a.sizeX; i++)   //rzędy
+                for (int i = 0; i < a.sizeX; i++)
                 {
-                    for (int j = 0; j < b.sizeY; j++)   //kolumny
+                    for (int j = 0; j < b.sizeY; j++)
                     {
                         float s = 0.0f;
-                        for (int o = 0; o < a.sizeY; o++)       //kolumny
+                        for (int o = 0; o < a.sizeY; o++)
                         {
                             s += a.content[i, o] * b.content[o, j];
                         }

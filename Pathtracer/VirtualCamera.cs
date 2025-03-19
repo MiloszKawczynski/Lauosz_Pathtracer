@@ -139,7 +139,7 @@ namespace Pathtracer
 
                     float fov = 0.0001f;
                     //vector = vector - new Vector(1.0f, 0.0f, 0.0f) * (i - 30);
-                    vector = Quaternion.Rotate(vector, up.CrossProduct(up, front), (i - 30) * fov);
+                    vector = Quaternion.Rotate(vector, Vector.CrossProduct(up, front), (i - 30) * fov);
                     vector = Quaternion.Rotate(vector, up, (j - 30) * fov);
 
                     //vecotr = 

@@ -19,7 +19,7 @@ namespace Pathtracer
 
         public Line Intersetion(Plane a)
         {
-            Vector lineVector = n.CrossProduct(n, a.n);
+            Vector lineVector = Vector.CrossProduct(n, a.n);
 
             return new Line(P, lineVector);
         }

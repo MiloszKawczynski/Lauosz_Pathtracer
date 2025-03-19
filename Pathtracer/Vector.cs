@@ -61,7 +61,7 @@
             return (float)(Math.Acos((a * b) / (a.Length() * b.Length())) * 180.0f / Math.PI);
         }
 
-        public Vector CrossProduct(Vector a, Vector b)
+        public static Vector CrossProduct(Vector a, Vector b)
         {
             float x, y, z;
             x = a.y * b.z - a.z * b.y;

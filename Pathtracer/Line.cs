@@ -29,9 +29,9 @@ namespace Pathtracer
             //----------------------------------------------------------------------
 
             nominator1 = b.P - a.P;
-            nominator1 = nominator1.CrossProduct(nominator1, b.v);
+            nominator1 = Vector.CrossProduct(nominator1, b.v);
 
-            nominator2 = a.v.CrossProduct(a.v, b.v);
+            nominator2 = Vector.CrossProduct(a.v, b.v);
 
             t1 = nominator1 * nominator2;
 
@@ -42,9 +42,9 @@ namespace Pathtracer
             //----------------------------------------------------------------------
 
             nominator1 = b.P - a.P;
-            nominator1 = nominator1.CrossProduct(nominator1, a.v);
+            nominator1 = Vector.CrossProduct(nominator1, a.v);
 
-            nominator2 = a.v.CrossProduct(b.v, a.v);
+            nominator2 = Vector.CrossProduct(b.v, a.v);
 
             t2 = nominator1 * nominator2;
 
@@ -81,9 +81,9 @@ namespace Pathtracer
             //----------------------------------------------------------------------
 
             nominator1 = b.P - a.P;
-            nominator1 = nominator1.CrossProduct(nominator1, b.v);
+            nominator1 = Vector.CrossProduct(nominator1, b.v);
 
-            nominator2 = a.v.CrossProduct(a.v, b.v);
+            nominator2 = Vector.CrossProduct(a.v, b.v);
 
             t1 = nominator1 * nominator2;
 
@@ -94,9 +94,9 @@ namespace Pathtracer
             //----------------------------------------------------------------------
 
             nominator1 = b.P - a.P;
-            nominator1 = nominator1.CrossProduct(nominator1, a.v);
+            nominator1 = Vector.CrossProduct(nominator1, a.v);
 
-            nominator2 = b.v.CrossProduct(b.v, a.v);
+            nominator2 = Vector.CrossProduct(b.v, a.v);
 
             t2 = nominator1 * nominator2;
 

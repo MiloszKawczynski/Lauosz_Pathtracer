@@ -82,17 +82,20 @@ namespace Pathtracer
             return null;
         }
 
-        public void Transpose()
+        public Matrix Transpose()
         {
-            for (int i = 0; i < sizeX; i++)
+            Matrix b = new Matrix(this.content);
+
+            for (int i = 0; i < b.sizeX; i++)
             {
-                for (int j = i + 1; j < sizeY; j++)
+                for (int j = i + 1; j < b.sizeY; j++)
                 {
-                    float tmp = content[i, j];
-                    content[i, j] = content[j, i];
-                    content[j, i] = tmp;
+                    float tmp = b.content[i, j];
+                    b.content[i, j] = b.content[j, i];
+                    b.content[j, i] = tmp;
                 }
             }
+            return b;
         }
 
         public static Matrix operator *(Matrix a, float scalar)

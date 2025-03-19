@@ -63,6 +63,11 @@ namespace Pathtracer
             return (float)Math.Sqrt(Math.Pow(s, 2) + (v.GetX() * v.GetX() + v.GetY() * v.GetY() + v.GetZ() * v.GetZ()));
         }
 
+        public Quaternion Normalize()
+        {
+            return this * (1 / Norm());
+        }
+
         public static Vector Rotate(Vector a, Vector axis, double alpha)
         {
             alpha = alpha * Math.PI / 180;

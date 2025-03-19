@@ -56,8 +56,8 @@ namespace Pathtracer
 
         public static Vector rotate(Vector a, Vector axis, double alpha)
         {
-            alpha = alpha * Math.PI/180;
-            Vector unitVector = axis.UnitVector(axis);
+            alpha = alpha * Math.PI / 180;
+            Vector unitVector = axis.UnitVector();
             unitVector = unitVector * (float)Math.Sin(alpha / 2);
             Quantornion q = new Quantornion((float)Math.Cos(alpha / 2), unitVector.getX(), unitVector.getY(), unitVector.getZ());
             Quantornion qInverse = new Quantornion((float)Math.Cos(alpha / 2), -unitVector.getX(), -unitVector.getY(), -unitVector.getZ());

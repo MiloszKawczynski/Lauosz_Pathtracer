@@ -76,10 +76,10 @@ namespace Pathtracer
             return new Vector(x, y, z);
         }
 
-        public Vector UnitVector(Vector a)
+        public Vector UnitVector()
         {
-            float length = a.Length();
-            return new Vector(a.x / length, a.y / length, a.z / length);
+            float length = this.Length();
+            return new Vector(this.x / length, this.y / length, this.z / length);
         }
 
         public Vector Sign()

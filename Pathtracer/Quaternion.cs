@@ -68,6 +68,11 @@ namespace Pathtracer
             return this * (1 / Norm());
         }
 
+        public Quaternion Conjugate()
+        {
+            return new Quaternion(s, v * -1);
+        }
+
         public static Vector Rotate(Vector a, Vector axis, double alpha)
         {
             alpha = alpha * Math.PI / 180;

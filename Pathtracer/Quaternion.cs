@@ -58,6 +58,11 @@ namespace Pathtracer
             return new Quaternion(scalarElement, vectorElement);
         }
 
+        public float Norm()
+        {
+            return (float)Math.Sqrt(Math.Pow(s, 2) + (v.GetX() * v.GetX() + v.GetY() * v.GetY() + v.GetZ() * v.GetZ()));
+        }
+
         public static Vector Rotate(Vector a, Vector axis, double alpha)
         {
             alpha = alpha * Math.PI / 180;

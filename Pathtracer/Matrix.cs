@@ -9,11 +9,11 @@ namespace Pathtracer
 {
     internal class Matrix
     {
-        private int sizeX; 
+        private int sizeX;
         private int sizeY;
         private float[,] content;
 
-        public Matrix(float[,] content) 
+        public Matrix(float[,] content)
         {
             this.content = content;
             sizeX = content.GetLength(0);
@@ -44,7 +44,7 @@ namespace Pathtracer
 
         public static Matrix? operator +(Matrix a, Matrix b)
         {
-            if(a.sizeX == b.sizeX && a.sizeY == b.sizeY)
+            if (a.sizeX == b.sizeX && a.sizeY == b.sizeY)
             {
                 float[,] added = new float[a.sizeX, b.sizeY];
                 for (int i = 0; i < a.sizeX; i++)
@@ -115,43 +115,43 @@ namespace Pathtracer
 
         public float? determinant()
         {
-            if(sizeX == sizeY)
-            { 
+            if (sizeX == sizeY)
+            {
                 float determinant = 0.0f;
 
-                switch(sizeX)
+                switch (sizeX)
                 {
                     case (2):
-                    {
-                        determinant =
-                        content[0, 0] * content[1,1] - content[1,0] * content[0,1];
-                        break;
-                    }
+                        {
+                            determinant =
+                            content[0, 0] * content[1, 1] - content[1, 0] * content[0, 1];
+                            break;
+                        }
                     case (3):
-                    {
-                        determinant =
-                        content[0, 0] * content[1, 1] * content[2, 2] - content[2, 0] * content[1, 1] * content[0, 2] +
-                        content[1, 0] * content[2, 1] * content[0, 2] - content[0, 0] * content[2, 1] * content[1, 2] +
-                        content[2, 0] * content[0, 1] * content[1, 2] - content[1, 0] * content[0, 1] * content[2, 2];
-                        break;
-                    }
+                        {
+                            determinant =
+                            content[0, 0] * content[1, 1] * content[2, 2] - content[2, 0] * content[1, 1] * content[0, 2] +
+                            content[1, 0] * content[2, 1] * content[0, 2] - content[0, 0] * content[2, 1] * content[1, 2] +
+                            content[2, 0] * content[0, 1] * content[1, 2] - content[1, 0] * content[0, 1] * content[2, 2];
+                            break;
+                        }
                     case (4):
-                    {
-                        determinant =
-                        content[0, 3] * content[1, 2] * content[2, 1] * content[3, 0] - content[0, 2] * content[1, 3] * content[2, 1] * content[3, 0] -
-                        content[0, 3] * content[1, 1] * content[2, 2] * content[3, 0] + content[0, 1] * content[1, 3] * content[2, 2] * content[3, 0] +
-                        content[0, 2] * content[1, 1] * content[2, 3] * content[3, 0] - content[0, 1] * content[1, 2] * content[2, 3] * content[3, 0] -
-                        content[0, 3] * content[1, 2] * content[2, 0] * content[3, 1] + content[0, 2] * content[1, 3] * content[2, 0] * content[3, 1] +
-                        content[0, 3] * content[1, 0] * content[2, 2] * content[3, 1] - content[0, 0] * content[1, 3] * content[2, 2] * content[3, 1] -
-                        content[0, 2] * content[1, 0] * content[2, 3] * content[3, 1] + content[0, 0] * content[1, 2] * content[2, 3] * content[3, 1] +
-                        content[0, 3] * content[1, 1] * content[2, 0] * content[3, 2] - content[0, 1] * content[1, 3] * content[2, 0] * content[3, 2] -
-                        content[0, 3] * content[1, 0] * content[2, 1] * content[3, 2] + content[0, 0] * content[1, 3] * content[2, 1] * content[3, 2] +
-                        content[0, 1] * content[1, 0] * content[2, 3] * content[3, 2] - content[0, 0] * content[1, 1] * content[2, 3] * content[3, 2] -
-                        content[0, 2] * content[1, 1] * content[2, 0] * content[3, 3] + content[0, 1] * content[1, 2] * content[2, 0] * content[3, 3] +
-                        content[0, 2] * content[1, 0] * content[2, 1] * content[3, 3] - content[0, 0] * content[1, 2] * content[2, 1] * content[3, 3] -
-                        content[0, 1] * content[1, 0] * content[2, 2] * content[3, 3] + content[0, 0] * content[1, 1] * content[2, 2] * content[3, 3];
-                        break;
-                    }
+                        {
+                            determinant =
+                            content[0, 3] * content[1, 2] * content[2, 1] * content[3, 0] - content[0, 2] * content[1, 3] * content[2, 1] * content[3, 0] -
+                            content[0, 3] * content[1, 1] * content[2, 2] * content[3, 0] + content[0, 1] * content[1, 3] * content[2, 2] * content[3, 0] +
+                            content[0, 2] * content[1, 1] * content[2, 3] * content[3, 0] - content[0, 1] * content[1, 2] * content[2, 3] * content[3, 0] -
+                            content[0, 3] * content[1, 2] * content[2, 0] * content[3, 1] + content[0, 2] * content[1, 3] * content[2, 0] * content[3, 1] +
+                            content[0, 3] * content[1, 0] * content[2, 2] * content[3, 1] - content[0, 0] * content[1, 3] * content[2, 2] * content[3, 1] -
+                            content[0, 2] * content[1, 0] * content[2, 3] * content[3, 1] + content[0, 0] * content[1, 2] * content[2, 3] * content[3, 1] +
+                            content[0, 3] * content[1, 1] * content[2, 0] * content[3, 2] - content[0, 1] * content[1, 3] * content[2, 0] * content[3, 2] -
+                            content[0, 3] * content[1, 0] * content[2, 1] * content[3, 2] + content[0, 0] * content[1, 3] * content[2, 1] * content[3, 2] +
+                            content[0, 1] * content[1, 0] * content[2, 3] * content[3, 2] - content[0, 0] * content[1, 1] * content[2, 3] * content[3, 2] -
+                            content[0, 2] * content[1, 1] * content[2, 0] * content[3, 3] + content[0, 1] * content[1, 2] * content[2, 0] * content[3, 3] +
+                            content[0, 2] * content[1, 0] * content[2, 1] * content[3, 3] - content[0, 0] * content[1, 2] * content[2, 1] * content[3, 3] -
+                            content[0, 1] * content[1, 0] * content[2, 2] * content[3, 3] + content[0, 0] * content[1, 1] * content[2, 2] * content[3, 3];
+                            break;
+                        }
                 }
 
                 return determinant;
@@ -170,16 +170,16 @@ namespace Pathtracer
 
                 float det = (float)determinant();
 
-                if (det==0)
+                if (det == 0)
                 {
                     return null;
                 }
 
-                for(int i=0;i<sizeX;i++)
+                for (int i = 0; i < sizeX; i++)
                 {
-                    for(int j=0;j<sizeX;j++)
+                    for (int j = 0; j < sizeX; j++)
                     {
-                        contentOfInverse[i, j] = (float)Math.Pow(-1, i + 1 + j + 1)*content[sizeX-i-1,sizeX-j-1];
+                        contentOfInverse[i, j] = (float)Math.Pow(-1, i + 1 + j + 1) * content[sizeX - i - 1, sizeX - j - 1];
                     }
                 }
 
@@ -234,11 +234,11 @@ namespace Pathtracer
             String result = "";
             for (int i = 0; i < sizeX; i++)
             {
-                result += "["; 
+                result += "[";
                 for (int j = 0; j < sizeY; j++)
                 {
                     result += content[i, j].ToString();
-                    if(j < sizeY - 1)
+                    if (j < sizeY - 1)
                     {
                         result += ";";
                     }

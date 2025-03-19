@@ -8,48 +8,44 @@ namespace Pathtracer
 {
     internal class Quaternion
     {
-        private float a;
-        private float b;
-        private float c;
-        private float d;
+        private float s;
+        private Vector v;
 
-        public Quaternion(float a, float b, float c, float d)
+        public Quaternion(float s, float x, float y, float z)
         {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            this.d = d;
+            this.s = s;
+            this.v = new Vector(x, y, z);
+        }
+
+        public Quaternion(float s, Vector v)
+        {
+            this.s = s;
+            this.v = v;
         }
 
         public static Quaternion operator +(Quaternion a, Quaternion b)
         {
-            return new Quaternion(a.a + b.a, a.b + b.b, a.c + b.c, a.d + b.d);
+            return new Quaternion(a.v.GetX() + b.v.GetX(), a.v.GetY() + b.v.GetY(), a.v.GetZ() + b.v.GetZ(), a.s + b.s);
         }
 
         public static Quaternion operator -(Quaternion a, Quaternion b)
         {
-            return new Quaternion(a.a - b.a, a.b - b.b, a.c - b.c, a.d - b.d);
+            return new Quaternion(a.v.GetX() - b.v.GetX(), a.v.GetY() - b.v.GetY(), a.v.GetZ() - b.v.GetZ(), a.s - b.s);
         }
 
         public static Quaternion operator *(Quaternion a, Quaternion b)
         {
-            Vector vectorA = new Vector(a.b, a.c, a.d);
-            Vector vectorB = new Vector(b.b, b.c, b.d);
-
-            float scalarElement = a.a * b.a - vectorA * vectorB;
-            Vector vectorElement = (vectorB * a.a) + (vectorA * b.a) + vectorA.CrossProduct(vectorA, vectorB);
+            float scalarElement = a.s * b.s - a.v * b.v;
+            Vector vectorElement = (b.v * a.s) + (a.v * b.s) + a.v.CrossProduct(a.v, b.v);
 
             return new Quaternion(scalarElement, vectorElement.GetX(), vectorElement.GetY(), vectorElement.GetZ());
         }
 
         public static Quaternion operator /(Quaternion a, Quaternion b)
         {
-            Vector vectorA = new Vector(a.b, a.c, a.d);
-            Vector vectorB = new Vector(b.b, b.c, b.d);
-
-            float divider = ((float)Math.Pow(b.a, 2) + vectorB * vectorB);
-            float scalarElement = ((a.a * b.a + vectorA * vectorB) / divider);
-            Vector vectorElement = (((vectorB * -a.a) + (vectorA * b.a) - vectorA.CrossProduct(vectorA, vectorB)) * (1.0f / divider));
+            float divider = ((float)Math.Pow(b.s, 2) + a.v * b.v);
+            float scalarElement = ((a.s * b.s + a.v * b.v) / divider);
+            Vector vectorElement = (((b.v * -a.s) + (a.v * b.s) - a.v.CrossProduct(a.v, b.v)) * (1.0f / divider));
 
             return new Quaternion(scalarElement, vectorElement.GetX(), vectorElement.GetY(), vectorElement.GetZ());
         }
@@ -66,23 +62,24 @@ namespace Pathtracer
 
             result = q * result * qInverse;
 
-            Vector resultVector = new Vector(result.b, result.c, result.d);
-
-            return resultVector;
+            return result.v;
         }
 
         public override String ToString()
         {
-            String result = a.ToString() + " + i * " + b.ToString() + " + j * " + c.ToString() + " + k * " + d.ToString();
+            String result = s.ToString() + " + i * " + v.GetX().ToString() + " + j * " + v.GetY().ToString() + " + k * " + v.GetZ().ToString();
             return result;
         }
 
-        public void setQuaternion(float a, float b, float c, float d)
+        public void Set(float s, float x, float y, float z)
         {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            this.d = d;
+            this.s = s;
+            this.v.Set(x, y, z);
+        }
+        public void Set(float s, Vector v)
+        {
+            this.s = s;
+            this.v = v;
         }
     }
 }

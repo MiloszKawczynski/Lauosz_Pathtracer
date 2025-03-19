@@ -28,7 +28,7 @@ namespace Pathtracer
             float nominator;
             float denominator;
 
-            nominator = n.invert() * (a.P - P);
+            nominator = n.Invert() * (a.P - P);
             denominator = n * a.v;
 
             float t = nominator / denominator;

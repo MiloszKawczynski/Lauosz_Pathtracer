@@ -39,7 +39,7 @@ namespace Pathtracer
             float scalarElement = a.a * b.a - vectorA * vectorB;
             Vector vectorElement = (vectorB * a.a) + (vectorA * b.a) + vectorA.CrossProduct(vectorA, vectorB);
 
-            return new Quantornion(scalarElement, vectorElement.getX(), vectorElement.getY(), vectorElement.getZ());
+            return new Quantornion(scalarElement, vectorElement.GetX(), vectorElement.GetY(), vectorElement.GetZ());
         }
 
         public static Quantornion operator /(Quantornion a, Quantornion b)
@@ -51,7 +51,7 @@ namespace Pathtracer
             float scalarElement = ((a.a * b.a + vectorA * vectorB) / divider);
             Vector vectorElement = (((vectorB * -a.a) + (vectorA * b.a) - vectorA.CrossProduct(vectorA, vectorB)) * (1.0f / divider));
 
-            return new Quantornion(scalarElement, vectorElement.getX(), vectorElement.getY(), vectorElement.getZ());
+            return new Quantornion(scalarElement, vectorElement.GetX(), vectorElement.GetY(), vectorElement.GetZ());
         }
 
         public static Vector rotate(Vector a, Vector axis, double alpha)
@@ -59,10 +59,10 @@ namespace Pathtracer
             alpha = alpha * Math.PI / 180;
             Vector unitVector = axis.UnitVector();
             unitVector = unitVector * (float)Math.Sin(alpha / 2);
-            Quantornion q = new Quantornion((float)Math.Cos(alpha / 2), unitVector.getX(), unitVector.getY(), unitVector.getZ());
-            Quantornion qInverse = new Quantornion((float)Math.Cos(alpha / 2), -unitVector.getX(), -unitVector.getY(), -unitVector.getZ());
+            Quantornion q = new Quantornion((float)Math.Cos(alpha / 2), unitVector.GetX(), unitVector.GetY(), unitVector.GetZ());
+            Quantornion qInverse = new Quantornion((float)Math.Cos(alpha / 2), -unitVector.GetX(), -unitVector.GetY(), -unitVector.GetZ());
 
-            Quantornion result = new Quantornion(0, a.getX(), a.getY(), a.getZ());
+            Quantornion result = new Quantornion(0, a.GetX(), a.GetY(), a.GetZ());
 
             result = q * result * qInverse;
 

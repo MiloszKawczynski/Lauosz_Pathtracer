@@ -38,32 +38,32 @@ namespace Pathtracer
                 switch (option)
                 {
                     case 119:   //w
-                        position.Set(position.getX(), position.getY(), position.getZ() + 0.5f);
+                        position.Set(position.GetX(), position.GetY(), position.GetZ() + 0.5f);
                         Console.WriteLine(ToString());
                         draw();
                         break;
                     case 115:   //s
-                        position.Set(position.getX(), position.getY(), position.getZ() - 0.5f);
+                        position.Set(position.GetX(), position.GetY(), position.GetZ() - 0.5f);
                         Console.WriteLine(ToString());
                         draw();
                         break;
                     case 97:    //a
-                        position.Set(position.getX() - 0.5f, position.getY(), position.getZ());
+                        position.Set(position.GetX() - 0.5f, position.GetY(), position.GetZ());
                         Console.WriteLine(ToString());
                         draw();
                         break;
                     case 100:   //d
-                        position.Set(position.getX() + 0.5f, position.getY(), position.getZ());
+                        position.Set(position.GetX() + 0.5f, position.GetY(), position.GetZ());
                         Console.WriteLine(ToString());
                         draw();
                         break;
                     case 117:   //u
-                        position.Set(position.getX(), position.getY() + 0.5f, position.getZ());
+                        position.Set(position.GetX(), position.GetY() + 0.5f, position.GetZ());
                         Console.WriteLine(ToString());
                         draw();
                         break;
                     case 105:   //i
-                        position.Set(position.getX(), position.getY() - 0.5f, position.getZ());
+                        position.Set(position.GetX(), position.GetY() - 0.5f, position.GetZ());
                         Console.WriteLine(ToString());
                         draw();
                         break;

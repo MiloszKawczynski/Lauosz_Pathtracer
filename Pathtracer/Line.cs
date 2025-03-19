@@ -163,9 +163,9 @@ namespace Pathtracer
 
         public Vector getPoint(float t)
         {
-            float x = P.getX() + v.getX() * t;
-            float y = P.getY() + v.getY() * t;
-            float z = P.getZ() + v.getZ() * t;
+            float x = P.GetX() + v.GetX() * t;
+            float y = P.GetY() + v.GetY() * t;
+            float z = P.GetZ() + v.GetZ() * t;
 
             return new Vector(x, y, z);
         }

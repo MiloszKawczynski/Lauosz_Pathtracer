@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pathtracer
+﻿namespace Pathtracer
 {
     internal class Vector
     {
@@ -40,7 +34,7 @@ namespace Pathtracer
 
         public static bool operator ==(Vector a, Vector b)
         {
-            return a.getX() == b.getX() && a.getY() == b.getY() && a.getZ() == b.getZ();
+            return a.GetX() == b.GetX() && a.GetY() == b.GetY() && a.GetZ() == b.GetZ();
         }
         public static bool operator !=(Vector a, Vector b)
         {
@@ -100,22 +94,22 @@ namespace Pathtracer
             this.z = z;
         }
 
-        public float getX()
+        public float GetX()
         {
             return x;
         }
 
-        public float getY()
+        public float GetY()
         {
             return y;
         }
 
-        public float getZ()
+        public float GetZ()
         {
             return z;
         }
 
-        public Vector invert()
+        public Vector Invert()
         {
             return new Vector(-x, -y, -z);
         }

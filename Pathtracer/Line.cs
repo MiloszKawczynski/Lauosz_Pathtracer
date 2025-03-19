@@ -35,7 +35,7 @@ namespace Pathtracer
 
             t1 = nominator1 * nominator2;
 
-            denominator = (float)Math.Pow((double)nominator2.Length(nominator2), 2);
+            denominator = (float)Math.Pow((double)nominator2.Length(), 2);
 
             t1 = t1 / denominator;
 
@@ -48,7 +48,7 @@ namespace Pathtracer
 
             t2 = nominator1 * nominator2;
 
-            denominator = (float)Math.Pow((double)nominator2.Length(nominator2), 2);
+            denominator = (float)Math.Pow((double)nominator2.Length(), 2);
 
             t2 = -t2 / denominator;
 
@@ -87,7 +87,7 @@ namespace Pathtracer
 
             t1 = nominator1 * nominator2;
 
-            denominator = (float)Math.Pow((double)nominator2.Length(nominator2), 2);
+            denominator = (float)Math.Pow((double)nominator2.Length(), 2);
 
             t1 = t1 / denominator;
 
@@ -100,7 +100,7 @@ namespace Pathtracer
 
             t2 = nominator1 * nominator2;
 
-            denominator = (float)Math.Pow((double)nominator2.Length(nominator2), 2);
+            denominator = (float)Math.Pow((double)nominator2.Length(), 2);
 
             t2 = -t2 / denominator;
 
@@ -123,9 +123,9 @@ namespace Pathtracer
 
         public void sphereIntersection(Sphere sphere)
         {
-            float a = (float)Math.Pow(v.Length(v), 2);
+            float a = (float)Math.Pow(v.Length(), 2);
             float b = 2 * (v * (P - sphere.c));
-            float c = (float)Math.Pow(v.Length(P - sphere.c), 2) - (float)Math.Pow(sphere.r, 2);
+            float c = (float)Math.Pow((P - sphere.c).Length(), 2) - (float)Math.Pow(sphere.r, 2);
 
             float word = (float)Math.Sqrt(Math.Pow(b, 2) - (4 * a * c));
 
@@ -155,7 +155,7 @@ namespace Pathtracer
         public float angleBetween(Line a, Line b)
         {
             float nominator = a.v * b.v;
-            float denominator = (a.v.Length(a.v) * b.v.Length(b.v));
+            float denominator = (a.v.Length() * b.v.Length());
             float result = nominator / denominator;
             result = (float)(Math.Acos(result) * 180.0f / Math.PI);
             return result;

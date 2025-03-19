@@ -47,9 +47,9 @@ namespace Pathtracer
             return !(a == b);
         }
 
-        public float Length(Vector a)
+        public float Length()
         {
-            return (float)Math.Sqrt(Math.Pow(a.x, 2) + Math.Pow(a.y, 2) + Math.Pow(a.z, 2));
+            return (float)Math.Sqrt(Math.Pow(this.x, 2) + Math.Pow(this.y, 2) + Math.Pow(this.z, 2));
         }
 
         public static float operator *(Vector a, Vector b)
@@ -59,12 +59,12 @@ namespace Pathtracer
 
         public float AngleRad(Vector a, Vector b)
         {
-            return (float)Math.Acos((a * b) / (Length(a) * Length(b)));
+            return (float)Math.Acos((a * b) / (a.Length() * b.Length()));
         }
 
         public float AngleDeg(Vector a, Vector b)
         {
-            return (float)(Math.Acos((a * b) / (Length(a) * Length(b))) * 180.0f / Math.PI);
+            return (float)(Math.Acos((a * b) / (a.Length() * b.Length())) * 180.0f / Math.PI);
         }
 
         public Vector CrossProduct(Vector a, Vector b)
@@ -78,7 +78,7 @@ namespace Pathtracer
 
         public Vector UnitVector(Vector a)
         {
-            float length = Length(a);
+            float length = a.Length();
             return new Vector(a.x / length, a.y / length, a.z / length);
         }
 

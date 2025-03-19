@@ -39,7 +39,7 @@ namespace Pathtracer
         public float angleBetweenPlaneAndLine(Line a)
         {
             float nominator = a.v * n;
-            float denominator = (a.v.Length(a.v) * n.Length(n));
+            float denominator = (a.v.Length() * n.Length());
             float result = nominator / denominator;
             result = (float)(Math.Acos(result) * 180.0f / Math.PI);
             if (result > 90)
@@ -56,7 +56,7 @@ namespace Pathtracer
         public float angleBetween(Plane a)
         {
             float nominator = a.n * n;
-            float denominator = (a.n.Length(a.n) * n.Length(n));
+            float denominator = (a.n.Length() * n.Length());
             float result = nominator / denominator;
             result = (float)(Math.Acos(result) * 180.0f / Math.PI);
             return result;

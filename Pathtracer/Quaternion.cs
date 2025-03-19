@@ -58,7 +58,7 @@ namespace Pathtracer
             return new Quaternion(scalarElement, vectorElement);
         }
 
-        public static Vector rotate(Vector a, Vector axis, double alpha)
+        public static Vector Rotate(Vector a, Vector axis, double alpha)
         {
             alpha = alpha * Math.PI / 180;
             Vector unitVector = axis.UnitVector();

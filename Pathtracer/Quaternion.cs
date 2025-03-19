@@ -104,5 +104,15 @@ namespace Pathtracer
             this.s = s;
             this.v = v;
         }
+
+        public float GetScalar()
+        {
+            return s;
+        }
+
+        public Vector GetVector()
+        {
+            return v;
+        }
     }
 }

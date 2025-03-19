@@ -158,6 +158,7 @@ namespace Pathtracer
             }
             else
             {
+                Console.WriteLine("Warning: Matrix is not squared for calculating determinant.");
                 return null;
             }
         }

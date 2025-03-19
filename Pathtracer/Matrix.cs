@@ -42,7 +42,7 @@ namespace Pathtracer
         }
 
 
-        public static Matrix operator +(Matrix a, Matrix b)
+        public static Matrix? operator +(Matrix a, Matrix b)
         {
             if(a.sizeX == b.sizeX && a.sizeY == b.sizeY)
             {
@@ -62,7 +62,7 @@ namespace Pathtracer
             return null;
         }
 
-        public static Matrix operator -(Matrix a, Matrix b)
+        public static Matrix? operator -(Matrix a, Matrix b)
         {
             if (a.sizeX == b.sizeX && a.sizeY == b.sizeY)
             {
@@ -204,7 +204,7 @@ namespace Pathtracer
         }
 
 
-        public static Matrix operator *(Matrix a, Matrix b)
+        public static Matrix? operator *(Matrix a, Matrix b)
         {
             if (a.sizeY == b.sizeX)
             {

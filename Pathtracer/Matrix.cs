@@ -221,6 +221,7 @@ namespace Pathtracer
                 Matrix c = new Matrix(added);
                 return c;
             }
+            Console.WriteLine("Warning: Matrices have incompatible sizes for multiplication.");
             return null;
         }
 

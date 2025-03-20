@@ -8,10 +8,10 @@ namespace Pathtracer
 {
     internal class Sphere
     {
-        public Vector c;
+        public Point c;
         public float r;
 
-        public Sphere(Vector c, float r)
+        public Sphere(Point c, float r)
         {
             this.c = c;
             this.r = r;

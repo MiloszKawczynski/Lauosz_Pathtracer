@@ -8,12 +8,12 @@ namespace Pathtracer
 {
     internal class Plane
     {
-        private Vector P;
+        private Point p;
         private Vector n;
 
-        public Plane(Vector P, Vector n)
+        public Plane(Point p, Vector n)
         {
-            this.P = P;
+            this.p = p;
             this.n = n;
         }
 
@@ -21,14 +21,14 @@ namespace Pathtracer
         {
             Vector lineVector = Vector.CrossProduct(n, a.n);
 
-            return new Line(P, lineVector);
+            return new Line(p, lineVector);
         }
         public Vector IntersetionWithLine(Line a)
         {
             float nominator;
             float denominator;
 
-            nominator = n.Invert() * (a.p - P);
+            nominator = n.Invert() * (a.p - p);
             denominator = n * a.v;
 
             float t = nominator / denominator;
@@ -64,7 +64,7 @@ namespace Pathtracer
 
         public override String ToString()
         {
-            String result = "P = " + P.ToString() + " + n" + n.ToString();
+            String result = "P = " + p.ToString() + " + n" + n.ToString();
             return result;
         }
 

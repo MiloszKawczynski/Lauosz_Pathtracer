@@ -8,12 +8,12 @@ namespace Pathtracer
 {
     internal class Line
     {
-        public Vector P;
+        public Point p;
         public Vector v;
 
-        public Line(Vector P, Vector v)
+        public Line(Point p, Vector v)
         {
-            this.P = P;
+            this.p = p;
             this.v = v;
         }
 
@@ -28,7 +28,7 @@ namespace Pathtracer
 
             //----------------------------------------------------------------------
 
-            nominator1 = b.P - a.P;
+            nominator1 = b.p - a.p;
             nominator1 = Vector.CrossProduct(nominator1, b.v);
 
             nominator2 = Vector.CrossProduct(a.v, b.v);
@@ -41,7 +41,7 @@ namespace Pathtracer
 
             //----------------------------------------------------------------------
 
-            nominator1 = b.P - a.P;
+            nominator1 = b.p - a.p;
             nominator1 = Vector.CrossProduct(nominator1, a.v);
 
             nominator2 = Vector.CrossProduct(b.v, a.v);
@@ -54,8 +54,8 @@ namespace Pathtracer
 
             //----------------------------------------------------------------------
 
-            Vector Pa = a.P + a.v * t1;
-            Vector Pb = b.P + b.v * t2;
+            Vector Pa = a.p + a.v * t1;
+            Vector Pb = b.p + b.v * t2;
 
             if (Pa == Pb)
             {
@@ -80,7 +80,7 @@ namespace Pathtracer
 
             //----------------------------------------------------------------------
 
-            nominator1 = b.P - a.P;
+            nominator1 = b.p - a.p;
             nominator1 = Vector.CrossProduct(nominator1, b.v);
 
             nominator2 = Vector.CrossProduct(a.v, b.v);
@@ -93,7 +93,7 @@ namespace Pathtracer
 
             //----------------------------------------------------------------------
 
-            nominator1 = b.P - a.P;
+            nominator1 = b.p - a.p;
             nominator1 = Vector.CrossProduct(nominator1, a.v);
 
             nominator2 = Vector.CrossProduct(b.v, a.v);
@@ -106,8 +106,8 @@ namespace Pathtracer
 
             //----------------------------------------------------------------------
 
-            Vector Pa = a.P + a.v * t1;
-            Vector Pb = b.P + b.v * t2;
+            Vector Pa = a.p + a.v * t1;
+            Vector Pb = b.p + b.v * t2;
 
             if ((Pa == Pb) && (t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1))
             {
@@ -124,8 +124,8 @@ namespace Pathtracer
         public void sphereIntersection(Sphere sphere)
         {
             float a = (float)Math.Pow(v.Length(), 2);
-            float b = 2 * (v * (P - sphere.c));
-            float c = (float)Math.Pow((P - sphere.c).Length(), 2) - (float)Math.Pow(sphere.r, 2);
+            float b = 2 * (v * (p - sphere.c));
+            float c = (float)Math.Pow((p - sphere.c).Length(), 2) - (float)Math.Pow(sphere.r, 2);
 
             float word = (float)Math.Sqrt(Math.Pow(b, 2) - (4 * a * c));
 
@@ -135,17 +135,17 @@ namespace Pathtracer
             }
             else
             {
-                float t1 = (float)Math.Round((-b - word) / (2 * a),2);
+                float t1 = (float)Math.Round((-b - word) / (2 * a), 2);
                 float t2 = (float)Math.Round((-b + word) / (2 * a), 2);
 
-                Vector Pa = P + v * t1;
+                Vector Pa = p + v * t1;
 
                 Console.WriteLine("Punkt przeciecia " + Pa);
 
 
-                if (t1!=t2)
+                if (t1 != t2)
                 {
-                    Vector Pb = P + v * t2;
+                    Vector Pb = p + v * t2;
 
                     Console.WriteLine("Punkt przeciecia " + Pb);
                 }
@@ -163,16 +163,16 @@ namespace Pathtracer
 
         public Vector getPoint(float t)
         {
-            float x = P.GetX() + v.GetX() * t;
-            float y = P.GetY() + v.GetY() * t;
-            float z = P.GetZ() + v.GetZ() * t;
+            float x = p.GetX() + v.GetX() * t;
+            float y = p.GetY() + v.GetY() * t;
+            float z = p.GetZ() + v.GetZ() * t;
 
             return new Vector(x, y, z);
         }
 
         public override String ToString()
         {
-            String result = "l = " + P.ToString() + " + t" + v.ToString();
+            String result = "l = " + p.ToString() + " + t" + v.ToString();
             return result;
         }
 

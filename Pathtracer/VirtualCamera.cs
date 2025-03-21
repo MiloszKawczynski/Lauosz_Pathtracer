@@ -138,11 +138,9 @@ namespace Pathtracer
                     Vector vector = front;
 
                     float fov = 0.0001f;
-                    //vector = vector - new Vector(1.0f, 0.0f, 0.0f) * (i - 30);
-                    vector = Quaternion.Rotate(vector, Vector.CrossProduct(up, front), (i - 30) * fov);
-                    vector = Quaternion.Rotate(vector, up, (j - 30) * fov);
 
-                    //vecotr = 
+                    vector = vector.Rotate(Vector.CrossProduct(up, front), (i - 30) * fov);
+                    vector = vector.Rotate(up, (j - 30) * fov);
 
                     if (cube.IntesectWithLine(new Line(position, vector), this))
                     {

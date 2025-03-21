@@ -51,12 +51,12 @@
             return a.x * b.x + a.y * b.y + a.z * b.z;
         }
 
-        public float AngleRad(Vector a, Vector b)
+        public static float AngleRad(Vector a, Vector b)
         {
             return (float)Math.Acos((a * b) / (a.Length() * b.Length()));
         }
 
-        public float AngleDeg(Vector a, Vector b)
+        public static float AngleDeg(Vector a, Vector b)
         {
             return (float)(Math.Acos((a * b) / (a.Length() * b.Length())) * 180.0f / Math.PI);
         }

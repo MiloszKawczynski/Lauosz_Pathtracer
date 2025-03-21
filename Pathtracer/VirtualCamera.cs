@@ -9,7 +9,7 @@ namespace Pathtracer
 {
     internal class VirtualCamera
     {
-        public Vector position;
+        public Point position;
         public Vector front;
         public Vector up;
 
@@ -17,7 +17,7 @@ namespace Pathtracer
 
         public string[,] array = new string[60, 60];
 
-        public VirtualCamera(Vector position, Vector front, Vector up)
+        public VirtualCamera(Point position, Vector front, Vector up)
         {
             this.position = position;
             this.front = front;
@@ -164,7 +164,7 @@ namespace Pathtracer
                 Console.WriteLine();
             }
         }
-        
+
     }
 
 }

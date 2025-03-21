@@ -29,7 +29,7 @@ namespace Pathtracer
             return position.ToString();
         }
 
-        public void moveCamera()
+        public void Move()
         {
             int option = 1;
             while (option != 101)
@@ -40,32 +40,32 @@ namespace Pathtracer
                     case 119:   //w
                         position.Set(position.GetX(), position.GetY(), position.GetZ() + 0.5f);
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     case 115:   //s
                         position.Set(position.GetX(), position.GetY(), position.GetZ() - 0.5f);
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     case 97:    //a
                         position.Set(position.GetX() - 0.5f, position.GetY(), position.GetZ());
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     case 100:   //d
                         position.Set(position.GetX() + 0.5f, position.GetY(), position.GetZ());
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     case 117:   //u
                         position.Set(position.GetX(), position.GetY() + 0.5f, position.GetZ());
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     case 105:   //i
                         position.Set(position.GetX(), position.GetY() - 0.5f, position.GetZ());
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     default:
                         break;
@@ -73,7 +73,7 @@ namespace Pathtracer
             }
         }
 
-        public void rotateCamera()
+        public void Rotate()
         {
             int option = 1;
             while (option != 101)
@@ -129,7 +129,7 @@ namespace Pathtracer
             }
         }
 
-        public void draw()
+        public void Draw()
         {
             for (int i = 0; i < 60; i++)
             {

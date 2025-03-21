@@ -24,11 +24,11 @@ Cube cube = new Cube(planes, vertices);
 VirtualCamera camera = new VirtualCamera(new Vector(0.0f, 0.0f, -50000.0f), new Vector(0.0f, 0.0f, 1.0f), new Vector(0.0f, 1.0f, 0.0f));
 camera.cube = cube;
 Console.WriteLine(camera.ToString());
-camera.draw();
+camera.Draw();
 
 Console.WriteLine("Zmiana pozycji kamery: w, s, a, d, u, i. e - wyjście");
-camera.moveCamera();
+camera.Move();
 Console.WriteLine("Zmiana rotacji kamery: w, s, a, d, u, i. e - wyjście");
-camera.rotateCamera();
+camera.Rotate();
 
 Console.ReadLine();

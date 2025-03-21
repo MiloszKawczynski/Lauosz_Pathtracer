@@ -53,13 +53,9 @@ namespace Pathtracer
             return result;
         }
 
-        public float angleBetween(Plane a)
+        public float AngleBetween(Plane a)
         {
-            float nominator = a.n * n;
-            float denominator = (a.n.Length() * n.Length());
-            float result = nominator / denominator;
-            result = (float)(Math.Acos(result) * 180.0f / Math.PI);
-            return result;
+            return Vector.AngleRad(a.n, n);
         }
 
         public override String ToString()

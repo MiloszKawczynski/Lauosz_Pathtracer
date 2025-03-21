@@ -33,29 +33,7 @@ namespace Pathtracer
 
             float t = nominator / denominator;
 
-            return a.GetPoint(t);
-        }
-
-        public float angleBetweenPlaneAndLine(Line a)
-        {
-            float nominator = a.v * n;
-            float denominator = (a.v.Length() * n.Length());
-            float result = nominator / denominator;
-            result = (float)(Math.Acos(result) * 180.0f / Math.PI);
-            if (result > 90)
-            {
-                result = result - 90;
-            }
-            else if (result < 90)
-            {
-                result = 90 - result;
-            }
-            return result;
-        }
-
-        public float AngleBetween(Plane a)
-        {
-            return Vector.AngleRad(a.n, n);
+            return a.GetPointAt(t);
         }
 
         public override String ToString()
@@ -64,5 +42,14 @@ namespace Pathtracer
             return result;
         }
 
+        public Point GetPoint()
+        {
+            return p;
+        }
+
+        public Vector GetNormal()
+        {
+            return n;
+        }
     }
 }

@@ -8,8 +8,8 @@ namespace Pathtracer
 {
     internal class Line
     {
-        public Point p;
-        public Vector v;
+        private Point p;
+        private Vector v;
 
         public Line(Point p, Vector v)
         {
@@ -152,12 +152,7 @@ namespace Pathtracer
             }
         }
 
-        public float AngleBetween(Line a, Line b)
-        {
-            return Vector.AngleRad(a.v, b.v);
-        }
-
-        public Vector GetPoint(float t)
+        public Vector GetPointAt(float t)
         {
             float x = p.GetX() + v.GetX() * t;
             float y = p.GetY() + v.GetY() * t;
@@ -172,5 +167,14 @@ namespace Pathtracer
             return result;
         }
 
+        public Point GetPoint()
+        {
+            return p;
+        }
+
+        public Vector GetVector()
+        {
+            return v;
+        }
     }
 }

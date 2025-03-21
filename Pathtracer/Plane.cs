@@ -33,7 +33,7 @@ namespace Pathtracer
 
             float t = nominator / denominator;
 
-            return a.getPoint(t);
+            return a.GetPoint(t);
         }
 
         public float angleBetweenPlaneAndLine(Line a)

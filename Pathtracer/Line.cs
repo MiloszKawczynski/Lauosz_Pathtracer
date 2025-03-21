@@ -157,7 +157,7 @@ namespace Pathtracer
             return Vector.AngleRad(a.v, b.v);
         }
 
-        public Vector getPoint(float t)
+        public Vector GetPoint(float t)
         {
             float x = p.GetX() + v.GetX() * t;
             float y = p.GetY() + v.GetY() * t;

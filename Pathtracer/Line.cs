@@ -152,13 +152,9 @@ namespace Pathtracer
             }
         }
 
-        public float angleBetween(Line a, Line b)
+        public float AngleBetween(Line a, Line b)
         {
-            float nominator = a.v * b.v;
-            float denominator = (a.v.Length() * b.v.Length());
-            float result = nominator / denominator;
-            result = (float)(Math.Acos(result) * 180.0f / Math.PI);
-            return result;
+            return Vector.AngleRad(a.v, b.v);
         }
 
         public Vector getPoint(float t)

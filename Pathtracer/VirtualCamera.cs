@@ -82,46 +82,46 @@ namespace Pathtracer
                 switch (option)
                 {
                     case 119:   //w
-                        position = Quaternion.Rotate(position, new Vector(1.0f, 0.0f, 0.0f), 35.0);
-                        up = Quaternion.Rotate(up, new Vector(1.0f, 0.0f, 0.0f), 35.0);
-                        front = Quaternion.Rotate(front, new Vector(1.0f, 0.0f, 0.0f), 35.0);
+                        position = (Point)position.Rotate(new Vector(1.0f, 0.0f, 0.0f), 35.0);
+                        up = up.Rotate(new Vector(1.0f, 0.0f, 0.0f), 35.0);
+                        front = front.Rotate(new Vector(1.0f, 0.0f, 0.0f), 35.0);
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     case 115:   //s
-                        position = Quaternion.Rotate(position, new Vector(1.0f, 0.0f, 0.0f), -35.0);
-                        up = Quaternion.Rotate(up, new Vector(1.0f, 0.0f, 0.0f), -35.0);
-                        front = Quaternion.Rotate(front, new Vector(1.0f, 0.0f, 0.0f), -35.0);
+                        position = (Point)position.Rotate(new Vector(1.0f, 0.0f, 0.0f), -35.0);
+                        up = up.Rotate(new Vector(1.0f, 0.0f, 0.0f), -35.0);
+                        front = front.Rotate(new Vector(1.0f, 0.0f, 0.0f), -35.0);
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     case 97:    //a
-                        position = Quaternion.Rotate(position, new Vector(0.0f, 0.0f, 1.0f), -35.0);
-                        up = Quaternion.Rotate(up, new Vector(0.0f, 0.0f, 1.0f), -35.0);
-                        front = Quaternion.Rotate(front, new Vector(0.0f, 0.0f, 1.0f), -35.0);
+                        position = (Point)position.Rotate(new Vector(0.0f, 0.0f, 1.0f), -35.0);
+                        up = up.Rotate(new Vector(0.0f, 0.0f, 1.0f), -35.0);
+                        front = front.Rotate(new Vector(0.0f, 0.0f, 1.0f), -35.0);
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     case 100:   //d
-                        position = Quaternion.Rotate(position, new Vector(0.0f, 0.0f, 1.0f), 35.0);
-                        up = Quaternion.Rotate(up, new Vector(0.0f, 0.0f, 1.0f), 35.0);
-                        front = Quaternion.Rotate(front, new Vector(0.0f, 0.0f, 1.0f), 35.0);
+                        position = (Point)position.Rotate(new Vector(0.0f, 0.0f, 1.0f), 35.0);
+                        up = up.Rotate(new Vector(0.0f, 0.0f, 1.0f), 35.0);
+                        front = front.Rotate(new Vector(0.0f, 0.0f, 1.0f), 35.0);
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     case 117:   //u
-                        position = Quaternion.Rotate(position, new Vector(0.0f, 1.0f, 0.0f), 35.0);
-                        up = Quaternion.Rotate(up, new Vector(0.0f, 1.0f, 0.0f), 35.0);
-                        front = Quaternion.Rotate(front, new Vector(0.0f, 1.0f, 0.0f), 35.0);
+                        position = (Point)position.Rotate(new Vector(0.0f, 1.0f, 0.0f), 35.0);
+                        up = up.Rotate(new Vector(0.0f, 1.0f, 0.0f), 35.0);
+                        front = front.Rotate(new Vector(0.0f, 1.0f, 0.0f), 35.0);
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     case 105:   //i
-                        position = Quaternion.Rotate(position, new Vector(0.0f, 1.0f, 0.0f), -35.0);
-                        up = Quaternion.Rotate(up, new Vector(0.0f, 1.0f, 0.0f), -35.0);
-                        front = Quaternion.Rotate(front, new Vector(0.0f, 1.0f, 0.0f), -35.0);
+                        position = (Point)position.Rotate(new Vector(0.0f, 1.0f, 0.0f), -35.0);
+                        up = up.Rotate(new Vector(0.0f, 1.0f, 0.0f), -35.0);
+                        front = front.Rotate(new Vector(0.0f, 1.0f, 0.0f), -35.0);
                         Console.WriteLine(ToString());
-                        draw();
+                        Draw();
                         break;
                     default:
                         break;

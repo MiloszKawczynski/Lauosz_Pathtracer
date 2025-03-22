@@ -62,5 +62,43 @@ namespace Pathtracer
                 return null;
             }
         }
+
+        public void Intersection(Line line, Sphere sphere)
+        {
+            float a = (float)Math.Pow(line.GetVector().Length(), 2);
+            float b = 2 * (line.GetVector() * (line.GetPoint() - sphere.c));
+            float c = (float)Math.Pow((line.GetPoint() - sphere.c).Length(), 2) - (float)Math.Pow(sphere.r, 2);
+
+            float word = (float)Math.Sqrt(Math.Pow(b, 2) - (4 * a * c));
+
+            if (word >= 0)
+            {
+                float t1 = (float)Math.Round((-b - word) / (2 * a), 2);
+                float t2 = (float)Math.Round((-b + word) / (2 * a), 2);
+
+                if (IsCoefficientValid(t1, line))
+                {
+                    Vector Pa = line.GetPoint() + line.GetVector() * t1;
+
+                    Console.WriteLine("Punkt przeciecia " + Pa);
+                }
+
+
+                if (t1 != t2)
+                {
+                    if (IsCoefficientValid(t2, line))
+                    {
+                        Vector Pb = line.GetPoint() + line.GetVector() * t2;
+
+                        Console.WriteLine("Punkt przeciecia " + Pb);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Sfera i prosta nie przecinaja sie");
+            }
+        }
+
     }
 }

@@ -17,38 +17,6 @@ namespace Pathtracer
             this.v = v;
         }
 
-
-        public void sphereIntersection(Sphere sphere)
-        {
-            float a = (float)Math.Pow(v.Length(), 2);
-            float b = 2 * (v * (p - sphere.c));
-            float c = (float)Math.Pow((p - sphere.c).Length(), 2) - (float)Math.Pow(sphere.r, 2);
-
-            float word = (float)Math.Sqrt(Math.Pow(b, 2) - (4 * a * c));
-
-            if (word < 0)
-            {
-                Console.WriteLine("Sfera i prosta nie przecinaja sie");
-            }
-            else
-            {
-                float t1 = (float)Math.Round((-b - word) / (2 * a), 2);
-                float t2 = (float)Math.Round((-b + word) / (2 * a), 2);
-
-                Vector Pa = p + v * t1;
-
-                Console.WriteLine("Punkt przeciecia " + Pa);
-
-
-                if (t1 != t2)
-                {
-                    Vector Pb = p + v * t2;
-
-                    Console.WriteLine("Punkt przeciecia " + Pb);
-                }
-            }
-        }
-
         public Vector GetPointAt(float t)
         {
             float x = p.GetX() + v.GetX() * t;

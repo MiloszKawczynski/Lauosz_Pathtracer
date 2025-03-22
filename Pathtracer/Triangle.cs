@@ -10,27 +10,16 @@ namespace Pathtracer
     {
         private Point p1, p2, p3;
 
+        public Point P1 => p1;
+        public Point P2 => p2;
+        public Point P3 => p3;
+
         public Triangle(Point p1, Point p2, Point p3) : base(p1, Vector.CrossProduct(p2 - p1, p3 - p1).UnitVector())
         {
             this.p1 = p1;
             this.p2 = p2;
             this.p3 = p3;
-            this.n = Vector.CrossProduct(p2 - p1, p3 - p1).UnitVector();
-        }
-
-        public Point GetP1()
-        {
-            return p1;
-        }
-
-        public Point GetP2()
-        {
-            return p2;
-        }
-
-        public Point GetP3()
-        {
-            return p3;
+            n = Vector.CrossProduct(p2 - p1, p3 - p1).UnitVector();
         }
 
         public override string ToString()

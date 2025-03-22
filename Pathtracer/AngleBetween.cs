@@ -15,7 +15,7 @@ namespace Pathtracer
 
         public static float Angle(Line a, Plane b)
         {
-            float result = Angle(a.GetVector(), b.GetNormal());
+            float result = Angle(a.V, b.N);
             if (result > 90)
             {
                 result = result - 90;
@@ -29,12 +29,12 @@ namespace Pathtracer
 
         public float Angle(Plane a, Plane b)
         {
-            return Angle(a.GetNormal(), b.GetNormal());
+            return Angle(a.N, b.N);
         }
 
         public float Angle(Line a, Line b)
         {
-            return Angle(a.GetVector(), b.GetVector());
+            return Angle(a.V, b.V);
         }
     }
 }

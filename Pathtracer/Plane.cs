@@ -11,6 +11,9 @@ namespace Pathtracer
         private Point p;
         protected Vector n;
 
+        public Point P => p;
+        public Vector N => n;
+
         public Plane(Point p, Vector n)
         {
             this.p = p;
@@ -23,14 +26,5 @@ namespace Pathtracer
             return result;
         }
 
-        public Point GetPoint()
-        {
-            return p;
-        }
-
-        public Vector GetNormal()
-        {
-            return n;
-        }
     }
 }

@@ -38,32 +38,32 @@ namespace Pathtracer
                 switch (option)
                 {
                     case 119:   //w
-                        position.Set(position.GetX(), position.GetY(), position.GetZ() + 0.5f);
+                        position.Set(position.X, position.Y, position.Z + 0.5f);
                         Console.WriteLine(ToString());
                         Draw();
                         break;
                     case 115:   //s
-                        position.Set(position.GetX(), position.GetY(), position.GetZ() - 0.5f);
+                        position.Set(position.X, position.Y, position.Z - 0.5f);
                         Console.WriteLine(ToString());
                         Draw();
                         break;
                     case 97:    //a
-                        position.Set(position.GetX() - 0.5f, position.GetY(), position.GetZ());
+                        position.Set(position.X - 0.5f, position.Y, position.Z);
                         Console.WriteLine(ToString());
                         Draw();
                         break;
                     case 100:   //d
-                        position.Set(position.GetX() + 0.5f, position.GetY(), position.GetZ());
+                        position.Set(position.X + 0.5f, position.Y, position.Z);
                         Console.WriteLine(ToString());
                         Draw();
                         break;
                     case 117:   //u
-                        position.Set(position.GetX(), position.GetY() + 0.5f, position.GetZ());
+                        position.Set(position.X, position.Y + 0.5f, position.Z);
                         Console.WriteLine(ToString());
                         Draw();
                         break;
                     case 105:   //i
-                        position.Set(position.GetX(), position.GetY() - 0.5f, position.GetZ());
+                        position.Set(position.X, position.Y - 0.5f, position.Z);
                         Console.WriteLine(ToString());
                         Draw();
                         break;

@@ -11,6 +11,9 @@ namespace Pathtracer
         private float s;
         private Vector v;
 
+        public float S => s;
+        public Vector V => v;
+
         public Quaternion(float s, float x, float y, float z)
         {
             this.s = s;
@@ -25,12 +28,12 @@ namespace Pathtracer
 
         public static Quaternion operator +(Quaternion a, Quaternion b)
         {
-            return new Quaternion(a.v.GetX() + b.v.GetX(), a.v.GetY() + b.v.GetY(), a.v.GetZ() + b.v.GetZ(), a.s + b.s);
+            return new Quaternion(a.v.X + b.v.X, a.v.Y + b.v.Y, a.v.Z + b.v.Z, a.s + b.s);
         }
 
         public static Quaternion operator -(Quaternion a, Quaternion b)
         {
-            return new Quaternion(a.v.GetX() - b.v.GetX(), a.v.GetY() - b.v.GetY(), a.v.GetZ() - b.v.GetZ(), a.s - b.s);
+            return new Quaternion(a.v.X - b.v.X, a.v.Y - b.v.Y, a.v.Z - b.v.Z, a.s - b.s);
         }
 
         public static Quaternion operator *(Quaternion a, Quaternion b)
@@ -70,7 +73,7 @@ namespace Pathtracer
 
         public float Norm()
         {
-            return (float)Math.Sqrt(Math.Pow(s, 2) + (v.GetX() * v.GetX() + v.GetY() * v.GetY() + v.GetZ() * v.GetZ()));
+            return (float)Math.Sqrt(Math.Pow(s, 2) + (v.X * v.X + v.Y * v.Y + v.Z * v.Z));
         }
 
         public Quaternion Normalize()
@@ -85,7 +88,7 @@ namespace Pathtracer
 
         public override String ToString()
         {
-            String result = s.ToString() + " + i * " + v.GetX().ToString() + " + j * " + v.GetY().ToString() + " + k * " + v.GetZ().ToString();
+            String result = s.ToString() + " + i * " + v.X.ToString() + " + j * " + v.Y.ToString() + " + k * " + v.Z.ToString();
             return result;
         }
 
@@ -100,14 +103,7 @@ namespace Pathtracer
             this.v = v;
         }
 
-        public float GetScalar()
-        {
-            return s;
-        }
+      
 
-        public Vector GetVector()
-        {
-            return v;
-        }
     }
 }

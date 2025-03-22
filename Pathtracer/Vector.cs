@@ -6,6 +6,10 @@
         private float y;
         private float z;
 
+        public float X => x;
+        public float Y => y;
+        public float Z => z;
+
         public Vector(float x, float y, float z)
         {
             this.x = x;
@@ -34,7 +38,7 @@
 
         public static bool operator ==(Vector a, Vector b)
         {
-            return a.GetX() == b.GetX() && a.GetY() == b.GetY() && a.GetZ() == b.GetZ();
+            return a.x == b.x && a.y == b.y && a.z == b.z;
         }
         public static bool operator !=(Vector a, Vector b)
         {
@@ -43,7 +47,7 @@
 
         public float Length()
         {
-            return (float)Math.Sqrt(Math.Pow(this.x, 2) + Math.Pow(this.y, 2) + Math.Pow(this.z, 2));
+            return (float)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2) + Math.Pow(z, 2));
         }
 
         public static float operator *(Vector a, Vector b)
@@ -62,8 +66,8 @@
 
         public Vector UnitVector()
         {
-            float length = this.Length();
-            return new Vector(this.x / length, this.y / length, this.z / length);
+            float length = Length();
+            return new Vector(x / length, y / length, z / length);
         }
 
         public Vector Sign()
@@ -84,21 +88,6 @@
             this.z = z;
         }
 
-        public float GetX()
-        {
-            return x;
-        }
-
-        public float GetY()
-        {
-            return y;
-        }
-
-        public float GetZ()
-        {
-            return z;
-        }
-
         public Vector Invert()
         {
             return new Vector(-x, -y, -z);
@@ -116,7 +105,7 @@
 
             result = q * result * qInverse;
 
-            return result.GetVector();
+            return result.V;
         }
     }
 }

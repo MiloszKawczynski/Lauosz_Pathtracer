@@ -20,7 +20,7 @@ namespace Pathtracer
             sizeY = content.GetLength(1);
         }
 
-        public Matrix(int size)
+        public Matrix IdentityMatrix(int size)
         {
             sizeX = size;
             sizeY = size;
@@ -39,6 +39,7 @@ namespace Pathtracer
                     }
                 }
             }
+            return this;
         }
 
 

@@ -24,9 +24,9 @@ namespace Pathtracer
         //        Vector point = (planes[i].IntersetionWithLine(line));
 
         //        if (
-        //            point.GetX() >= -1 && point.GetX() <= 1 &&
-        //            point.GetY() >= -1 && point.GetY() <= 1 &&
-        //            point.GetZ() >= -1 && point.GetZ() <= 1
+        //            point.X >= -1 && point.X <= 1 &&
+        //            point.Y >= -1 && point.Y <= 1 &&
+        //            point.Z >= -1 && point.Z <= 1
         //            )
         //        {
         //            Vector direction = (point - camera.position).Sign();

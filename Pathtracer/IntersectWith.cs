@@ -63,8 +63,10 @@ namespace Pathtracer
             }
         }
 
-        public void Intersection(Line line, Sphere sphere)
+        public static List<Point>? Intersection(Line line, Sphere sphere)
         {
+            List<Point> result = new List<Point>();
+
             float a = (float)Math.Pow(line.GetVector().Length(), 2);
             float b = 2 * (line.GetVector() * (line.GetPoint() - sphere.c));
             float c = (float)Math.Pow((line.GetPoint() - sphere.c).Length(), 2) - (float)Math.Pow(sphere.r, 2);
@@ -78,7 +80,8 @@ namespace Pathtracer
 
                 if (IsCoefficientValid(t1, line))
                 {
-                    Vector Pa = line.GetPoint() + line.GetVector() * t1;
+                    Point Pa = (Point)(line.GetPoint() + line.GetVector() * t1);
+                    result.Add(Pa);
 
                     Console.WriteLine("Punkt przeciecia " + Pa);
                 }
@@ -88,7 +91,8 @@ namespace Pathtracer
                 {
                     if (IsCoefficientValid(t2, line))
                     {
-                        Vector Pb = line.GetPoint() + line.GetVector() * t2;
+                        Point Pb = (Point)(line.GetPoint() + line.GetVector() * t2);
+                        result.Add(Pb);
 
                         Console.WriteLine("Punkt przeciecia " + Pb);
                     }
@@ -96,8 +100,12 @@ namespace Pathtracer
             }
             else
             {
-                Console.WriteLine("Sfera i prosta nie przecinaja sie");
+                Console.WriteLine("Brak punktów przecięcia");
+                return null;
             }
+
+            return result;
+        }
         }
 
     }

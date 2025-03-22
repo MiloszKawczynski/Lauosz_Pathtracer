@@ -8,7 +8,7 @@ namespace Pathtracer
 {
     internal class IntersectWith
     {
-        private float CalculateCoefficientDefiningPotentialIntersection(Line a, Line b)
+        private static float CalculateCoefficientDefiningPotentialIntersection(Line a, Line b)
         {
             float t;
 
@@ -30,7 +30,7 @@ namespace Pathtracer
             return t;
         }
 
-        private bool IsCoefficientValid(float t, Line a)
+        private static bool IsCoefficientValid(float t, Line a)
         {
             if (a is Section)
             {
@@ -43,7 +43,7 @@ namespace Pathtracer
             return true;
         }
 
-        public Point? Intersetion(Line a, Line b)
+        public static Point? Intersetion(Line a, Line b)
         {
             float t1 = CalculateCoefficientDefiningPotentialIntersection(a, b);
             float t2 = CalculateCoefficientDefiningPotentialIntersection(b, a);

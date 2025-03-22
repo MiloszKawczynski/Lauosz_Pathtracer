@@ -16,5 +16,25 @@ namespace Pathtracer
             this.c = c;
             this.r = r;
         }
+
+        public Vector? NormalAtPointOnSphere(Point p)
+        {
+            Vector centerToPoint = p - c;
+
+            if (centerToPoint.Length() > r)
+            {
+                Console.WriteLine("Warning: Point is outside sphere.");
+                return null;
+            }
+            else if (centerToPoint.Length() < r)
+            {
+                Console.WriteLine("Warning: Point is inside sphere.");
+                return null;
+            }
+            else
+            {
+                return centerToPoint.UnitVector();
+            }
+        }
     }
 }

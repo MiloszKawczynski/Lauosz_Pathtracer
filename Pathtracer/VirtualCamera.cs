@@ -142,14 +142,14 @@ namespace Pathtracer
                     vector = vector.Rotate(Vector.CrossProduct(up, front), (i - 30) * fov);
                     vector = vector.Rotate(up, (j - 30) * fov);
 
-                    if (cube.IntesectWithLine(new Line(position, vector), this))
-                    {
-                        array[i, j] = "0";
-                    }
-                    else
-                    {
-                        array[i, j] = ".";
-                    }
+                    //if (cube.IntesectWithLine(new Line(position, vector), this))
+                    //{
+                    //    array[i, j] = "0";
+                    //}
+                    //else
+                    //{
+                    //    array[i, j] = ".";
+                    //}
                 }
             }
 

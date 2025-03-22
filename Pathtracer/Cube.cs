@@ -17,27 +17,27 @@ namespace Pathtracer
             this.vertices = vertices;
         }
 
-        public bool IntesectWithLine(Line line, VirtualCamera camera)
-        {
-            for (int i = 0; i < planes.Length; i++)
-            {
-                Vector point = (planes[i].IntersetionWithLine(line));
+        //public bool IntesectWithLine(Line line, VirtualCamera camera)
+        //{
+        //    for (int i = 0; i < planes.Length; i++)
+        //    {
+        //        Vector point = (planes[i].IntersetionWithLine(line));
 
-                if (
-                    point.GetX() >= -1 && point.GetX() <= 1 &&
-                    point.GetY() >= -1 && point.GetY() <= 1 &&
-                    point.GetZ() >= -1 && point.GetZ() <= 1
-                    )
-                {
-                    Vector direction = (point - camera.position).Sign();
+        //        if (
+        //            point.GetX() >= -1 && point.GetX() <= 1 &&
+        //            point.GetY() >= -1 && point.GetY() <= 1 &&
+        //            point.GetZ() >= -1 && point.GetZ() <= 1
+        //            )
+        //        {
+        //            Vector direction = (point - camera.position).Sign();
 
-                    if (direction == line.v.Sign())
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
+        //            if (direction == line.v.Sign())
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    return false;
+        //}
     }
 }

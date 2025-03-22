@@ -17,13 +17,13 @@ namespace Pathtracer
             this.v = v;
         }
 
-        public Vector GetPointAt(float t)
+        public Point GetPointAt(float t)
         {
             float x = p.GetX() + v.GetX() * t;
             float y = p.GetY() + v.GetY() * t;
             float z = p.GetZ() + v.GetZ() * t;
 
-            return new Vector(x, y, z);
+            return new Point(x, y, z);
         }
 
         public override String ToString()

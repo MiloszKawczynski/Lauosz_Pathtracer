@@ -17,19 +17,6 @@ namespace Pathtracer
             this.n = n;
         }
 
-        public Vector IntersetionWithLine(Line a)
-        {
-            float nominator;
-            float denominator;
-
-            nominator = n.Invert() * (a.p - p);
-            denominator = n * a.v;
-
-            float t = nominator / denominator;
-
-            return a.GetPointAt(t);
-        }
-
         public override String ToString()
         {
             String result = "P = " + p.ToString() + " + n" + n.ToString();

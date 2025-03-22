@@ -106,12 +106,31 @@ namespace Pathtracer
 
             return result;
         }
+
         public static Line Intersetion(Plane a, Plane b)
         {
             Vector lineVector = Vector.CrossProduct(b.GetNormal(), a.GetNormal());
 
             return new Line(b.GetPoint(), lineVector);
         }
+        public static Point? Intersetion(Line a, Plane b)
+        {
+            float nominator;
+            float denominator;
 
+            nominator = b.GetNormal().Invert() * (a.GetPoint() - b.GetPoint());
+            denominator = b.GetNormal() * a.GetVector();
+
+            float t = nominator / denominator;
+
+            if (IsCoefficientValid(t, a))
+            {
+                return a.GetPointAt(t);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

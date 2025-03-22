@@ -9,7 +9,7 @@ namespace Pathtracer
     internal class Plane
     {
         private Point p;
-        private Vector n;
+        protected Vector n;
 
         public Plane(Point p, Vector n)
         {

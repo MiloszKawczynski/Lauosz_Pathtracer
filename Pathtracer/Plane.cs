@@ -17,12 +17,6 @@ namespace Pathtracer
             this.n = n;
         }
 
-        public Line Intersetion(Plane a)
-        {
-            Vector lineVector = Vector.CrossProduct(n, a.n);
-
-            return new Line(p, lineVector);
-        }
         public Vector IntersetionWithLine(Line a)
         {
             float nominator;

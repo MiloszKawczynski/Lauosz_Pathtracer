@@ -1,14 +1,14 @@
 ﻿using Pathtracer;
 
-Vector[] vertices = { 
-    new Vector(-1.0f, -1.0f, -1.0f),    //left down near
-    new Vector(1.0f, -1.0f, -1.0f),     //right down near
-    new Vector(-1.0f, 1.0f, -1.0f),     //left top near
-    new Vector(1.0f, 1.0f, -1.0f),      //right top near
-    new Vector(-1.0f, -1.0f, 1.0f),     //left down far
-    new Vector(1.0f, -1.0f, 1.0f),      //right down far
-    new Vector(-1.0f, 1.0f, 1.0f),      //left top far
-    new Vector(1.0f, 1.0f, 1.0f),       //right top far
+Point[] vertices = {
+    new Point(-1.0f, -1.0f, -1.0f),    //left down near
+    new Point(1.0f, -1.0f, -1.0f),     //right down near
+    new Point(-1.0f, 1.0f, -1.0f),     //left top near
+    new Point(1.0f, 1.0f, -1.0f),      //right top near
+    new Point(-1.0f, -1.0f, 1.0f),     //left down far
+    new Point(1.0f, -1.0f, 1.0f),      //right down far
+    new Point(-1.0f, 1.0f, 1.0f),      //left top far
+    new Point(1.0f, 1.0f, 1.0f),       //right top far
 };
 
 Plane[] planes = {
@@ -21,7 +21,7 @@ Plane[] planes = {
 };
 
 Cube cube = new Cube(planes, vertices);
-VirtualCamera camera = new VirtualCamera(new Vector(0.0f, 0.0f, -50000.0f), new Vector(0.0f, 0.0f, 1.0f), new Vector(0.0f, 1.0f, 0.0f));
+VirtualCamera camera = new VirtualCamera(new Point(0.0f, 0.0f, -50000.0f), new Vector(0.0f, 0.0f, 1.0f), new Vector(0.0f, 1.0f, 0.0f));
 camera.cube = cube;
 Console.WriteLine(camera.ToString());
 camera.Draw();

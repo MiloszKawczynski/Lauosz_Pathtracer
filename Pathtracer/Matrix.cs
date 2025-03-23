@@ -166,44 +166,80 @@ namespace Pathtracer
 
         public Matrix? Inverse()
         {
-            if (sizeX == sizeY)
-            {
-                float[,] contentOfInverse = new float[sizeX, sizeY];
-
-                float det = (float)Determinant();
-
-                if (det == 0)
-                {
-                    return null;
-                }
-
-                for (int i = 0; i < sizeX; i++)
-                {
-                    for (int j = 0; j < sizeX; j++)
-                    {
-                        contentOfInverse[i, j] = (float)Math.Pow(-1, i + 1 + j + 1) * content[sizeX - i - 1, sizeX - j - 1];
-                    }
-                }
-
-                Matrix inverse = new Matrix(contentOfInverse);
-
-                inverse.Transpose();
-
-                for (int i = 0; i < sizeX; i++)
-                {
-                    for (int j = 0; j < sizeX; j++)
-                    {
-                        inverse.content[i, j] /= det;
-                    }
-                }
-
-                return inverse;
-            }
-            else
+            if (sizeX != sizeY)
             {
                 Console.WriteLine("Warning: Matrix is not squared for inverse.");
                 return null;
             }
+
+            float det = (float)Determinant();
+
+            if (Math.Abs(det) < 0.00001f)
+            {
+                Console.WriteLine("Warning: Determinant is zero, matrix is singular.");
+                return null;
+            }
+
+            float[,] cofactors = new float[sizeX, sizeY];
+
+            for (int i = 0; i < sizeX; i++)
+            {
+                for (int j = 0; j < sizeY; j++)
+                {
+                    cofactors[i, j] = Cofactor(i, j);
+                }
+            }
+
+            float[,] adjugate = new float[sizeX, sizeY];
+            for (int i = 0; i < sizeX; i++)
+            {
+                for (int j = 0; j < sizeY; j++)
+                {
+                    adjugate[i, j] = cofactors[j, i];
+                }
+            }
+
+            for (int i = 0; i < sizeX; i++)
+            {
+                for (int j = 0; j < sizeY; j++)
+                {
+                    adjugate[i, j] /= det;
+                }
+            }
+
+            return new Matrix(adjugate);
+        }
+
+        private float Cofactor(int row, int col)
+        {
+            Matrix minorMatrix = MinorMatrix(row, col);
+            float minorDet = (float)minorMatrix.Determinant();
+            return (float)Math.Pow(-1, row + col) * minorDet;
+        }
+
+        private Matrix MinorMatrix(int rowToRemove, int colToRemove)
+        {
+            float[,] minor = new float[sizeX - 1, sizeY - 1];
+
+            int mRow = 0;
+            for (int i = 0; i < sizeX; i++)
+            {
+                if (i == rowToRemove)
+                    continue;
+
+                int mCol = 0;
+                for (int j = 0; j < sizeY; j++)
+                {
+                    if (j == colToRemove)
+                        continue;
+
+                    minor[mRow, mCol] = content[i, j];
+                    mCol++;
+                }
+                mRow++;
+            }
+
+            return new Matrix(minor);
         }
 
 

@@ -110,5 +110,7 @@ class Program
         Console.WriteLine(quaternion * quaternionB);
         Console.WriteLine($"\nRóżnica między kwaternionami {quaternion} i {quaternionB}");
         Console.WriteLine(quaternion - quaternionB);
+
+        var vertices = OBJParser.LoadVertices("C:/Repositories/Lauosz_Pathtracer/Pathtracer/Models/cat.obj");
     }
 }

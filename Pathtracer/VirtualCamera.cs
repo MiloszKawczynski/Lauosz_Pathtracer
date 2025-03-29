@@ -13,8 +13,6 @@ namespace Pathtracer
         public Vector front;
         public Vector up;
 
-        public Cube cube;
-
         public string[,] array = new string[60, 60];
 
         public VirtualCamera(Point position, Vector front, Vector up)
@@ -141,15 +139,6 @@ namespace Pathtracer
 
                     vector = vector.Rotate(Vector.CrossProduct(up, front), (i - 30) * fov);
                     vector = vector.Rotate(up, (j - 30) * fov);
-
-                    //if (cube.IntesectWithLine(new Line(position, vector), this))
-                    //{
-                    //    array[i, j] = "0";
-                    //}
-                    //else
-                    //{
-                    //    array[i, j] = ".";
-                    //}
                 }
             }
 

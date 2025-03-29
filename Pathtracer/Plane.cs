@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pathtracer
 {
-    internal class Plane
+    internal class Plane : Primitive
     {
         private Point p;
         protected Vector n;

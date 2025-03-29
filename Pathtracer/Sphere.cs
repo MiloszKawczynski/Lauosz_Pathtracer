@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pathtracer
 {
-    internal class Sphere
+    internal class Sphere : Primitive
     {
         public Point c;
         public float r;

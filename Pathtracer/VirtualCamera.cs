@@ -27,6 +27,13 @@ namespace Pathtracer
             this.up = up;
         }
 
+        public VirtualCamera()
+        {
+            this.position = new Point(0, 0, 0);
+            this.front = new Vector(0, 0, 1);
+            this.up = new Vector(0, 1, 0);
+        }
+
         public override String ToString()
         {
             return position.ToString();
@@ -120,3 +127,4 @@ namespace Pathtracer
             }
         }
     }
+}

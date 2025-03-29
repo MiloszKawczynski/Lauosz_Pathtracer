@@ -40,6 +40,12 @@ namespace Pathtracer
             return position.ToString();
         }
 
+        public void SetFov(int width, float fov)
+        {
+            double fovRad = Math.PI * fov / 180.0;
+            focalLength = (float)((width / 2) / Math.Tan(fovRad / 2));
+        }
+
         public void Move()
         {
             int option = 1;

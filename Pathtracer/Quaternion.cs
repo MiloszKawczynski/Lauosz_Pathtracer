@@ -55,7 +55,7 @@ namespace Pathtracer
 
         public static Quaternion operator *(Quaternion a, Quaternion b)
         {
-            float scalarElement = a.s * b.s -a.v * b.v;
+            float scalarElement = a.s * b.s - a.v * b.v;
 
             Vector vectorElement = (b.v * a.s) + (a.v * b.s) + Vector.CrossProduct(a.v, b.v);
 
@@ -130,7 +130,7 @@ namespace Pathtracer
 
         public static float DotProduct(Quaternion a, Quaternion b)
         {
-            return (float)(a.v.X * b.v.X + a.v.Y * b.v.Y + a.v.Z * b.v.Z + a.s * b.s);
+            return (float)((a.v * b.v) + (a.s * b.s));
         }
 
         public override String ToString()
@@ -150,7 +150,7 @@ namespace Pathtracer
             this.v = v;
         }
 
-      
+
 
     }
 }

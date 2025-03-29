@@ -6,10 +6,12 @@ namespace Pathtracer
     internal class Image
     {
         private Bitmap image;
+        private VirtualCamera camera;
 
-        public Image(int width, int height)
+        public Image(int width, int height, VirtualCamera camera)
         {
             image = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            this.camera = camera;
         }
 
         public void SetPixel(int x, int y, LightIntensity pixel)

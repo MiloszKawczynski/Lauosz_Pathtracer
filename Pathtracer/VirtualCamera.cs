@@ -13,7 +13,7 @@ namespace Pathtracer
         public Vector front;
         public Vector up;
 
-        public string[,] array = new string[60, 60];
+        private ProjectionType projection = ProjectionType.Perspective;
 
         public VirtualCamera(Point position, Vector front, Vector up)
         {
@@ -115,4 +115,3 @@ namespace Pathtracer
             }
         }
     }
-}

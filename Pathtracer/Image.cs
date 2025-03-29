@@ -37,7 +37,18 @@ namespace Pathtracer
                 {
                     Point pixelPosition = new Point(((-image.Width * 0.5f) + (x + 0.5f) * pixelSize) + camera.position.X, ((image.Height * 0.5f) - (y + 0.5f) * pixelSize) + camera.position.Y, camera.position.Z);
 
-                    Ray ray = new Ray(pixelPosition, camera.front);
+                    Ray ray;
+
+                    if (camera.projection == ProjectionType.Ortogonal)
+                    {
+                        ray = new Ray(pixelPosition, camera.front);
+                    }
+                    else
+                    {
+                        Vector vec = camera.position - camera.front * camera.focalLength;
+                        Point cameraRayOrigin = new Point(vec.X, vec.Y, vec.Z);
+                        ray = new Ray(cameraRayOrigin, pixelPosition - cameraRayOrigin);
+                    }
 
                     List<Point> hits = new List<Point>();
 

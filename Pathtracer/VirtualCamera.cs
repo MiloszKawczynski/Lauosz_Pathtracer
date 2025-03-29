@@ -17,8 +17,9 @@ namespace Pathtracer
         public Point position;
         public Vector front;
         public Vector up;
+        public float focalLength = 1.0f;
 
-        private ProjectionType projection = ProjectionType.Perspective;
+        public ProjectionType projection = ProjectionType.Perspective;
 
         public VirtualCamera(Point position, Vector front, Vector up)
         {

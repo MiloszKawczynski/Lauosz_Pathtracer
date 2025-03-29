@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Pathtracer
 {
+    enum ProjectionType
+    {
+        Ortogonal,
+        Perspective
+    }
     internal class VirtualCamera
     {
         public Point position;

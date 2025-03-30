@@ -93,6 +93,56 @@ namespace Pathtracer
                 }
             }
 
+        public void Blur()
+        {
+            List<float> weights = new List<float> { 0.38774f, 0.24477f, 0.06136f };
+
+            for (int y = 0; y < image.Height; y++)
+            {
+                for (int x = 0; x < image.Width; x++)
+                {
+                    LightIntensity sum = new LightIntensity(GetPixel(x, y) * weights[0]);
+
+                    for (int i = 1; i < 3; i++)
+                    {
+                        if (x + i < image.Width)
+                        {
+                            sum = new LightIntensity(sum + (GetPixel(x + i, y) * weights[i]));
+                        }
+
+                        if (x - i >= 0)
+                        {
+                            sum = new LightIntensity(sum + (GetPixel(x - i, y) * weights[i]));
+                        }
+                    }
+
+                    SetPixel(x, y, sum);
+                }
+            }
+
+            for (int y = 0; y < image.Height; y++)
+            {
+                for (int x = 0; x < image.Width; x++)
+                {
+                    LightIntensity sum = new LightIntensity(GetPixel(x, y) * weights[0]);
+
+                    for (int i = 1; i < 3; i++)
+                    {
+                        if (y + i < image.Height)
+                        {
+                            sum = new LightIntensity(sum + (GetPixel(x, y + i) * weights[i]));
+                        }
+
+                        if (y - i >= 0)
+                        {
+                            sum = new LightIntensity(sum + (GetPixel(x, y - i) * weights[i]));
+                        }
+                    }
+
+                    SetPixel(x, y, sum);
+                }
+            }
+        }
             image.Save("output.jpg");
         }
     }

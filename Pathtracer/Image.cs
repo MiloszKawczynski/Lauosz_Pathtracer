@@ -26,6 +26,18 @@ namespace Pathtracer
             image.SetPixel(x, y, Color.FromArgb(r, g, b));
         }
 
+        public LightIntensity GetPixel(int x, int y)
+        {
+            Color pixel = image.GetPixel(x, y);
+            Color color = Color.FromArgb(
+            pixel.A,
+            (int)(pixel.R),
+            (int)(pixel.G),
+            (int)(pixel.B));
+
+            return new LightIntensity((float)color.R / 255, (float)color.G / 255, (float)color.B / 255.0f);
+        }
+
         public void RenderImage()
         {
             float pixelSize = 1.0f;

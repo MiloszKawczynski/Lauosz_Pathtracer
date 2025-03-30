@@ -8,5 +8,6 @@ namespace Pathtracer
 {
     internal class Primitive
     {
+        public LightIntensity color = new LightIntensity(1.0f, 0.0f, 0.0f);
     }
 }

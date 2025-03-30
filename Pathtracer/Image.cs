@@ -8,6 +8,7 @@ namespace Pathtracer
     {
         private Bitmap image;
         private VirtualCamera camera;
+        private LightIntensity backgroundColor = new LightIntensity(0.0f, 0.0f, 0.0f);
         public List<Primitive> scene = new List<Primitive>();
 
         public Image(int width, int height, VirtualCamera camera)
@@ -28,8 +29,6 @@ namespace Pathtracer
         public void RenderImage()
         {
             float pixelSize = 1.0f;
-            LightIntensity backgroundColor = new LightIntensity(0.0f, 0.0f, 0.0f);
-            LightIntensity objectsColor = new LightIntensity(1.0f, 0.0f, 0.0f);
 
             for (int x = 0; x < image.Width; x++)
             {
@@ -50,20 +49,30 @@ namespace Pathtracer
                         ray = new Ray(cameraRayOrigin, pixelPosition - cameraRayOrigin);
                     }
 
-                    List<Point> hits = new List<Point>();
+                    List<Point> intersectionPoints;
+                    Primitive hitPrimitive = scene[0];
+                    Point hit = new Point(float.MaxValue, float.MaxValue, float.MaxValue);
+                    bool isAnythingHit = false;
 
                     for (int i = 0; i < scene.Count; i++)
                     {
-                        List<Point> intersectionPoints = IntersectWith.IntersectionLineSphere(ray, (Sphere)scene[i]);
+                        intersectionPoints = IntersectWith.IntersectionLineSphere(ray, (Sphere)scene[i]);
                         if (intersectionPoints != null)
                         {
-                            hits.AddRange(intersectionPoints);
+                            intersectionPoints.Sort((a, b) => (a - pixelPosition).Length().CompareTo((b - pixelPosition).Length()));
+
+                            if ((intersectionPoints[0] - pixelPosition).Length() < (hit - pixelPosition).Length())
+                            {
+                                hit = intersectionPoints[0];
+                                hitPrimitive = scene[i];
+                                isAnythingHit = true;
+                            }
                         }
                     }
 
-                    if (hits.Count > 0)
+                    if (isAnythingHit)
                     {
-                        SetPixel(x, y, objectsColor);
+                        SetPixel(x, y, hitPrimitive.color);
                     }
                     else
                     {

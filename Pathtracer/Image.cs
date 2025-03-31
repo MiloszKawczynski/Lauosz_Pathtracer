@@ -94,6 +94,9 @@ namespace Pathtracer
                 }
             }
 
+            SaveImage();
+        }
+
         public void Blur()
         {
             List<float> weights = new List<float> { 0.38774f, 0.24477f, 0.06136f };
@@ -144,6 +147,9 @@ namespace Pathtracer
                 }
             }
         }
+
+        private void SaveImage()
+        {
             image.Save("output.jpg");
         }
     }

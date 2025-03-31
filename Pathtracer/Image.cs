@@ -94,6 +94,7 @@ namespace Pathtracer
                 }
             }
 
+            image = BlurOnEdges(DetectEdges());
             SaveImage();
         }
 

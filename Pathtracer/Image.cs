@@ -152,6 +152,75 @@ namespace Pathtracer
             return newImage;
         }
 
+        public Bitmap BlurOnEdges(Bitmap edges)
+        {
+            Bitmap newImage = new Bitmap(image.Width, image.Height);
+
+            List<float> weights = new List<float> { 0.38774f, 0.24477f, 0.06136f };
+
+            for (int y = 0; y < image.Height; y++)
+            {
+                for (int x = 0; x < image.Width; x++)
+                {
+                    LightIntensity sum = new LightIntensity(GetPixel(image, x, y) * weights[0]);
+
+                    for (int i = 1; i < 3; i++)
+                    {
+                        if (x + i < image.Width)
+                        {
+                            sum = new LightIntensity(sum + (GetPixel(image, x + i, y) * weights[i]));
+                        }
+
+                        if (x - i >= 0)
+                        {
+                            sum = new LightIntensity(sum + (GetPixel(image, x - i, y) * weights[i]));
+                        }
+                    }
+
+                    if (GetPixel(edges, x, y) == new LightIntensity(1.0f, 1.0f, 1.0f))
+                    {
+                        SetPixel(newImage, x, y, sum);
+                    }
+                    else
+                    {
+                        SetPixel(newImage, x, y, GetPixel(image, x, y));
+                    }
+                }
+            }
+
+            for (int y = 0; y < image.Height; y++)
+            {
+                for (int x = 0; x < image.Width; x++)
+                {
+                    LightIntensity sum = new LightIntensity(GetPixel(newImage, x, y) * weights[0]);
+
+                    for (int i = 1; i < 3; i++)
+                    {
+                        if (y + i < image.Height)
+                        {
+                            sum = new LightIntensity(sum + (GetPixel(newImage, x, y + i) * weights[i]));
+                        }
+
+                        if (y - i >= 0)
+                        {
+                            sum = new LightIntensity(sum + (GetPixel(newImage, x, y - i) * weights[i]));
+                        }
+                    }
+
+                    if (GetPixel(edges, x, y) == new LightIntensity(1.0f, 1.0f, 1.0f))
+                    {
+                        SetPixel(newImage, x, y, sum);
+                    }
+                    else
+                    {
+                        SetPixel(newImage, x, y, GetPixel(image, x, y));
+                    }
+                }
+            }
+
+            return newImage;
+        }
+
         public Bitmap DetectEdges()
         {
             Bitmap newImage = new Bitmap(image.Width, image.Height);

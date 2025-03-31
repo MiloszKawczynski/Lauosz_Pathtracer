@@ -97,8 +97,10 @@ namespace Pathtracer
             SaveImage();
         }
 
-        public void Blur()
+        public Bitmap Blur()
         {
+            Bitmap newImage = new Bitmap(image.Width, image.Height);
+
             List<float> weights = new List<float> { 0.38774f, 0.24477f, 0.06136f };
 
             for (int y = 0; y < image.Height; y++)
@@ -120,7 +122,7 @@ namespace Pathtracer
                         }
                     }
 
-                    SetPixel(image, x, y, sum);
+                    SetPixel(newImage, x, y, sum);
                 }
             }
 
@@ -128,24 +130,26 @@ namespace Pathtracer
             {
                 for (int x = 0; x < image.Width; x++)
                 {
-                    LightIntensity sum = new LightIntensity(GetPixel(image, x, y) * weights[0]);
+                    LightIntensity sum = new LightIntensity(GetPixel(newImage, x, y) * weights[0]);
 
                     for (int i = 1; i < 3; i++)
                     {
                         if (y + i < image.Height)
                         {
-                            sum = new LightIntensity(sum + (GetPixel(image, x, y + i) * weights[i]));
+                            sum = new LightIntensity(sum + (GetPixel(newImage, x, y + i) * weights[i]));
                         }
 
                         if (y - i >= 0)
                         {
-                            sum = new LightIntensity(sum + (GetPixel(image, x, y - i) * weights[i]));
+                            sum = new LightIntensity(sum + (GetPixel(newImage, x, y - i) * weights[i]));
                         }
                     }
 
-                    SetPixel(image, x, y, sum);
+                    SetPixel(newImage, x, y, sum);
                 }
             }
+
+            return newImage;
         }
 
         public Bitmap DetectEdges()

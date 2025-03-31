@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Pathtracer
 {
@@ -17,18 +18,18 @@ namespace Pathtracer
             this.camera = camera;
         }
 
-        public void SetPixel(int x, int y, LightIntensity pixel)
+        public void SetPixel(Bitmap bitmap, int x, int y, LightIntensity pixel)
         {
             int r, g, b;
             r = (int)(pixel.R * 255);
             g = (int)(pixel.G * 255);
             b = (int)(pixel.B * 255);
-            image.SetPixel(x, y, Color.FromArgb(r, g, b));
+            bitmap.SetPixel(x, y, Color.FromArgb(r, g, b));
         }
 
-        public LightIntensity GetPixel(int x, int y)
+        public LightIntensity GetPixel(Bitmap bitmap, int x, int y)
         {
-            Color pixel = image.GetPixel(x, y);
+            Color pixel = bitmap.GetPixel(x, y);
             Color color = Color.FromArgb(
             pixel.A,
             (int)(pixel.R),
@@ -84,11 +85,11 @@ namespace Pathtracer
 
                     if (isAnythingHit)
                     {
-                        SetPixel(x, y, hitPrimitive.color);
+                        SetPixel(image, x, y, hitPrimitive.color);
                     }
                     else
                     {
-                        SetPixel(x, y, backgroundColor);
+                        SetPixel(image, x, y, backgroundColor);
                     }
                 }
             }
@@ -101,22 +102,22 @@ namespace Pathtracer
             {
                 for (int x = 0; x < image.Width; x++)
                 {
-                    LightIntensity sum = new LightIntensity(GetPixel(x, y) * weights[0]);
+                    LightIntensity sum = new LightIntensity(GetPixel(image, x, y) * weights[0]);
 
                     for (int i = 1; i < 3; i++)
                     {
                         if (x + i < image.Width)
                         {
-                            sum = new LightIntensity(sum + (GetPixel(x + i, y) * weights[i]));
+                            sum = new LightIntensity(sum + (GetPixel(image, x + i, y) * weights[i]));
                         }
 
                         if (x - i >= 0)
                         {
-                            sum = new LightIntensity(sum + (GetPixel(x - i, y) * weights[i]));
+                            sum = new LightIntensity(sum + (GetPixel(image, x - i, y) * weights[i]));
                         }
                     }
 
-                    SetPixel(x, y, sum);
+                    SetPixel(image, x, y, sum);
                 }
             }
 
@@ -124,22 +125,22 @@ namespace Pathtracer
             {
                 for (int x = 0; x < image.Width; x++)
                 {
-                    LightIntensity sum = new LightIntensity(GetPixel(x, y) * weights[0]);
+                    LightIntensity sum = new LightIntensity(GetPixel(image, x, y) * weights[0]);
 
                     for (int i = 1; i < 3; i++)
                     {
                         if (y + i < image.Height)
                         {
-                            sum = new LightIntensity(sum + (GetPixel(x, y + i) * weights[i]));
+                            sum = new LightIntensity(sum + (GetPixel(image, x, y + i) * weights[i]));
                         }
 
                         if (y - i >= 0)
                         {
-                            sum = new LightIntensity(sum + (GetPixel(x, y - i) * weights[i]));
+                            sum = new LightIntensity(sum + (GetPixel(image, x, y - i) * weights[i]));
                         }
                     }
 
-                    SetPixel(x, y, sum);
+                    SetPixel(image, x, y, sum);
                 }
             }
         }

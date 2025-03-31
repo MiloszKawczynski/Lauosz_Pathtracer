@@ -148,6 +148,58 @@ namespace Pathtracer
             }
         }
 
+        public Bitmap DetectEdges()
+        {
+            Bitmap newImage = new Bitmap(image.Width, image.Height);
+
+            float[] sobelKernelX = { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
+            float[] sobelKernelY = { -1, -2, -1, 0, 0, 0, 1, 2, 1 };
+            float maxGradient = MathF.Sqrt(8 * 8 + 8 * 8);
+            float threshold = 0.15f;
+
+            for (int y = 0; y < newImage.Height; y++)
+            {
+                for (int x = 0; x < newImage.Width; x++)
+                {
+                    float redEdgeX = 0.0f, redEdgeY = 0.0f;
+                    float greenEdgeX = 0.0f, greenEdgeY = 0.0f;
+                    float blueEdgeX = 0.0f, blueEdgeY = 0.0f;
+
+                    for (int yy = -1; yy <= 1; yy++)
+                    {
+                        for (int xx = -1; xx <= 1; xx++)
+                        {
+                            int sampleX = Math.Clamp(x + xx, 0, newImage.Width - 1);
+                            int sampleY = Math.Clamp(y + yy, 0, newImage.Height - 1);
+
+                            LightIntensity pixel = GetPixel(image, sampleX, sampleY);
+                            int index = (yy + 1) * 3 + (xx + 1);
+
+                            redEdgeX += pixel.R * sobelKernelX[index];
+                            redEdgeY += pixel.R * sobelKernelY[index];
+
+                            greenEdgeX += pixel.G * sobelKernelX[index];
+                            greenEdgeY += pixel.G * sobelKernelY[index];
+
+                            blueEdgeX += pixel.B * sobelKernelX[index];
+                            blueEdgeY += pixel.B * sobelKernelY[index];
+                        }
+                    }
+
+                    float redGradient = (float)Math.Sqrt(redEdgeX * redEdgeX + redEdgeY * redEdgeY) / maxGradient;
+                    float greenGradient = (float)Math.Sqrt(greenEdgeX * greenEdgeX + greenEdgeY * greenEdgeY) / maxGradient;
+                    float blueGradient = (float)Math.Sqrt(blueEdgeX * blueEdgeX + blueEdgeY * blueEdgeY) / maxGradient;
+
+                    float maxChannelGradient = Math.Max(Math.Max(redGradient, greenGradient), blueGradient);
+
+                    float intensity = maxChannelGradient > threshold ? 1.0f : 0.0f;
+
+                    SetPixel(newImage, x, y, new LightIntensity(intensity, intensity, intensity));
+                }
+            }
+            return newImage;
+        }
+
         private void SaveImage()
         {
             image.Save("output.jpg");

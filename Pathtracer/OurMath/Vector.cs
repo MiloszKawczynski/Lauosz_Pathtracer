@@ -21,6 +21,10 @@
         {
             return new Vector(a.x + b.x, a.y + b.y, a.z + b.z);
         }
+        public static Point operator +(Vector a, Point b)
+        {
+            return new Point(a.x + b.x, a.y + b.y, a.z + b.z);
+        }
 
         public static Vector operator -(Vector a, Vector b)
         {
@@ -28,6 +32,10 @@
         }
 
         public static Vector operator *(Vector a, float s)
+        {
+            return new Vector(a.x * s, a.y * s, a.z * s);
+        }
+        public static Vector operator *(float s, Vector a)
         {
             return new Vector(a.x * s, a.y * s, a.z * s);
         }
@@ -53,6 +61,11 @@
         public static float operator *(Vector a, Vector b)
         {
             return a.x * b.x + a.y * b.y + a.z * b.z;
+        }
+
+        public static Vector Reflect(Vector i, Vector n)
+        {
+            return i - 2.0f * n * i * n;
         }
 
         public static Vector CrossProduct(Vector a, Vector b)

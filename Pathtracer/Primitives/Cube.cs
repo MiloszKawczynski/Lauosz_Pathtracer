@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pathtracer
+namespace Pathtracer.Primitives
 {
     internal class Cube
     {
@@ -13,7 +13,7 @@ namespace Pathtracer
 
         public Cube(Plane[] plane, Vector[] vertices)
         {
-            this.planes = plane;
+            planes = plane;
             this.vertices = vertices;
         }
 

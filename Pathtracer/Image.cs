@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Pathtracer.Light;
+using Pathtracer.Primitives;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Pathtracer
@@ -11,6 +13,7 @@ namespace Pathtracer
         private VirtualCamera camera;
         private LightIntensity backgroundColor = new LightIntensity(0.0f, 0.0f, 0.0f);
         public List<Primitive> scene = new List<Primitive>();
+        public List<LightSource> lightSources = new List<LightSource>();
 
         public Image(int width, int height, VirtualCamera camera)
         {
@@ -66,6 +69,7 @@ namespace Pathtracer
                     Primitive hitPrimitive = scene[0];
                     Point hit = new Point(float.MaxValue, float.MaxValue, float.MaxValue);
                     bool isAnythingHit = false;
+                    Vector hitNormal = new(0.0f, 0.0f, 0.0f);
 
                     for (int i = 0; i < scene.Count; i++)
                     {
@@ -79,13 +83,92 @@ namespace Pathtracer
                                 hit = intersectionPoints[0];
                                 hitPrimitive = scene[i];
                                 isAnythingHit = true;
+                                hitNormal = (hit - ((Sphere)scene[i]).c).UnitVector();
                             }
                         }
                     }
 
                     if (isAnythingHit)
                     {
-                        SetPixel(image, x, y, hitPrimitive.color);
+                        var ambient = hitPrimitive.color * hitPrimitive.material.Ka;
+                        LightIntensity calculatedLight = (LightIntensity)ambient;
+                        Vector viewDir = (camera.position - hit).UnitVector();
+                        foreach (var light in lightSources)
+                        {
+                            if (light is SurfaceLight surfaceLight)
+                            {
+                                foreach (var pointLightPos in surfaceLight.PointLights)
+                                {
+                                    Vector lightDir = light.GetDirectionFrom(hit);
+                                    float lightDistance = light.GetDistanceFrom(hit);
+
+                                    Ray shadowRay = new Ray((hitNormal + hit), lightDir);
+                                    bool isInShadow = false;
+
+                                    foreach (var primitive in scene)
+                                    {
+                                        if (primitive == hitPrimitive)
+                                        {
+                                            continue;
+                                        }
+
+                                        List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
+                                        if (shadowIntersections != null && shadowIntersections.Count > 0)
+                                        {
+                                            foreach (var shadowHit in shadowIntersections)
+                                            {
+                                                if ((shadowHit - hit).Length() < lightDistance)
+                                                {
+                                                    isInShadow = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        if (isInShadow)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    calculatedLight += Phong(calculatedLight, hitPrimitive.material, hit, hitNormal, isInShadow, light, lightDir, viewDir);
+                                }
+                            }
+                            else
+                            {
+                                Vector lightDir = light.GetDirectionFrom(hit);
+                                float lightDistance = light.GetDistanceFrom(hit);
+
+                                Ray shadowRay = new Ray((hitNormal + hit), lightDir);
+                                bool isInShadow = false;
+
+                                foreach (var primitive in scene)
+                                {
+                                    if (primitive == hitPrimitive)
+                                    {
+                                        continue;
+                                    }
+
+                                    List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
+                                    if (shadowIntersections != null && shadowIntersections.Count > 0)
+                                    {
+                                        foreach (var shadowHit in shadowIntersections)
+                                        {
+                                            if ((shadowHit - hit).Length() < lightDistance)
+                                            {
+                                                isInShadow = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (isInShadow)
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                calculatedLight += Phong(calculatedLight, hitPrimitive.material, hit, hitNormal, isInShadow, light, lightDir, viewDir);
+                            }
+                        }
+                        SetPixel(image, x, y, calculatedLight);
                     }
                     else
                     {
@@ -96,6 +179,26 @@ namespace Pathtracer
 
             image = BlurOnEdges(DetectEdges());
             SaveImage();
+        }
+
+        private LightIntensity Phong(LightIntensity primitiveColor, Material objectMaterial, Point hitPoint, Vector normal, bool isInShadow, LightSource light,
+            Vector lightDir, Vector viewDir)
+        {
+            if (isInShadow)
+            {
+                return new (0f, 0f, 0f);
+            }
+
+            float diffuseFactor = Math.Max(lightDir * normal, 0.0f);
+            LightIntensity diffuse = objectMaterial.Kd * diffuseFactor * light.LightIntensity;
+
+            
+            Vector reflectDir = Vector.Reflect(lightDir.Invert(), normal);
+            float specularFactor = (float)Math.Pow(Math.Max(reflectDir * viewDir, 0.0f), objectMaterial.n);
+            LightIntensity specular = objectMaterial.Ks * specularFactor * light.LightIntensity;
+
+           
+            return diffuse + specular;
         }
 
         public Bitmap Blur()

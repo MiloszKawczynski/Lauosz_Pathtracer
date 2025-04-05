@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pathtracer
+namespace Pathtracer.Primitives
 {
     internal class Plane : Primitive
     {
@@ -20,9 +20,9 @@ namespace Pathtracer
             this.n = n;
         }
 
-        public override String ToString()
+        public override string ToString()
         {
-            String result = "P = " + p.ToString() + " + n" + n.ToString();
+            string result = "P = " + p.ToString() + " + n" + n.ToString();
             return result;
         }
 

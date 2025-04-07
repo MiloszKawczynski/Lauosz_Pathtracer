@@ -76,8 +76,8 @@ namespace Pathtracer
 
             if (word >= 0)
             {
-                float t1 = (float)Math.Round((-b - word) / (2 * a), 2);
-                float t2 = (float)Math.Round((-b + word) / (2 * a), 2);
+                float t1 = (-b - word) / (2 * a);
+                float t2 = (-b + word) / (2 * a);
 
                 if (IsCoefficientValid(t1, line))
                 {
@@ -122,11 +122,11 @@ namespace Pathtracer
             Point? intersection = IntersectionLinePlane(line, triangle);
             if (intersection is null)
             {
-                return null; 
+                return null;
             }
 
             Point p = intersection;
-           
+
             Vector v0 = triangle.P2 - triangle.P1;
             Vector v1 = triangle.P3 - triangle.P1;
             Vector v2 = p - triangle.P1;
@@ -181,5 +181,5 @@ namespace Pathtracer
             }
         }
     }
-  
+
 }

@@ -54,12 +54,10 @@ namespace Pathtracer
 
             if (Pa == Pb && IsCoefficientValid(t1, a) && IsCoefficientValid(t2, b))
             {
-                Console.WriteLine("Przecięcie w punkcie: " + Pa);
                 return Pa;
             }
             else
             {
-                Console.WriteLine("Brak przecięcia");
                 return null;
             }
         }
@@ -84,8 +82,6 @@ namespace Pathtracer
                     var vectorOfPoint = line.P + line.V * t1;
                     Point Pa = new(vectorOfPoint.X, vectorOfPoint.Y, vectorOfPoint.Z);
                     result.Add(Pa);
-
-                    Console.WriteLine("Punkt przeciecia " + Pa);
                 }
 
 
@@ -96,14 +92,11 @@ namespace Pathtracer
                         var vectorOfPoint = line.P + line.V * t2;
                         Point Pb = new(vectorOfPoint.X, vectorOfPoint.Y, vectorOfPoint.Z);
                         result.Add(Pb);
-
-                        Console.WriteLine("Punkt przeciecia " + Pb);
                     }
                 }
             }
             else
             {
-                Console.WriteLine("Brak punktów przecięcia");
                 return null;
             }
 
@@ -143,11 +136,9 @@ namespace Pathtracer
 
             if (u >= 0 && v >= 0 && u + v <= 1)
             {
-                Console.WriteLine("Punkt przecięcia leży wewnątrz trójkąta: " + p);
                 return p;
             }
 
-            Console.WriteLine("Punkt przecięcia nie leży wewnątrz trójkąta.");
             return null;
         }
 
@@ -162,7 +153,6 @@ namespace Pathtracer
 
             if (Math.Abs(denominator) < 0.0001f)
             {
-                Console.WriteLine("Promień równoległy do płaszczyzny.");
                 return null;
             }
 
@@ -171,12 +161,10 @@ namespace Pathtracer
             if (IsCoefficientValid(t, a))
             {
                 var point = a.GetPointAt(t);
-                Console.WriteLine($"Przecięcie w punkcie: {point}");
                 return point;
             }
             else
             {
-                Console.WriteLine("Brak przecięcia - t poza zakresem");
                 return null;
             }
         }

@@ -107,10 +107,10 @@ namespace Pathtracer
 
                                     foreach (var primitive in scene)
                                     {
-                                        if (primitive == hitPrimitive)
-                                        {
-                                            continue;
-                                        }
+                                        //if (primitive == hitPrimitive)
+                                        //{
+                                        //    continue;
+                                        //}
 
                                         List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
                                         if (shadowIntersections != null && shadowIntersections.Count > 0)
@@ -142,10 +142,10 @@ namespace Pathtracer
 
                                 foreach (var primitive in scene)
                                 {
-                                    if (primitive == hitPrimitive)
-                                    {
-                                        continue;
-                                    }
+                                    //if (primitive == hitPrimitive)
+                                    //{
+                                    //    continue;
+                                    //}
 
                                     List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
                                     if (shadowIntersections != null && shadowIntersections.Count > 0)
@@ -181,8 +181,8 @@ namespace Pathtracer
             SaveImage();
         }
 
-        private LightIntensity Phong(LightIntensity primitiveColor, Material objectMaterial, Point hitPoint, Vector normal, bool isInShadow, LightSource light,
-            Vector lightDir, Vector viewDir)
+        private LightIntensity Phong(LightIntensity primitiveColor, Material objectMaterial, Point hitPoint,
+            Vector normal, bool isInShadow, LightSource light, Vector lightDir, Vector viewDir)
         {
             if (isInShadow)
             {
@@ -195,6 +195,7 @@ namespace Pathtracer
 
             Vector reflectDir = Vector.Reflect(lightDir.Invert(), normal);
             float specularFactor = (float)Math.Pow(Math.Max(reflectDir * viewDir, 0.0f), objectMaterial.n);
+           // LightIntensity specLight = new(1.0f, 1.0f, 1.0f);
             LightIntensity specular = objectMaterial.Ks * specularFactor * light.LightIntensity;
 
 

@@ -21,6 +21,11 @@
         {
             return new Vector(a.x + b.x, a.y + b.y, a.z + b.z);
         }
+
+        public static Point operator +(Point p, Vector v)
+        {
+            return new Point(p.X + v.X, p.Y + v.Y, p.Z + v.Z);
+        }
         public static Point operator +(Vector a, Point b)
         {
             return new Point(a.x + b.x, a.y + b.y, a.z + b.z);
@@ -65,7 +70,7 @@
 
         public static Vector Reflect(Vector i, Vector n)
         {
-            return i - 2.0f * n * i * n;
+            return i - 2.0f * (n * i) * n;
         }
 
         public static Vector CrossProduct(Vector a, Vector b)

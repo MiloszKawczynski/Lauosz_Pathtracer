@@ -83,7 +83,7 @@ namespace Pathtracer
                                 hit = intersectionPoints[0];
                                 hitPrimitive = scene[i];
                                 isAnythingHit = true;
-                                hitNormal = (hit - ((Sphere)scene[i]).c).UnitVector();
+                                hitNormal = ((Sphere)scene[i]).NormalAtPointOnSphere(hit);
                             }
                         }
                     }

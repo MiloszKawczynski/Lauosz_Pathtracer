@@ -2,10 +2,10 @@
 {
     internal class PointLight : LightSource
     {
-       
-        public PointLight(LightIntensity lightColor, Vector position) : base(lightColor, position) 
+
+        public PointLight(LightIntensity lightColor, Vector position) : base(lightColor, position)
         {
-        
+
         }
 
         public override Vector GetDirectionFrom(Point hitPoint)

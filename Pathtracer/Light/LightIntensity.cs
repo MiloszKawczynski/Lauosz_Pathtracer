@@ -16,7 +16,7 @@
 
         public static LightIntensity? operator +(LightIntensity a, LightIntensity b)
         {
-            return new(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+            return new LightIntensity(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
         }
 
         public static LightIntensity operator *(LightIntensity a, float s)

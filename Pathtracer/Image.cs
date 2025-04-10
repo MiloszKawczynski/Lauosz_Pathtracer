@@ -195,7 +195,6 @@ namespace Pathtracer
 
             Vector reflectDir = Vector.Reflect(lightDir.Invert(), normal);
             float specularFactor = (float)Math.Pow(Math.Max(reflectDir * viewDir, 0.0f), objectMaterial.n);
-           // LightIntensity specLight = new(1.0f, 1.0f, 1.0f);
             LightIntensity specular = objectMaterial.Ks * specularFactor * light.LightIntensity;
 
 

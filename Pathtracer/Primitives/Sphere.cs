@@ -22,12 +22,14 @@ namespace Pathtracer
         {
             Vector centerToPoint = p - c;
 
-            if (centerToPoint.Length() > r)
+            float distanceFromCenterToPoint = MathF.Round(centerToPoint.Length());
+
+            if (distanceFromCenterToPoint > r)
             {
                 Console.WriteLine("Warning: Point is outside sphere.");
                 return null;
             }
-            else if (centerToPoint.Length() < r)
+            else if (distanceFromCenterToPoint < r)
             {
                 Console.WriteLine("Warning: Point is inside sphere.");
                 return null;

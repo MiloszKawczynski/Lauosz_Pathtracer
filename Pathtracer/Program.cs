@@ -17,9 +17,51 @@ class Program
         Ball1.color = new LightIntensity(0.0f, 1.0f, 1.0f);
         Ball1.material.n = 5;
 
-        Sphere Ball2 = new Sphere(new Point(20.0f, 0, 50.0f), 15);
+        Sphere Ball2 = new Sphere(new Point(50.0f, 0, 90.0f), 30);
         Ball2.color = new LightIntensity(1.0f, 0.0f, 1.0f);
         Ball2.material.n = 5;
+
+        float left = -100;
+        float right = 100;
+
+        float down = -100;
+        float up = 100;
+
+        float back = 200;
+        float front = -200;
+
+        Point boxLDB = new Point(left, down, back);
+        Point boxLDF = new Point(left, down, front);
+
+        Point boxLUB = new Point(left, up, back);
+        Point boxLUF = new Point(left, up, front);
+
+        Point boxRUB = new Point(right, up, back);
+        Point boxRUF = new Point(right, up, front);
+
+        Point boxRDB = new Point(right, down, back);
+        Point boxRDF = new Point(right, down, front);
+
+        Triangle backWall1 = new Triangle(boxLDB, boxLUB, boxRUB);
+        Triangle backWall2 = new Triangle(boxRDB, boxLDB, boxRUB);
+
+        Triangle leftWall1 = new Triangle(boxLUB, boxLDB, boxLUF);
+        Triangle leftWall2 = new Triangle(boxLDB, boxLDF, boxLUF);
+
+        leftWall1.color = new LightIntensity(1.0f, 0.0f, 0.0f);
+        leftWall2.color = new LightIntensity(1.0f, 0.0f, 0.0f);
+
+        Triangle rightWall1 = new Triangle(boxRDB, boxRUB, boxRUF);
+        Triangle rightWall2 = new Triangle(boxRDF, boxRDB, boxRUF);
+
+        rightWall1.color = new LightIntensity(0.0f, 0.0f, 1.0f);
+        rightWall2.color = new LightIntensity(0.0f, 0.0f, 1.0f);
+
+        Triangle upWall1 = new Triangle(boxRUF, boxRUB, boxLUF);
+        Triangle upWall2 = new Triangle(boxRUB, boxLUB, boxLUF);
+
+        Triangle downWall1 = new Triangle(boxRDB, boxRDF, boxLDF);
+        Triangle downWall2 = new Triangle(boxLDB, boxRDB, boxLDF);
 
         var pointLightLeft = new PointLight(new LightIntensity(0.0f, 0.0f, 1.0f), new Vector(-50.0f, 0.0f, 50.0f));
         var pointLightRight = new PointLight(new LightIntensity(0.0f, 1.0f, 0.0f), new Vector(50.0f, 0.0f, 50.0f));
@@ -31,12 +73,30 @@ class Program
         var pointLightLeftDown = new PointLight(new LightIntensity(1.0f, 0.5f, 0.5f), new Vector(-50.0f, 50.0f, 50.0f));
         var pointLightRightDown = new PointLight(new LightIntensity(0.5f, 0.5f, 1.0f), new Vector(50.05f, 50.0f, 50.0f));
 
+        var pointLight = new PointLight(new LightIntensity(1.0f, 1.0f, 1.0f), new Vector(-10.0f, 0.0f, 0.0f));
+
         image.scene.Add(Ball1);
-        //image.scene.Add(Ball2);
-        image.lightSources.Add(pointLightLeft);
-        image.lightSources.Add(pointLightRight);
+        image.scene.Add(Ball2);
+
+        image.scene.Add(backWall1);
+        image.scene.Add(backWall2);
+
+        image.scene.Add(leftWall1);
+        image.scene.Add(leftWall2);
+
+        image.scene.Add(rightWall1);
+        image.scene.Add(rightWall2);
+
+        image.scene.Add(upWall1);
+        image.scene.Add(upWall2);
+
+        image.scene.Add(downWall1);
+        image.scene.Add(downWall2);
+        //image.lightSources.Add(pointLightLeft);
+        //image.lightSources.Add(pointLightRight);
         //image.lightSources.Add(pointLightUp);
         //image.lightSources.Add(pointLightDown);
+        image.lightSources.Add(pointLight);
 
         //image.lightSources.Add(pointLightLeftUp);
         //image.lightSources.Add(pointLightRightUp);

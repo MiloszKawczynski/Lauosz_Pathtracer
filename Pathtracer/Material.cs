@@ -8,9 +8,9 @@ namespace Pathtracer
 {
     internal class Material
     {
-        public float Kd = 1.0f;
-        public float Ks = 1.0f;
-        public float Ka = 0.1f;
+        public float Kd = 0.1f;
+        public float Ks = 0.1f;
+        public float Ka = 0.5f;
         public float n = 1f;
 
         public Material(float Kd, float Ks, float Ka, float n)

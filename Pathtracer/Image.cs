@@ -193,7 +193,7 @@ namespace Pathtracer
 
             if (isInShadow)
             {
-                return new(0f, 0f, 0f);
+                return new LightIntensity(1f, 0f, 0f);
             }
 
             float diffuseFactor = MathF.Max(lightDir * normal, 0.0f);
@@ -205,7 +205,6 @@ namespace Pathtracer
             float specularFactor = MathF.Pow(MathF.Max(reflectDir * viewDir, 0.0f), objectMaterial.n);
 
             LightIntensity specular = objectMaterial.Ks * specularFactor * light.LightIntensity;
-
 
             return diffuse + specular;
         }

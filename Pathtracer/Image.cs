@@ -108,67 +108,12 @@ namespace Pathtracer
                             {
                                 foreach (var pointLightPos in surfaceLight.PointLights)
                                 {
-                                    Vector lightDir = light.GetDirectionFrom(hit);
-                                    float lightDistance = light.GetDistanceFrom(hit);
-
-                                    Ray shadowRay = new Ray(hit + lightDir * 0.01f, lightDir);
-                                    bool isInShadow = false;
-
-                                    foreach (var primitive in scene)
-                                    {
-
-                                        //List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
-                                        List<Point> shadowIntersections = IntersectWith.Intersect(shadowRay, primitive);
-                                        if (shadowIntersections != null && shadowIntersections.Count > 0)
-                                        {
-                                            foreach (var shadowHit in shadowIntersections)
-                                            {
-                                                if ((shadowHit - hit).Length() < lightDistance)
-                                                {
-                                                    isInShadow = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        if (isInShadow)
-                                        {
-                                            break;
-                                        }
-                                    }
-                                    calculatedLight += Phong(hitPrimitive.material, hitNormal, isInShadow, light, lightDir, viewDir);
+                                    calculatedLight += CalculateLight(light, hit, hitPrimitive, hitNormal, viewDir);
                                 }
                             }
                             else
                             {
-                                Vector lightDir = light.GetDirectionFrom(hit);
-                                float lightDistance = light.GetDistanceFrom(hit);
-
-                                Ray shadowRay = new Ray(hit + lightDir * 0.01f, lightDir);
-                                bool isInShadow = false;
-
-                                foreach (var primitive in scene)
-                                {
-
-                                    //List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
-                                    List<Point> shadowIntersections = IntersectWith.Intersect(shadowRay, primitive);
-                                    if (shadowIntersections != null && shadowIntersections.Count > 0)
-                                    {
-                                        foreach (var shadowHit in shadowIntersections)
-                                        {
-                                            if ((shadowHit - hit).Length() < lightDistance)
-                                            {
-                                                isInShadow = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if (isInShadow)
-                                    {
-                                        break;
-                                    }
-                                }
-
-                                calculatedLight += Phong(hitPrimitive.material, hitNormal, isInShadow, light, lightDir, viewDir);
+                                calculatedLight += CalculateLight(light, hit, hitPrimitive, hitNormal, viewDir);
                             }
                         }
                         SetPixel(image, x, y, calculatedLight);
@@ -184,6 +129,37 @@ namespace Pathtracer
             SaveImage();
         }
 
+        private LightIntensity CalculateLight(LightSource light, Point hit, Primitive hitPrimitive, Vector hitNormal, Vector viewDir)
+        {
+            Vector lightDir = light.GetDirectionFrom(hit);
+            float lightDistance = light.GetDistanceFrom(hit);
+
+            Ray shadowRay = new Ray(hit + lightDir * 0.01f, lightDir);
+            bool isInShadow = false;
+
+            foreach (var primitive in scene)
+            {
+                List<Point> shadowIntersections = IntersectWith.Intersect(shadowRay, primitive);
+                if (shadowIntersections != null && shadowIntersections.Count > 0)
+                {
+                    foreach (var shadowHit in shadowIntersections)
+                    {
+                        if ((shadowHit - hit).Length() < lightDistance)
+                        {
+                            isInShadow = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (isInShadow)
+                {
+                    break;
+                }
+            }
+
+            return Phong(hitPrimitive.material, hitNormal, isInShadow, light, lightDir, viewDir);
+        }
         private LightIntensity Phong(Material objectMaterial,
             Vector normal, bool isInShadow, LightSource light, Vector lightDir, Vector viewDir)
         {

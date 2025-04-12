@@ -129,7 +129,7 @@ namespace Pathtracer
                                             break;
                                         }
                                     }
-                                    calculatedLight += Phong(calculatedLight, hitPrimitive.material, hit, hitNormal, isInShadow, light, lightDir, viewDir);
+                                    calculatedLight += Phong(hitPrimitive.material, hitNormal, isInShadow, light, lightDir, viewDir);
                                 }
                             }
                             else
@@ -165,7 +165,7 @@ namespace Pathtracer
                                     }
                                 }
 
-                                calculatedLight += Phong(calculatedLight, hitPrimitive.material, hit, hitNormal, isInShadow, light, lightDir, viewDir);
+                                calculatedLight += Phong(hitPrimitive.material, hitNormal, isInShadow, light, lightDir, viewDir);
                             }
                         }
                         SetPixel(image, x, y, calculatedLight);
@@ -181,7 +181,7 @@ namespace Pathtracer
             SaveImage();
         }
 
-        private LightIntensity Phong(LightIntensity primitiveColor, Material objectMaterial, Point hitPoint,
+        private LightIntensity Phong(Material objectMaterial,
             Vector normal, bool isInShadow, LightSource light, Vector lightDir, Vector viewDir)
         {
             if (isInShadow)

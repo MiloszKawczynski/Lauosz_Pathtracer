@@ -19,16 +19,29 @@ class Program
 
         Sphere Ball2 = new Sphere(new Point(20.0f, 0, 50.0f), 15);
         Ball2.color = new LightIntensity(1.0f, 0.0f, 1.0f);
-        Ball2.material.n = 50;
+        Ball2.material.n = 5;
 
-        var pointLight = new PointLight(new LightIntensity(0.0f,0.0f, 1.0f), new Vector(-50.0f, 0.0f, 80.0f));
-        var pointLight2 = new PointLight(new LightIntensity(0.0f, 1.0f, 0.0f), new Vector(50.0f, 0.0f, 80.0f));
-        //var surfaceLight = new SurfaceLight(new LightIntensity(1.0f, 1.0f, 1.0f), new Vector(150.0f, -50f, -20.0f), 10, 10, 2);
+        var pointLightLeft = new PointLight(new LightIntensity(0.0f, 0.0f, 1.0f), new Vector(-50.0f, 0.0f, 50.0f));
+        var pointLightRight = new PointLight(new LightIntensity(0.0f, 1.0f, 0.0f), new Vector(50.0f, 0.0f, 50.0f));
+        var pointLightUp = new PointLight(new LightIntensity(1.0f, 0.0f, 0.0f), new Vector(0.0f, -50.0f, 50.0f));
+        var pointLightDown = new PointLight(new LightIntensity(1.0f, 0.0f, 1.0f), new Vector(0.0f, 50.0f, 50.0f));
+
+        var pointLightLeftUp = new PointLight(new LightIntensity(1.0f, 1.0f, 0.0f), new Vector(-50.0f, -50.0f, 50.0f));
+        var pointLightRightUp = new PointLight(new LightIntensity(0.0f, 1.0f, 1.0f), new Vector(50.0f, -50.0f, 50.0f));
+        var pointLightLeftDown = new PointLight(new LightIntensity(1.0f, 0.5f, 0.5f), new Vector(-50.0f, 50.0f, 50.0f));
+        var pointLightRightDown = new PointLight(new LightIntensity(0.5f, 0.5f, 1.0f), new Vector(50.05f, 50.0f, 50.0f));
 
         image.scene.Add(Ball1);
         //image.scene.Add(Ball2);
-        image.lightSources.Add(pointLight2);
-        image.lightSources.Add(pointLight);
+        image.lightSources.Add(pointLightLeft);
+        image.lightSources.Add(pointLightRight);
+        //image.lightSources.Add(pointLightUp);
+        //image.lightSources.Add(pointLightDown);
+
+        //image.lightSources.Add(pointLightLeftUp);
+        //image.lightSources.Add(pointLightRightUp);
+        //image.lightSources.Add(pointLightLeftDown);
+        //image.lightSources.Add(pointLightRightDown);
 
         image.RenderImage();
     }

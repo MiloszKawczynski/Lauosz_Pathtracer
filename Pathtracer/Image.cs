@@ -23,6 +23,8 @@ namespace Pathtracer
 
         public void SetPixel(Bitmap bitmap, int x, int y, LightIntensity pixel)
         {
+            pixel = pixel.Clamp();
+
             int r, g, b;
             r = (int)(pixel.R * 255);
             g = (int)(pixel.G * 255);

@@ -7,7 +7,7 @@
 
         public List<PointLight> PointLights => _pointLights;
 
-        public SurfaceLight(LightIntensity lightColor, Vector position, int width, int height, int numberOfLights) : base(lightColor, position)
+        public SurfaceLight(LightIntensity lightColor, Point position, int width, int height, int numberOfLights) : base(lightColor, position)
         {
             
             var aspect_ratio = width / height;
@@ -31,7 +31,7 @@
 
             for (var i = 0; i < numberOfLights; i++)
             {
-                PointLights.Add(new PointLight(lightColor, new Vector(startX + i * xSpacing, startY + i * ySpacing, position.Z)));
+                PointLights.Add(new PointLight(lightColor, new Point(startX + i * xSpacing, startY + i * ySpacing, position.Z)));
             }
 
         }

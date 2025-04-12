@@ -42,7 +42,7 @@ class Program
         Point boxRDB = new Point(right, down, back);
         Point boxRDF = new Point(right, down, front);
 
-        Point boxMUM = new Point((right + left) / 2, up - 190.0f, (front + back) / 2);
+        Point boxMUM = new Point((right + left) / 2, up - 150.0f, (front + back) / 2);
 
         Triangle backWall1 = new Triangle(boxLDB, boxLUB, boxRUB);
         Triangle backWall2 = new Triangle(boxRDB, boxLDB, boxRUB);
@@ -75,11 +75,11 @@ class Program
         var pointLightLeftDown = new PointLight(new LightIntensity(1.0f, 0.5f, 0.5f), new Point(-50.0f, 50.0f, 50.0f));
         var pointLightRightDown = new PointLight(new LightIntensity(0.5f, 0.5f, 1.0f), new Point(50.05f, 50.0f, 50.0f));
 
-        var pointLight = new PointLight(new LightIntensity(1.0f, 1.0f, 1.0f), boxMUM);
+        var pointLight = new PointLight(new LightIntensity(5.0f, 5.0f, 5.0f), boxMUM);
 
         var surfaceLightShift = new Vector(15, 0, 15);
         var surfaceLightHeight = new Vector(0, 1, 0);
-        var surfaceLight = new SurfaceLight(new LightIntensity(1.0f, 1.0f, 1.0f), boxMUM - surfaceLightShift + surfaceLightHeight, boxMUM + surfaceLightShift + surfaceLightHeight, 2);
+        //var surfaceLight = new SurfaceLight(new LightIntensity(1.0f, 1.0f, 1.0f), boxMUM - surfaceLightShift + surfaceLightHeight, boxMUM + surfaceLightShift + surfaceLightHeight, 2);
 
         image.scene.Add(Ball1);
         //image.scene.Add(Ball2);

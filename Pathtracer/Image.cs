@@ -180,7 +180,7 @@ namespace Pathtracer
                 return shadowColor;
             }
 
-            float attenuation = 1.0f; // 1.0f / (1.0f + 0.01f * lightDistance + 0.001f * lightDistance * lightDistance);
+            float attenuation = 1.0f / (1.0f + 0.01f * lightDistance + 0.001f * lightDistance * lightDistance);
 
             float diffuseFactor = MathF.Max(normal * lightDir, 0.0f);
             LightIntensity diffuse = objectMaterial.Kd * diffuseFactor * light.LightIntensity * attenuation;

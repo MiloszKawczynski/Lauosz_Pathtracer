@@ -36,6 +36,11 @@
             return new Vector(a.x - b.x, a.y - b.y, a.z - b.z);
         }
 
+        public static Point operator -(Point a, Vector b)
+        {
+            return new Point(a.x - b.x, a.y - b.y, a.z - b.z);
+        }
+
         public static Vector operator *(Vector a, float s)
         {
             return new Vector(a.x * s, a.y * s, a.z * s);

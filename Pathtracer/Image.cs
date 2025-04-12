@@ -73,7 +73,8 @@ namespace Pathtracer
 
                     for (int i = 0; i < scene.Count; i++)
                     {
-                        intersectionPoints = IntersectWith.IntersectionLineSphere(ray, (Sphere)scene[i]);
+                        //intersectionPoints = IntersectWith.IntersectionLineSphere(ray, (Sphere)scene[i]);
+                        intersectionPoints = IntersectWith.Intersect(ray, scene[i]);
                         if (intersectionPoints != null)
                         {
                             intersectionPoints.Sort((a, b) => (a - pixelPosition).Length().CompareTo((b - pixelPosition).Length()));
@@ -83,7 +84,15 @@ namespace Pathtracer
                                 hit = intersectionPoints[0];
                                 hitPrimitive = scene[i];
                                 isAnythingHit = true;
-                                hitNormal = ((Sphere)scene[i]).NormalAtPointOnSphere(hit);
+                                if (scene[i] is Sphere)
+                                {
+                                    hitNormal = ((Sphere)scene[i]).NormalAtPointOnSphere(hit);
+                                }
+
+                                if (scene[i] is Triangle)
+                                {
+                                    hitNormal = ((Triangle)scene[i]).N;
+                                }
                             }
                         }
                     }
@@ -108,7 +117,8 @@ namespace Pathtracer
                                     foreach (var primitive in scene)
                                     {
 
-                                        List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
+                                        //List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
+                                        List<Point> shadowIntersections = IntersectWith.Intersect(shadowRay, primitive);
                                         if (shadowIntersections != null && shadowIntersections.Count > 0)
                                         {
                                             foreach (var shadowHit in shadowIntersections)
@@ -139,7 +149,8 @@ namespace Pathtracer
                                 foreach (var primitive in scene)
                                 {
 
-                                    List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
+                                    //List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
+                                    List<Point> shadowIntersections = IntersectWith.Intersect(shadowRay, primitive);
                                     if (shadowIntersections != null && shadowIntersections.Count > 0)
                                     {
                                         foreach (var shadowHit in shadowIntersections)

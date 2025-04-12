@@ -64,18 +64,17 @@ namespace Pathtracer
                     {
                         Vector vec = camera.position - camera.front * camera.focalLength;
                         Point cameraRayOrigin = new Point(vec.X, vec.Y, vec.Z);
-                        ray = new Ray(cameraRayOrigin, pixelPosition - cameraRayOrigin);
+                        ray = new Ray(cameraRayOrigin, (pixelPosition - cameraRayOrigin).UnitVector());
                     }
 
                     List<Point> intersectionPoints;
                     Primitive hitPrimitive = scene[0];
                     Point hit = new Point(float.MaxValue, float.MaxValue, float.MaxValue);
                     bool isAnythingHit = false;
-                    Vector hitNormal = new(0.0f, 0.0f, 0.0f);
+                    Vector hitNormal = new Vector(0.0f, 0.0f, 0.0f);
 
                     for (int i = 0; i < scene.Count; i++)
                     {
-                        //intersectionPoints = IntersectWith.IntersectionLineSphere(ray, (Sphere)scene[i]);
                         intersectionPoints = IntersectWith.Intersect(ray, scene[i]);
                         if (intersectionPoints != null)
                         {
@@ -128,6 +127,7 @@ namespace Pathtracer
             }
 
             image = BlurOnEdges(DetectEdges());
+            //image = DetectEdges();
             SaveImage();
         }
 

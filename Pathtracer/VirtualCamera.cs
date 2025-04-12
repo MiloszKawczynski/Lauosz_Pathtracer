@@ -30,9 +30,9 @@ namespace Pathtracer
 
         public VirtualCamera()
         {
-            this.position = new Point(0, 0, 0);
-            this.front = new Vector(0, 0, 1);
-            this.up = new Vector(0, 1, 0);
+            this.position = new Point(0.0f, 0.0f, 0.0f);
+            this.front = new Vector(0.0f, 0.0f, 1.0f);
+            this.up = new Vector(0.0f, 1.0f, 0.0f);
         }
 
         public override String ToString()

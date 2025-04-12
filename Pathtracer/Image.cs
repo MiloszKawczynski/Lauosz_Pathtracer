@@ -176,6 +176,10 @@ namespace Pathtracer
         private LightIntensity Phong(Material objectMaterial,
             Vector normal, bool isInShadow, LightSource light, Vector lightDir, Vector viewDir)
         {
+            normal = normal.UnitVector();
+            lightDir = lightDir.UnitVector();
+            viewDir = viewDir.UnitVector();
+
             if (isInShadow)
             {
                 return new(0f, 0f, 0f);

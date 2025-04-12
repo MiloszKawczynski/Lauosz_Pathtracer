@@ -102,7 +102,7 @@ namespace Pathtracer
                                     Vector lightDir = light.GetDirectionFrom(hit);
                                     float lightDistance = light.GetDistanceFrom(hit);
 
-                                    Ray shadowRay = new Ray((hitNormal + hit), lightDir);
+                                    Ray shadowRay = new Ray(hit + lightDir * 0.01f, lightDir);
                                     bool isInShadow = false;
 
                                     foreach (var primitive in scene)

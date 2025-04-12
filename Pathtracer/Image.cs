@@ -107,10 +107,6 @@ namespace Pathtracer
 
                                     foreach (var primitive in scene)
                                     {
-                                        //if (primitive == hitPrimitive)
-                                        //{
-                                        //    continue;
-                                        //}
 
                                         List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
                                         if (shadowIntersections != null && shadowIntersections.Count > 0)
@@ -142,10 +138,6 @@ namespace Pathtracer
 
                                 foreach (var primitive in scene)
                                 {
-                                    //if (primitive == hitPrimitive)
-                                    //{
-                                    //    continue;
-                                    //}
 
                                     List<Point> shadowIntersections = IntersectWith.IntersectionLineSphere(shadowRay, (Sphere)primitive);
                                     if (shadowIntersections != null && shadowIntersections.Count > 0)

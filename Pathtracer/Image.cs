@@ -180,15 +180,16 @@ namespace Pathtracer
                 return shadowColor;
             }
 
-            float diffuseFactor = MathF.Max(lightDir * normal, 0.0f);
-            LightIntensity diffuse = objectMaterial.Kd * diffuseFactor * light.LightIntensity;
+            float attenuation = 1.0f; // 1.0f / (1.0f + 0.01f * lightDistance + 0.001f * lightDistance * lightDistance);
 
+            float diffuseFactor = MathF.Max(normal * lightDir, 0.0f);
+            LightIntensity diffuse = objectMaterial.Kd * diffuseFactor * light.LightIntensity * attenuation;
 
             Vector reflectDir = Vector.Reflect(lightDir.Invert(), normal);
 
             float specularFactor = MathF.Pow(MathF.Max(reflectDir * viewDir, 0.0f), objectMaterial.n);
 
-            LightIntensity specular = objectMaterial.Ks * specularFactor * light.LightIntensity;
+            LightIntensity specular = objectMaterial.Ks * specularFactor * light.LightIntensity * attenuation;
 
             return diffuse + specular;
         }

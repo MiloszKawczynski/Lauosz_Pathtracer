@@ -12,6 +12,8 @@ namespace Pathtracer
         private Bitmap image;
         private VirtualCamera camera;
         private LightIntensity backgroundColor = new LightIntensity(0.0f, 0.0f, 0.0f);
+        private LightIntensity shadowColor = new LightIntensity(0.0f, 0.0f, 0.0f);
+        private LightIntensity ambientLightColor = new LightIntensity(1.0f, 1.0f, 1.0f);
         public List<Primitive> scene = new List<Primitive>();
         public List<LightSource> lightSources = new List<LightSource>();
 
@@ -100,8 +102,8 @@ namespace Pathtracer
 
                     if (isAnythingHit)
                     {
-                        var ambient = hitPrimitive.color * hitPrimitive.material.Ka;
-                        LightIntensity calculatedLight = ambient;
+                        var ambient = hitPrimitive.material.Ka * ambientLightColor;
+                        var calculatedLight = shadowColor;
                         Vector viewDir = ray.V.Invert().UnitVector();
                         foreach (var light in lightSources)
                         {
@@ -117,6 +119,10 @@ namespace Pathtracer
                                 calculatedLight += CalculateLight(light, hit, hitPrimitive, hitNormal, viewDir);
                             }
                         }
+
+                        calculatedLight += ambient;
+                        calculatedLight = hitPrimitive.color * calculatedLight;
+
                         SetPixel(image, x, y, calculatedLight);
                     }
                     else
@@ -160,10 +166,10 @@ namespace Pathtracer
                 }
             }
 
-            return Phong(hitPrimitive.material, hitNormal, isInShadow, light, lightDir, viewDir);
+            return Phong(hitPrimitive.material, hitNormal, isInShadow, light, lightDir, lightDistance, viewDir);
         }
         private LightIntensity Phong(Material objectMaterial,
-            Vector normal, bool isInShadow, LightSource light, Vector lightDir, Vector viewDir)
+            Vector normal, bool isInShadow, LightSource light, Vector lightDir, float lightDistance, Vector viewDir)
         {
             normal = normal.UnitVector();
             lightDir = lightDir.UnitVector();
@@ -171,7 +177,7 @@ namespace Pathtracer
 
             if (isInShadow)
             {
-                return new LightIntensity(1f, 0f, 0f);
+                return shadowColor;
             }
 
             float diffuseFactor = MathF.Max(lightDir * normal, 0.0f);

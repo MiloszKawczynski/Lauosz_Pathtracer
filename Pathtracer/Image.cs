@@ -92,7 +92,7 @@ namespace Pathtracer
                     {
                         var ambient = hitPrimitive.color * hitPrimitive.material.Ka;
                         LightIntensity calculatedLight = ambient;
-                        Vector viewDir = (camera.position - hit).UnitVector();
+                        Vector viewDir = ray.V.Invert().UnitVector();
                         foreach (var light in lightSources)
                         {
                             if (light is SurfaceLight surfaceLight)

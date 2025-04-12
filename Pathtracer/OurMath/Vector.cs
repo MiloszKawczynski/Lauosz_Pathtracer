@@ -60,7 +60,7 @@
 
         public float Length()
         {
-            return (float)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2) + Math.Pow(z, 2));
+            return MathF.Sqrt(MathF.Pow(x, 2) + MathF.Pow(y, 2) + MathF.Pow(z, 2));
         }
 
         public static float operator *(Vector a, Vector b)

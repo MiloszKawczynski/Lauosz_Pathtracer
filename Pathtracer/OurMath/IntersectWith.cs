@@ -66,11 +66,11 @@ namespace Pathtracer
         {
             List<Point> result = new List<Point>();
 
-            float a = (float)Math.Pow(line.V.Length(), 2);
+            float a = MathF.Pow(line.V.Length(), 2);
             float b = 2 * (line.V * (line.P - sphere.c));
-            float c = (float)Math.Pow((line.P - sphere.c).Length(), 2) - (float)Math.Pow(sphere.r, 2);
+            float c = MathF.Pow((line.P - sphere.c).Length(), 2) - MathF.Pow(sphere.r, 2);
 
-            float word = (float)Math.Sqrt(Math.Pow(b, 2) - (4 * a * c));
+            float word = MathF.Sqrt(MathF.Pow(b, 2) - (4 * a * c));
 
             if (word >= 0)
             {

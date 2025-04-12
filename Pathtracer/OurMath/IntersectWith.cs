@@ -110,8 +110,10 @@ namespace Pathtracer
             return new Line(b.P, lineVector);
         }
 
-        public static Point IntersectionLineTriangle(Line line, Triangle triangle)
+        public static List<Point>? IntersectionLineTriangle(Line line, Triangle triangle)
         {
+            List<Point> result = new List<Point>();
+
             Point? intersection = IntersectionLinePlane(line, triangle);
             if (intersection is null)
             {
@@ -136,7 +138,8 @@ namespace Pathtracer
 
             if (u >= 0 && v >= 0 && u + v <= 1)
             {
-                return p;
+                result.Add(p);
+                return result;
             }
 
             return null;
@@ -167,6 +170,21 @@ namespace Pathtracer
             {
                 return null;
             }
+        }
+
+        public static List<Point>? Intersect(Line a, Primitive b)
+        {
+            if (b is Sphere)
+            {
+                return IntersectionLineSphere(a, (Sphere)b);
+            }
+
+            if (b is Triangle)
+            {
+                return IntersectionLineTriangle(a, (Triangle)b);
+            }
+
+            return null;
         }
     }
 

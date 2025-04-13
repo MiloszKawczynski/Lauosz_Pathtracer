@@ -9,8 +9,8 @@ namespace Pathtracer
     internal class Material
     {
         public float Kd = 1.0f;
-        public float Ks = 0.0f;
-        public float Ka = 0.0f;
+        public float Ks = 0.3f;
+        public float Ka = 0.3f;
         public float n = 1f;
         public bool isReflective = false;
         public bool isRefractive = false;

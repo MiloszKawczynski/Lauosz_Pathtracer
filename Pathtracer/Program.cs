@@ -13,13 +13,15 @@ class Program
         camera.projection = ProjectionType.Perspective;
         Image image = new Image(imageSize, imageSize, camera);
 
-        Sphere Ball1 = new Sphere(new Point(0.0f, 0, 50.0f), 30);
+        Sphere Ball1 = new Sphere(new Point(-50.0f, 0, 50.0f), 30);
         Ball1.color = new LightIntensity(0.0f, 1.0f, 1.0f);
         Ball1.material.n = 5;
+        Ball1.material.isReflective = true;
 
-        Sphere Ball2 = new Sphere(new Point(50.0f, 0, 90.0f), 30);
+        Sphere Ball2 = new Sphere(new Point(50.0f, 0, 30.0f), 40);
         Ball2.color = new LightIntensity(1.0f, 0.0f, 1.0f);
         Ball2.material.n = 5;
+        Ball2.material.isRefractive = true;
 
         float left = -100;
         float right = 100;
@@ -42,7 +44,7 @@ class Program
         Point boxRDB = new Point(right, down, back);
         Point boxRDF = new Point(right, down, front);
 
-        Point boxMUM = new Point((right + left) / 2, up - 150.0f, (front + back) / 2);
+        Point boxMUM = new Point((right + left) / 2, 0.0f, (front + back) / 2);
 
         Triangle backWall1 = new Triangle(boxLDB, boxLUB, boxRUB);
         Triangle backWall2 = new Triangle(boxRDB, boxLDB, boxRUB);
@@ -75,14 +77,11 @@ class Program
         var pointLightLeftDown = new PointLight(new LightIntensity(1.0f, 0.5f, 0.5f), new Point(-50.0f, 50.0f, 50.0f));
         var pointLightRightDown = new PointLight(new LightIntensity(0.5f, 0.5f, 1.0f), new Point(50.05f, 50.0f, 50.0f));
 
-        var pointLight = new PointLight(new LightIntensity(5.0f, 5.0f, 5.0f), boxMUM);
-
-        var surfaceLightShift = new Vector(15, 0, 15);
-        var surfaceLightHeight = new Vector(0, 1, 0);
-        //var surfaceLight = new SurfaceLight(new LightIntensity(1.0f, 1.0f, 1.0f), boxMUM - surfaceLightShift + surfaceLightHeight, boxMUM + surfaceLightShift + surfaceLightHeight, 2);
+        var pointLightCeil = new PointLight(new LightIntensity(10.0f, 10.0f, 10.0f), boxMUM + new Vector(0.0f, 90.0f, 0.0f));
+        var pointLightFloor = new PointLight(new LightIntensity(10.0f, 10.0f, 10.0f), boxMUM + new Vector(0.0f, -90.0f, 0.0f));
 
         image.scene.Add(Ball1);
-        //image.scene.Add(Ball2);
+        image.scene.Add(Ball2);
 
         image.scene.Add(backWall1);
         image.scene.Add(backWall2);
@@ -99,8 +98,8 @@ class Program
         image.scene.Add(downWall1);
         image.scene.Add(downWall2);
 
-        image.lightSources.Add(pointLight);
-        //image.lightSources.Add(surfaceLight);
+        image.lightSources.Add(pointLightCeil);
+        image.lightSources.Add(pointLightFloor);
 
         image.RenderImage();
     }

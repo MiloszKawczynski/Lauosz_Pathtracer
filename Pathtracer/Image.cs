@@ -14,6 +14,7 @@ namespace Pathtracer
         private LightIntensity backgroundColor = new LightIntensity(0.0f, 0.0f, 0.0f);
         private LightIntensity shadowColor = new LightIntensity(0.0f, 0.0f, 0.0f);
         private LightIntensity ambientLightColor = new LightIntensity(1.0f, 1.0f, 1.0f);
+        private int numberOfRecurciveRay = 3;
         public List<Primitive> scene = new List<Primitive>();
         public List<LightSource> lightSources = new List<LightSource>();
 
@@ -58,6 +59,8 @@ namespace Pathtracer
 
                     Ray ray;
 
+                    int recurciveRay = numberOfRecurciveRay;
+
                     if (camera.projection == ProjectionType.Ortogonal)
                     {
                         ray = new Ray(pixelPosition, camera.front);
@@ -69,72 +72,89 @@ namespace Pathtracer
                         ray = new Ray(cameraRayOrigin, (pixelPosition - cameraRayOrigin).UnitVector());
                     }
 
-                    List<Point> intersectionPoints;
-                    Primitive hitPrimitive = scene[0];
-                    Point hit = new Point(float.MaxValue, float.MaxValue, float.MaxValue);
-                    bool isAnythingHit = false;
-                    Vector hitNormal = new Vector(0.0f, 0.0f, 0.0f);
-
-                    for (int i = 0; i < scene.Count; i++)
-                    {
-                        intersectionPoints = IntersectWith.Intersect(ray, scene[i]);
-                        if (intersectionPoints != null)
-                        {
-                            intersectionPoints.Sort((a, b) => (a - pixelPosition).Length().CompareTo((b - pixelPosition).Length()));
-
-                            if ((intersectionPoints[0] - pixelPosition).Length() < (hit - pixelPosition).Length())
-                            {
-                                hit = intersectionPoints[0];
-                                hitPrimitive = scene[i];
-                                isAnythingHit = true;
-                                if (scene[i] is Sphere)
-                                {
-                                    hitNormal = ((Sphere)scene[i]).NormalAtPointOnSphere(hit);
-                                }
-
-                                if (scene[i] is Triangle)
-                                {
-                                    hitNormal = ((Triangle)scene[i]).N;
-                                }
-                            }
-                        }
-                    }
-
-                    if (isAnythingHit)
-                    {
-                        var ambient = hitPrimitive.material.Ka * ambientLightColor;
-                        var calculatedLight = shadowColor;
-                        Vector viewDir = ray.V.Invert().UnitVector();
-                        foreach (var light in lightSources)
-                        {
-                            if (light is SurfaceLight surfaceLight)
-                            {
-                                foreach (var pointLightPos in surfaceLight.PointLights)
-                                {
-                                    calculatedLight += CalculateLight(light, hit, hitPrimitive, hitNormal, viewDir);
-                                }
-                            }
-                            else
-                            {
-                                calculatedLight += CalculateLight(light, hit, hitPrimitive, hitNormal, viewDir);
-                            }
-                        }
-
-                        calculatedLight += ambient;
-                        calculatedLight = hitPrimitive.color * calculatedLight;
-
-                        SetPixel(image, x, y, calculatedLight);
-                    }
-                    else
-                    {
-                        SetPixel(image, x, y, backgroundColor);
-                    }
+                    CalculatePixel(x, y, pixelPosition, ray, recurciveRay);
                 }
             }
 
             image = BlurOnEdges(DetectEdges());
             //image = DetectEdges();
             SaveImage();
+        }
+
+        private void CalculatePixel(int x, int y, Point pixelPosition, Ray ray, int recurciveRay)
+        {
+            List<Point> intersectionPoints;
+            Primitive hitPrimitive = scene[0];
+            Point hit = new Point(float.MaxValue, float.MaxValue, float.MaxValue);
+            bool isAnythingHit = false;
+            Vector hitNormal = new Vector(0.0f, 0.0f, 0.0f);
+
+            for (int i = 0; i < scene.Count; i++)
+            {
+                intersectionPoints = IntersectWith.Intersect(ray, scene[i]);
+                if (intersectionPoints != null && intersectionPoints.Count > 0)
+                {
+                    intersectionPoints.Sort((a, b) => (a - pixelPosition).Length().CompareTo((b - pixelPosition).Length()));
+
+                    if ((intersectionPoints[0] - pixelPosition).Length() < (hit - pixelPosition).Length())
+                    {
+                        hit = intersectionPoints[0];
+                        hitPrimitive = scene[i];
+                        isAnythingHit = true;
+                        if (scene[i] is Sphere)
+                        {
+                            hitNormal = ((Sphere)scene[i]).NormalAtPointOnSphere(hit);
+                        }
+
+                        if (scene[i] is Triangle)
+                        {
+                            hitNormal = ((Triangle)scene[i]).N;
+                        }
+                    }
+                }
+            }
+
+            if (isAnythingHit)
+            {
+                if (hitPrimitive.material.isReflective)
+                {
+                    if (recurciveRay > 0)
+                    {
+                        Vector reflectDir = Vector.Reflect(ray.V, hitNormal);
+                        Ray reflectRay = new Ray(hit + reflectDir * 0.01f, reflectDir);
+                        CalculatePixel(x, y, pixelPosition, reflectRay, recurciveRay - 1);
+                    }
+                }
+                else
+                {
+                    var ambient = hitPrimitive.material.Ka * ambientLightColor;
+                    var calculatedLight = shadowColor;
+                    Vector viewDir = ray.V.Invert().UnitVector();
+                    foreach (var light in lightSources)
+                    {
+                        if (light is SurfaceLight surfaceLight)
+                        {
+                            foreach (var pointLightPos in surfaceLight.PointLights)
+                            {
+                                calculatedLight += CalculateLight(light, hit, hitPrimitive, hitNormal, viewDir);
+                            }
+                        }
+                        else
+                        {
+                            calculatedLight += CalculateLight(light, hit, hitPrimitive, hitNormal, viewDir);
+                        }
+                    }
+
+                    calculatedLight += ambient;
+                    calculatedLight = hitPrimitive.color * calculatedLight;
+
+                    SetPixel(image, x, y, calculatedLight);
+                }
+            }
+            else
+            {
+                SetPixel(image, x, y, backgroundColor);
+            }
         }
 
         private LightIntensity CalculateLight(LightSource light, Point hit, Primitive hitPrimitive, Vector hitNormal, Vector viewDir)

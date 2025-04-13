@@ -13,6 +13,8 @@ namespace Pathtracer
         public float Ka = 0.0f;
         public float n = 1f;
         public bool isReflective = false;
+        public bool isRefractive = false;
+        public float indexOfRefraction = 1.0f;
 
         public Material(float Kd, float Ks, float Ka, float n)
         {

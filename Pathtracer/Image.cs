@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Numerics;
 using Pathtracer.Light;
 using Pathtracer.Primitives;
 using static System.Net.Mime.MediaTypeNames;
@@ -123,6 +124,52 @@ namespace Pathtracer
                         Vector reflectDir = Vector.Reflect(ray.V, hitNormal);
                         Ray reflectRay = new Ray(hit + reflectDir * 0.01f, reflectDir);
                         CalculatePixel(x, y, pixelPosition, reflectRay, recurciveRay - 1);
+                    }
+                }
+                else if (hitPrimitive.material.isRefractive)
+                {
+                    if (recurciveRay > 0)
+                    {
+                        float cosAngle = -(ray.V.Invert() * hitNormal);
+                        float refractionRatio = 1 / hitPrimitive.material.indexOfRefraction;
+
+                        float k = 1 - MathF.Pow(refractionRatio, 2) * (1 - MathF.Pow(cosAngle, 2));
+                        Vector refractedDir = ray.V * refractionRatio + (refractionRatio * cosAngle - MathF.Sqrt(k)) * hitNormal;
+                        Point refractPosition = hit + refractedDir * 0.01f;
+                        Ray refractRay = new Ray(refractPosition, refractedDir);
+
+                        for (int i = 0; i < scene.Count; i++)
+                        {
+                            intersectionPoints = IntersectWith.Intersect(refractRay, scene[i]);
+                            if (intersectionPoints != null && intersectionPoints.Count > 0)
+                            {
+                                intersectionPoints.Sort((a, b) => (a - refractPosition).Length().CompareTo((b - refractPosition).Length()));
+
+                                if ((intersectionPoints[0] - refractPosition).Length() < (hit - refractPosition).Length())
+                                {
+                                    hit = intersectionPoints[0];
+                                    hitPrimitive = scene[i];
+                                    if (scene[i] is Sphere)
+                                    {
+                                        hitNormal = ((Sphere)scene[i]).NormalAtPointOnSphere(hit);
+                                    }
+
+                                    if (scene[i] is Triangle)
+                                    {
+                                        hitNormal = ((Triangle)scene[i]).N;
+                                    }
+                                }
+                            }
+                        }
+
+                        cosAngle = -(refractRay.V.Invert() * hitNormal);
+                        refractionRatio = hitPrimitive.material.indexOfRefraction;
+
+                        k = 1 - MathF.Pow(refractionRatio, 2) * (1 - MathF.Pow(cosAngle, 2));
+                        refractedDir = refractRay.V * refractionRatio + (refractionRatio * cosAngle - MathF.Sqrt(k)) * hitNormal;
+                        refractRay = new Ray(hit + refractedDir * 0.01f, refractedDir);
+
+                        CalculatePixel(x, y, pixelPosition, refractRay, recurciveRay - 1);
                     }
                 }
                 else

@@ -152,16 +152,25 @@ namespace Pathtracer
 
             if (material.isRefractive)
             {
-                float cosTheta = -(incident * hitNormal) + 45;
-                float refractionRatio = 1 / material.indexOfRefraction;
-                float k = 1 - MathF.Pow(refractionRatio, 2) * (1 - MathF.Pow(cosTheta, 2));
+                float ior = material.indexOfRefraction;
+
+                float cosTheta = -(incident * hitNormal);
+                bool entering = cosTheta < 0;
+                Vector normal = entering ? hitNormal : hitNormal.Invert();
+                cosTheta = Math.Abs(cosTheta);
+
+                float refractionRatio = entering ? (1.0f / ior) : ior;
+                float k = 1 - refractionRatio * refractionRatio * (1 - cosTheta * cosTheta);
 
                 if (k >= 0)
                 {
-                    Vector refractedDir = ray.V * refractionRatio + (refractionRatio * cosTheta - MathF.Sqrt(k)) * hitNormal;
-                    Ray refractedRay = new Ray(closestHit + refractedDir * 0.01f, refractedDir);
-                    return TraceRay(refractedRay, depth - 1);
+                    Vector refractedDir = ray.V * refractionRatio +
+                                       (refractionRatio * cosTheta - MathF.Sqrt(k)) * normal;
+                    return TraceRay(new Ray(closestHit + refractedDir * 0.01f, refractedDir), depth - 1);
                 }
+                
+                Vector reflectedDir = Vector.Reflect(ray.V, normal);
+                return TraceRay(new Ray(closestHit + reflectedDir * 0.01f, reflectedDir), depth - 1);
             }
 
             return backgroundColor;

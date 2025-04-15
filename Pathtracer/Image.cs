@@ -82,159 +82,124 @@ namespace Pathtracer
             SaveImage();
         }
 
-        private void CalculatePixel(int x, int y, Point pixelPosition, Ray ray, int recurciveRay)
+        private LightIntensity TraceRay(Ray ray, int depth)
         {
-            List<Point> intersectionPoints;
-            Primitive hitPrimitive = scene[0];
-            Point hit = new Point(float.MaxValue, float.MaxValue, float.MaxValue);
-            bool isAnythingHit = false;
+            if (depth <= 0)
+            {
+                return backgroundColor;
+            }
+
+            Point closestHit = default;
+            Primitive hitPrimitive = null;
             Vector hitNormal = new Vector(0.0f, 0.0f, 0.0f);
-
-            for (int i = 0; i < scene.Count; i++)
-            {
-                intersectionPoints = IntersectWith.Intersect(ray, scene[i]);
-                if (intersectionPoints != null && intersectionPoints.Count > 0)
-                {
-                    intersectionPoints.Sort((a, b) => (a - pixelPosition).Length().CompareTo((b - pixelPosition).Length()));
-
-                    if ((intersectionPoints[0] - pixelPosition).Length() < (hit - pixelPosition).Length())
-                    {
-                        hit = intersectionPoints[0];
-                        hitPrimitive = scene[i];
-                        isAnythingHit = true;
-                        if (scene[i] is Sphere)
-                        {
-                            hitNormal = ((Sphere)scene[i]).NormalAtPointOnSphere(hit);
-                        }
-
-                        if (scene[i] is Triangle)
-                        {
-                            hitNormal = ((Triangle)scene[i]).N;
-                        }
-                    }
-                }
-            }
-
-            if (isAnythingHit)
-            {
-                if (hitPrimitive.material.isReflective)
-                {
-                    if (recurciveRay > 0)
-                    {
-                        Vector reflectDir = Vector.Reflect(ray.V, hitNormal);
-                        Ray reflectRay = new Ray(hit + reflectDir * 0.01f, reflectDir);
-                        CalculatePixel(x, y, pixelPosition, reflectRay, recurciveRay - 1);
-                    }
-                }
-                else if (hitPrimitive.material.isRefractive)
-                {
-                    if (recurciveRay > 0)
-                    {
-                        float cosAngle = -(ray.V.Invert() * hitNormal);
-                        float refractionRatio = 1 / hitPrimitive.material.indexOfRefraction;
-
-                        float k = 1 - MathF.Pow(refractionRatio, 2) * (1 - MathF.Pow(cosAngle, 2));
-                        Vector refractedDir = ray.V * refractionRatio + (refractionRatio * cosAngle - MathF.Sqrt(k)) * hitNormal;
-                        Point refractPosition = hit + refractedDir * 0.01f;
-                        Ray refractRay = new Ray(refractPosition, refractedDir);
-
-                        for (int i = 0; i < scene.Count; i++)
-                        {
-                            intersectionPoints = IntersectWith.Intersect(refractRay, scene[i]);
-                            if (intersectionPoints != null && intersectionPoints.Count > 0)
-                            {
-                                intersectionPoints.Sort((a, b) => (a - refractPosition).Length().CompareTo((b - refractPosition).Length()));
-
-                                if ((intersectionPoints[0] - refractPosition).Length() < (hit - refractPosition).Length())
-                                {
-                                    hit = intersectionPoints[0];
-                                    hitPrimitive = scene[i];
-                                    if (scene[i] is Sphere)
-                                    {
-                                        hitNormal = ((Sphere)scene[i]).NormalAtPointOnSphere(hit);
-                                    }
-
-                                    if (scene[i] is Triangle)
-                                    {
-                                        hitNormal = ((Triangle)scene[i]).N;
-                                    }
-                                }
-                            }
-                        }
-
-                        cosAngle = -(refractRay.V.Invert() * hitNormal);
-                        refractionRatio = hitPrimitive.material.indexOfRefraction;
-
-                        k = 1 - MathF.Pow(refractionRatio, 2) * (1 - MathF.Pow(cosAngle, 2));
-                        refractedDir = refractRay.V * refractionRatio + (refractionRatio * cosAngle - MathF.Sqrt(k)) * hitNormal;
-                        refractRay = new Ray(hit + refractedDir * 0.01f, refractedDir);
-
-                        CalculatePixel(x, y, pixelPosition, refractRay, recurciveRay - 1);
-                    }
-                }
-                else
-                {
-                    var ambient = hitPrimitive.material.Ka * ambientLightColor;
-                    var calculatedLight = shadowColor;
-                    Vector viewDir = ray.V.Invert().UnitVector();
-                    foreach (var light in lightSources)
-                    {
-                        if (light is SurfaceLight surfaceLight)
-                        {
-                            foreach (var pointLightPos in surfaceLight.PointLights)
-                            {
-                                calculatedLight += CalculateLight(light, hit, hitPrimitive, hitNormal, viewDir);
-                            }
-                        }
-                        else
-                        {
-                            calculatedLight += CalculateLight(light, hit, hitPrimitive, hitNormal, viewDir);
-                        }
-                    }
-
-                    calculatedLight += ambient;
-                    calculatedLight = hitPrimitive.color * calculatedLight;
-
-                    SetPixel(image, x, y, calculatedLight);
-                }
-            }
-            else
-            {
-                SetPixel(image, x, y, backgroundColor);
-            }
-        }
-
-        private LightIntensity CalculateLight(LightSource light, Point hit, Primitive hitPrimitive, Vector hitNormal, Vector viewDir)
-        {
-            Vector lightDir = light.GetDirectionFrom(hit);
-            float lightDistance = light.GetDistanceFrom(hit);
-
-            Ray shadowRay = new Ray(hit + lightDir * 0.01f, lightDir);
-            bool isInShadow = false;
+            float closestDistance = float.MaxValue;
 
             foreach (var primitive in scene)
             {
-                List<Point> shadowIntersections = IntersectWith.Intersect(shadowRay, primitive);
-                if (shadowIntersections != null && shadowIntersections.Count > 0)
+                var intersections = IntersectWith.Intersect(ray, primitive);
+                if (intersections != null && intersections.Count > 0)
                 {
-                    foreach (var shadowHit in shadowIntersections)
+                    intersections.Sort((a, b) => (a - ray.V).Length().CompareTo((b - ray.V).Length()));
+                    var candidateHit = intersections[0];
+                    float distance = (candidateHit - ray.V).Length();
+                    if (distance < closestDistance)
                     {
-                        if ((shadowHit - hit).Length() < lightDistance)
-                        {
-                            isInShadow = true;
-                            break;
-                        }
-                    }
-                }
+                        closestDistance = distance;
+                        closestHit = candidateHit;
+                        hitPrimitive = primitive;
 
-                if (isInShadow)
-                {
-                    break;
+                        if (primitive is Sphere sphere)
+                            hitNormal = sphere.NormalAtPointOnSphere(candidateHit);
+                        else if (primitive is Triangle triangle)
+                            hitNormal = triangle.N;
+                    }
                 }
             }
 
-            return Phong(hitPrimitive.material, hitNormal, isInShadow, light, lightDir, lightDistance, viewDir);
+            if (hitPrimitive == null)
+            {
+                return backgroundColor;
+            }
+
+            var material = hitPrimitive.material;
+
+            if (!material.isReflective && !material.isRefractive)
+            {
+                LightIntensity intensity = material.Ka * ambientLightColor;
+
+                foreach (var light in lightSources)
+                {
+                    if (!IsInShadow(closestHit, light))
+                    {
+                        Vector lightDir = light.GetDirectionFrom(closestHit);
+                        float lightDist = light.GetDistanceFrom(closestHit);
+                        Vector viewDir = ray.V.Invert().UnitVector();
+                        intensity += Phong(material, hitNormal, false, light, lightDir, lightDist, viewDir);
+                    }
+                }
+
+                return hitPrimitive.color * intensity;
+            }
+
+            Vector incident = ray.V.Invert().UnitVector();
+
+            if (material.isReflective)
+            {
+                Vector reflectedDir = Vector.Reflect(ray.V, hitNormal);
+                Ray reflectedRay = new Ray(closestHit + reflectedDir * 0.01f, reflectedDir);
+                return TraceRay(reflectedRay, depth - 1);
+            }
+
+            if (material.isRefractive)
+            {
+                float cosTheta = -(incident * hitNormal) + 45;
+                float refractionRatio = 1 / material.indexOfRefraction;
+                float k = 1 - MathF.Pow(refractionRatio, 2) * (1 - MathF.Pow(cosTheta, 2));
+
+                if (k >= 0)
+                {
+                    Vector refractedDir = ray.V * refractionRatio + (refractionRatio * cosTheta - MathF.Sqrt(k)) * hitNormal;
+                    Ray refractedRay = new Ray(closestHit + refractedDir * 0.01f, refractedDir);
+                    return TraceRay(refractedRay, depth - 1);
+                }
+            }
+
+            return backgroundColor;
         }
+
+        private bool IsInShadow(Point point, LightSource light)
+        {
+            Vector lightDir = light.GetDirectionFrom(point);
+            float lightDist = light.GetDistanceFrom(point);
+            Ray shadowRay = new Ray(point + lightDir * 0.01f, lightDir);
+
+            foreach (var primitive in scene)
+            {
+                var intersections = IntersectWith.Intersect(shadowRay, primitive);
+                if (intersections != null)
+                {
+                    if (primitive.material.isRefractive)
+                    { 
+                        continue;
+                    }
+                    foreach (var hit in intersections)
+                    {
+                        if ((hit - point).Length() < lightDist)
+                            return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
+        private void CalculatePixel(int x, int y, Point pixelPosition, Ray ray, int recursiveRayCount)
+        {
+            LightIntensity finalColor = TraceRay(ray, recursiveRayCount);
+            SetPixel(image, x, y, finalColor);
+        }
+
         private LightIntensity Phong(Material objectMaterial,
             Vector normal, bool isInShadow, LightSource light, Vector lightDir, float lightDistance, Vector viewDir)
         {

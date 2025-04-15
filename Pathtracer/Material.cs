@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pathtracer
+﻿namespace Pathtracer
 {
     internal class Material
     {
-        public float Kd = 1.0f;
+        public float Kd = 0.5f;
         public float Ks = 0.3f;
         public float Ka = 0.3f;
         public float n = 1f;

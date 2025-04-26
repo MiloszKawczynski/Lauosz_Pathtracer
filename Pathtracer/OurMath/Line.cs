@@ -26,7 +26,7 @@ namespace Pathtracer
         {
             this.p = p;
             this.p2 = p2;
-            v = (new Vector(p2.X - p.X, p2.Y - p.Y, p2.Z - p.Z)).UnitVector();
+            v = (new Vector(p2.X - p.X, p2.Y - p.Y, p2.Z - p.Z)).Normalize();
         }
 
         public Point GetPointAt(float t)

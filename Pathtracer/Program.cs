@@ -15,13 +15,21 @@ class Program
 
         Sphere Ball1 = new Sphere(new Point(-50.0f, 0, 50.0f), 30);
         Ball1.color = new LightIntensity(0.0f, 1.0f, 1.0f);
-        Ball1.material.n = 5;
-        Ball1.material.isReflective = true;
+        Ball1.material.albedo = new Vector(0.0f, 0.0f, 1.0f);
+        Ball1.material.ao = 1.0f;
+        Ball1.material.roughness = 0.2f;
+        Ball1.material.metallic = 0.0f;
+        //Ball1.material.n = 5;
+        //Ball1.material.isReflective = true;
 
         Sphere Ball2 = new Sphere(new Point(50.0f, 0, 30.0f), 40);
         Ball2.color = new LightIntensity(1.0f, 0.0f, 1.0f);
-        Ball2.material.n = 5;
-        Ball2.material.isRefractive = true;
+        Ball2.material.albedo = new Vector(1.0f, 0.0f, 0.0f);
+        //Ball2.material.n = 5;
+        Ball2.material.roughness = 0.7f;
+        Ball2.material.ao = 1.0f;
+        Ball2.material.metallic = 0.0f;
+        //Ball2.material.isRefractive = true;
 
         float left = -100;
         float right = 100;
@@ -47,25 +55,65 @@ class Program
         Point boxMUM = new Point((right + left) / 2, 0.0f, (front + back) / 2);
 
         Triangle backWall1 = new Triangle(boxLDB, boxLUB, boxRUB);
+        backWall1.material.albedo = new Vector(1.0f, 0.0f, 0.0f);
+        backWall1.material.ao = 1.0f;
+        backWall1.material.roughness = 1.0f;
+        backWall1.material.metallic = 0.0f;
         Triangle backWall2 = new Triangle(boxRDB, boxLDB, boxRUB);
+        backWall2.material.albedo = new Vector(1.0f, 0.0f, 0.0f);
+        backWall2.material.ao = 1.0f;
+        backWall2.material.roughness = 1.0f;
+        backWall2.material.metallic = 0.0f;
 
         Triangle leftWall1 = new Triangle(boxLUB, boxLDB, boxLUF);
         Triangle leftWall2 = new Triangle(boxLDB, boxLDF, boxLUF);
 
         leftWall1.color = new LightIntensity(1.0f, 0.0f, 0.0f);
         leftWall2.color = new LightIntensity(1.0f, 0.0f, 0.0f);
+        leftWall1.material.albedo = new Vector(1.0f, 0.0f, 0.0f);
+        leftWall1.material.ao = 1.0f;
+        leftWall1.material.roughness = 1.0f;
+        leftWall1.material.metallic = 0.0f;
+       leftWall2.material.albedo = new Vector(1.0f, 0.0f, 0.0f);
+       leftWall2.material.ao = 1.0f;
+       leftWall2.material.roughness = 1.0f;
+        leftWall2.material.metallic = 0.0f;
 
         Triangle rightWall1 = new Triangle(boxRDB, boxRUB, boxRUF);
         Triangle rightWall2 = new Triangle(boxRDF, boxRDB, boxRUF);
 
         rightWall1.color = new LightIntensity(0.0f, 0.0f, 1.0f);
+        rightWall1.material.albedo = new Vector(0.0f, 0.0f, 1.0f);
+        rightWall1.material.ao = 1.0f;
+        rightWall1.material.roughness = 1.0f;
+        rightWall1.material.metallic = 0.0f;
         rightWall2.color = new LightIntensity(0.0f, 0.0f, 1.0f);
+        rightWall2.material.albedo = new Vector(0.0f, 0.0f, 1.0f);
+        rightWall2.material.ao = 1.0f;
+        rightWall2.material.roughness = 1.0f;
+        rightWall1.material.metallic = 0.0f;
 
         Triangle upWall1 = new Triangle(boxRUF, boxRUB, boxLUF);
+       upWall1.material.albedo = new Vector(1.0f, 1.0f, 1.0f);
+       upWall1.material.ao = 1.0f;
+       upWall1.material.roughness = 1.0f;
+        upWall1.material.metallic = 0.0f;
         Triangle upWall2 = new Triangle(boxRUB, boxLUB, boxLUF);
+        upWall2.material.albedo = new Vector(1.0f, 1.0f, 1.0f);
+        upWall2.material.ao = 1.0f;
+        upWall2.material.roughness = 1.0f;
+        upWall2.material.metallic = 0.0f;
 
         Triangle downWall1 = new Triangle(boxRDB, boxRDF, boxLDF);
+        downWall1.material.albedo = new Vector(1.0f, 1.0f, 1.0f);
+        downWall1.material.ao = 1.0f;
+        downWall1.material.roughness = 1.0f;
+        downWall1.material.metallic = 0.0f;
         Triangle downWall2 = new Triangle(boxLDB, boxRDB, boxLDF);
+       downWall2.material.albedo = new Vector(1.0f, 1.0f, 1.0f);
+       downWall2.material.ao = 1.0f;
+       downWall2.material.roughness = 1.0f;
+        downWall2.material.metallic = 0.0f;
 
         var pointLightLeft = new PointLight(new LightIntensity(0.0f, 0.0f, 1.0f), new Point(-50.0f, 0.0f, 50.0f));
         var pointLightRight = new PointLight(new LightIntensity(0.0f, 1.0f, 0.0f), new Point(50.0f, 0.0f, 50.0f));
@@ -77,7 +125,7 @@ class Program
         var pointLightLeftDown = new PointLight(new LightIntensity(1.0f, 0.5f, 0.5f), new Point(-50.0f, 50.0f, 50.0f));
         var pointLightRightDown = new PointLight(new LightIntensity(0.5f, 0.5f, 1.0f), new Point(50.05f, 50.0f, 50.0f));
 
-        var pointLightCeil = new PointLight(new LightIntensity(10.0f, 10.0f, 10.0f), boxMUM + new Vector(0.0f, 90.0f, 0.0f));
+        var pointLightCeil = new PointLight(new LightIntensity(10.0f, 10.0f, 10.0f), boxMUM + new Vector(0.0f, 50.0f, 0.0f));
         var pointLightFloor = new PointLight(new LightIntensity(10.0f, 10.0f, 10.0f), boxMUM + new Vector(0.0f, -90.0f, 0.0f));
 
         image.scene.Add(Ball1);
@@ -99,7 +147,7 @@ class Program
         image.scene.Add(downWall2);
 
         image.lightSources.Add(pointLightCeil);
-        image.lightSources.Add(pointLightFloor);
+       //image.lightSources.Add(pointLightFloor);
 
         image.RenderImage();
     }

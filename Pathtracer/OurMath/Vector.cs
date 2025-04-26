@@ -68,7 +68,12 @@
             return MathF.Sqrt(MathF.Pow(x, 2) + MathF.Pow(y, 2) + MathF.Pow(z, 2));
         }
 
-        public static float operator *(Vector a, Vector b)
+        public static Vector operator *(Vector a, Vector b)
+        {
+            return new Vector(a.x * b.x, a.y * b.y, a.z * b.z);
+        }
+
+        public static float DotProduct(Vector a, Vector b)
         {
             return a.x * b.x + a.y * b.y + a.z * b.z;
         }
@@ -87,7 +92,7 @@
             return new Vector(x, y, z);
         }
 
-        public Vector UnitVector()
+        public Vector Normalize()
         {
             float length = Length();
             return new Vector(x / length, y / length, z / length);
@@ -119,7 +124,7 @@
         public Vector Rotate(Vector axis, double alpha)
         {
             alpha = alpha * Math.PI / 180;
-            Vector unitVector = axis.UnitVector();
+            Vector unitVector = axis.Normalize();
             unitVector = unitVector * (float)Math.Sin(alpha / 2);
             Quaternion q = new Quaternion((float)Math.Cos(alpha / 2), unitVector);
             Quaternion qInverse = new Quaternion((float)Math.Cos(alpha / 2), unitVector * -1);

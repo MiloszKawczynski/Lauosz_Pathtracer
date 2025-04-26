@@ -22,7 +22,7 @@ namespace Pathtracer
 
             nominator2 = Vector.CrossProduct(a.V, b.V);
 
-            t = nominator1 * nominator2;
+            t = Vector.DotProduct(nominator1, nominator2);
 
             denominator = (float)Math.Pow(nominator2.Length(), 2);
 
@@ -67,7 +67,7 @@ namespace Pathtracer
             List<Point> result = new List<Point>();
 
             float a = MathF.Pow(line.V.Length(), 2);
-            float b = 2 * (line.V * (line.P - sphere.c));
+            float b = 2 * (Vector.DotProduct(line.V, (line.P - sphere.c)));
             float c = MathF.Pow((line.P - sphere.c).Length(), 2) - MathF.Pow(sphere.r, 2);
 
             float word = MathF.Sqrt(MathF.Pow(b, 2) - (4 * a * c));
@@ -126,11 +126,11 @@ namespace Pathtracer
             Vector v1 = triangle.P3 - triangle.P1;
             Vector v2 = p - triangle.P1;
 
-            float dot00 = v0 * v0;
-            float dot01 = v0 * v1;
-            float dot02 = v0 * v2;
-            float dot11 = v1 * v1;
-            float dot12 = v1 * v2;
+            float dot00 = Vector.DotProduct(v0, v0);
+            float dot01 = Vector.DotProduct(v0, v1);
+            float dot02 = Vector.DotProduct(v0, v2);
+            float dot11 = Vector.DotProduct(v1, v1);
+            float dot12 = Vector.DotProduct(v1, v2);
 
             float invDenom = 1f / (dot00 * dot11 - dot01 * dot01);
             float u = (dot11 * dot02 - dot01 * dot12) * invDenom;
@@ -151,8 +151,8 @@ namespace Pathtracer
             float nominator;
             float denominator;
 
-            nominator = b.N * (b.P - a.P);
-            denominator = b.N * a.V;
+            nominator = Vector.DotProduct(b.N, (b.P - a.P));
+            denominator = Vector.DotProduct(b.N, a.V);
 
             if (Math.Abs(denominator) < 0.0001f)
             {

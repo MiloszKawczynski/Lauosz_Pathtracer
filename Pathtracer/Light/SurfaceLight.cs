@@ -41,9 +41,9 @@
             Vector avgDir = new(0, 0, 0);
             foreach (var lightPos in _pointLights)
             { 
-                avgDir += (lightPos.Position - hitPoint).UnitVector();
+                avgDir += (lightPos.Position - hitPoint).Normalize();
             }
-            return avgDir.UnitVector();
+            return avgDir.Normalize();
         }
 
         public override float GetDistanceFrom(Point hitPoint)

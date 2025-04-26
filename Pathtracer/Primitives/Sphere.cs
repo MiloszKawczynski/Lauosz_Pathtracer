@@ -36,7 +36,7 @@ namespace Pathtracer
             }
             else
             {
-                return centerToPoint.UnitVector();
+                return centerToPoint.Normalize();
             }
         }
     }

@@ -14,7 +14,7 @@ namespace Pathtracer.Light
             Direction = direction;
         }
 
-        public override Vector GetDirectionFrom(Point hitPoint) => Direction.UnitVector();
+        public override Vector GetDirectionFrom(Point hitPoint) => Direction.Normalize();
 
         public override float GetDistanceFrom(Point hitPoint) => float.MaxValue;
     }

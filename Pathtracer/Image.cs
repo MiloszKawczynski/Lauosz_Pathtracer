@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Numerics;
 using Pathtracer.Light;
 using Pathtracer.Primitives;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Pathtracer
 {
@@ -15,7 +14,7 @@ namespace Pathtracer
         private LightIntensity backgroundColor = new LightIntensity(0.0f, 0.0f, 0.0f);
         private LightIntensity shadowColor = new LightIntensity(0.0f, 0.0f, 0.0f);
         private LightIntensity ambientLightColor = new LightIntensity(1.0f, 1.0f, 1.0f);
-        private int numberOfRecurciveRay = 3;
+        private int numberOfRecurciveRay = 30;
         public List<Primitive> scene = new List<Primitive>();
         public List<LightSource> lightSources = new List<LightSource>();
 
@@ -70,7 +69,7 @@ namespace Pathtracer
                     {
                         Vector vec = camera.position - camera.front * camera.focalLength;
                         Point cameraRayOrigin = new Point(vec.X, vec.Y, vec.Z);
-                        ray = new Ray(cameraRayOrigin, (pixelPosition - cameraRayOrigin).UnitVector());
+                        ray = new Ray(cameraRayOrigin, (pixelPosition - cameraRayOrigin).Normalize());
                     }
 
                     CalculatePixel(x, y, pixelPosition, ray, recurciveRay);
@@ -125,7 +124,7 @@ namespace Pathtracer
 
             if (!material.isReflective && !material.isRefractive)
             {
-                LightIntensity intensity = material.Ka * ambientLightColor;
+                LightIntensity intensity = new LightIntensity(new Vector(0.0f, 0.0f, 0.0f));
 
                 foreach (var light in lightSources)
                 {
@@ -133,15 +132,15 @@ namespace Pathtracer
                     {
                         Vector lightDir = light.GetDirectionFrom(closestHit);
                         float lightDist = light.GetDistanceFrom(closestHit);
-                        Vector viewDir = ray.V.Invert().UnitVector();
-                        intensity += Phong(material, hitNormal, false, light, lightDir, lightDist, viewDir);
+                        Vector viewDir = ray.V.Invert().Normalize();
+                        intensity += CookTorrance(material, hitNormal, false, light, lightDir, lightDist, viewDir);
                     }
                 }
 
                 return hitPrimitive.color * intensity;
             }
 
-            Vector incident = ray.V.Invert().UnitVector();
+            Vector incident = ray.V.Invert().Normalize();
 
             if (material.isReflective)
             {
@@ -154,7 +153,7 @@ namespace Pathtracer
             {
                 float ior = material.indexOfRefraction;
 
-                float cosTheta = -(incident * hitNormal);
+                float cosTheta = -(Vector.DotProduct(incident, hitNormal));
                 bool entering = cosTheta < 0;
                 Vector normal = entering ? hitNormal : hitNormal.Invert();
                 cosTheta = Math.Abs(cosTheta);
@@ -212,9 +211,9 @@ namespace Pathtracer
         private LightIntensity Phong(Material objectMaterial,
             Vector normal, bool isInShadow, LightSource light, Vector lightDir, float lightDistance, Vector viewDir)
         {
-            normal = normal.UnitVector();
-            lightDir = lightDir.UnitVector();
-            viewDir = viewDir.UnitVector();
+            normal = normal.Normalize();
+            lightDir = lightDir.Normalize();
+            viewDir = viewDir.Normalize();
 
             if (isInShadow)
             {
@@ -223,18 +222,115 @@ namespace Pathtracer
 
             float attenuation = 1.0f / (1.0f + 0.01f * lightDistance + 0.001f * lightDistance * lightDistance);
 
-            float diffuseFactor = MathF.Max(normal * lightDir, 0.0f);
+            float diffuseFactor = MathF.Max(Vector.DotProduct(normal, lightDir), 0.0f);
             LightIntensity diffuse = objectMaterial.Kd * diffuseFactor * light.LightIntensity * attenuation;
 
             Vector reflectDir = Vector.Reflect(lightDir.Invert(), normal);
 
-            float specularFactor = MathF.Pow(MathF.Max(reflectDir * viewDir, 0.0f), objectMaterial.n);
+            float specularFactor = MathF.Pow(MathF.Max(Vector.DotProduct(reflectDir, viewDir), 0.0f), objectMaterial.n);
 
             LightIntensity specular = objectMaterial.Ks * specularFactor * light.LightIntensity * attenuation;
 
             return diffuse + specular;
         }
 
+
+
+        #region CookTorrance
+        private LightIntensity CookTorrance(Material objectMaterial,
+            Vector normal, bool isInShadow, LightSource light, Vector lightDir, float lightDistance, Vector viewDir)
+        {
+            normal = normal.Normalize();
+            lightDir = lightDir.Normalize();
+            viewDir = viewDir.Normalize();
+
+            if (isInShadow)
+            {
+                return shadowColor;
+            }
+            var f0 = new Vector(0.04f, 0.04f, 0.04f);
+            f0 = Mix(f0, objectMaterial.albedo, objectMaterial.metallic);
+
+            var Lo = new Vector(0.0f, 0.0f, 0.0f);
+            for(int i = 0; i < 4; i++)
+            {
+                var L = lightDir.Normalize();
+                var H = (viewDir + lightDir).Normalize();
+                var attenuation = 1.0f / (lightDistance * lightDistance);
+                var radiance = light.LightIntensity * attenuation;
+
+                var NDF = CookTorranceDistribution(normal, H, objectMaterial.roughness);
+                var G = GeometrySmith(normal, viewDir, L, objectMaterial.roughness);
+                var F = FresnelSchlick(Math.Clamp(Vector.DotProduct(H, viewDir), 0.0f, 1.0f), f0);
+
+                var numerator = NDF * G * F;
+                var denominator = 4.0f * Math.Max(Vector.DotProduct(normal, viewDir), 0.0f) * Math.Max(Vector.DotProduct(normal, L), 0.0f) + 0.0001f;
+                var specular = numerator / denominator;
+
+                var ks = F.Invert();
+                var kd = new Vector(1.0f, 1.0f, 1.0f) - ks;
+                kd = kd * (1.0f - objectMaterial.metallic);
+                var NdotL = Math.Max(Vector.DotProduct(normal, L), 0.0f);
+                Lo = Lo + (kd * objectMaterial.albedo / MathF.PI + specular) * radiance * NdotL * 100.0f;
+            }
+
+            var ambient = new Vector(0.03f, 0.03f, 0.03f) * objectMaterial.albedo * objectMaterial.ao;
+
+            var color = ambient + Lo;
+
+            return new LightIntensity(color);
+        }
+
+        private Vector Mix(Vector a, Vector b, float c)
+        {
+            return a * (1.0f - c) + b * c;
+        }
+
+        private float CookTorranceDistribution(Vector normal, Vector H, float roughness)
+        {
+            var a = roughness * roughness;
+            var a2 = a * a;
+            float NdotH = Math.Max(Vector.DotProduct(normal, H), 0.0f);
+            float NdotH2 = NdotH * NdotH;
+
+            float nom = a2;
+            float denom = (NdotH2 * (a2 - 1.0f) + 1.0f);
+            denom = (float)Math.PI * denom * denom;
+
+            return nom / denom;
+        }
+
+        private float GeometrtySchlick(float NdotV, float roughness)
+        {
+            float r = (roughness + 1.0f);
+            float k = (r * r) / 8.0f;
+
+            float nom = NdotV;
+            float denom = NdotV * (1.0f - k) + k;
+
+            return nom / denom;
+        }
+
+        private float GeometrySmith(Vector norm, Vector V, Vector L, float roughness)
+        {
+            float NdotV = Math.Max(Vector.DotProduct(norm, V), 0.0f);
+            float NdotL = Math.Max(Vector.DotProduct(norm, L), 0.0f);
+            float ggx2 = GeometrtySchlick(NdotV, roughness);
+            float ggx1 = GeometrtySchlick(NdotL, roughness);
+
+            return ggx1 * ggx2;
+
+        }
+
+        private Vector FresnelSchlick(float cosTheta, Vector f0)
+        {
+            var unitVector = new Vector(1.0f, 1.0f, 1.0f);
+            return f0 + (unitVector - f0) * MathF.Pow(Math.Clamp(1.0f - cosTheta, 0.0f, 1.0f), 5.0f);
+
+        }
+        #endregion
+
+        #region Blur
         public Bitmap Blur()
         {
             Bitmap newImage = new Bitmap(image.Width, image.Height);
@@ -410,6 +506,7 @@ namespace Pathtracer
             }
             return newImage;
         }
+        #endregion
 
         private void SaveImage()
         {

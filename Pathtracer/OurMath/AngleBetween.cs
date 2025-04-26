@@ -11,7 +11,7 @@ namespace Pathtracer
     {
         public static float Angle(Vector a, Vector b)
         {
-            return (float)Math.Acos((a * b) / (a.Length() * b.Length()));
+            return (float)Math.Acos(Vector.DotProduct(a, b) / (a.Length() * b.Length()));
         }
 
         public static float Angle(Line a, Plane b)

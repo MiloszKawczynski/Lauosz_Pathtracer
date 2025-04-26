@@ -9,7 +9,7 @@
         }
 
         public override Vector GetDirectionFrom(Point hitPoint)
-        => (Position - hitPoint).UnitVector();
+        => (Position - hitPoint).Normalize();
 
         public override float GetDistanceFrom(Point hitPoint)
             => (Position - hitPoint).Length();
